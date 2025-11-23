@@ -483,15 +483,12 @@ This is a same-universe example:
 ```svelte
 <script lang="ts">
   import { Redirector } from "@svelte-router/core";
-  import { onMount } from "svelte";
 
   const redirector = new Redirector(/* hash value, or nothing for default universe */);
   redirector.redirections.push({
     pattern: `/orders/:id`,
     href: (rp) => `/profile/my-orders/${rp?.id}`
   });
-
-  onMount(() => () => redirector.dispose());
   ...
 </script>
 ```
