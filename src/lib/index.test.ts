@@ -19,6 +19,8 @@ describe('index', () => {
             'setRouterContext',
             'isRouteActive',
             'activeBehavior',
+            'Redirector',
+            'buildHref',
         ];
 
         // Act.

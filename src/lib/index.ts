@@ -14,3 +14,5 @@ export * from './RouterTrace/RouterTrace.svelte';
 export { default as RouterTrace } from './RouterTrace/RouterTrace.svelte';
 export * from "./public-utils.js";
 export * from "./behaviors/active.svelte.js";
+export { Redirector } from "./kernel/Redirector.svelte.js";
+export { buildHref } from "./buildHref.js";
