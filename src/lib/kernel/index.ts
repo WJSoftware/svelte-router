@@ -12,4 +12,3 @@ export { InterceptedHistoryApi } from "./InterceptedHistoryApi.svelte.js";
 export { LocationLite } from "./LocationLite.svelte.js";
 export { LocationFull } from "./LocationFull.js";
 export { preserveQueryInUrl } from "./preserveQuery.js";
-export { buildHref } from "./buildHref.js";

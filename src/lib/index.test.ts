@@ -20,6 +20,7 @@ describe('index', () => {
             'isRouteActive',
             'activeBehavior',
             'Redirector',
+            'buildHref',
         ];
 
         // Act.

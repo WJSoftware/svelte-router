@@ -1,7 +1,7 @@
 import { describe, test, expect, beforeAll, afterAll, beforeEach } from 'vitest';
 import { buildHref } from './buildHref.js';
-import { init } from '../init.js';
-import { location } from './Location.js';
+import { init } from './init.js';
+import { location } from './kernel/Location.js';
 
 describe('buildHref', () => {
     let cleanup: Function;

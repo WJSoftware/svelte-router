@@ -1,6 +1,6 @@
 import type { BuildHrefOptions } from "$lib/types.js";
-import { location } from "./Location.js";
-import { mergeQueryParams } from "./preserveQuery.js";
+import { location } from "./kernel/Location.js";
+import { mergeQueryParams } from "./kernel/preserveQuery.js";
 
 /**
  * Builds a new HREF by combining the path piece from one HREF and the hash piece from another.
