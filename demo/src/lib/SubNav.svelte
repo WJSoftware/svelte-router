@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts">
-	import { Link } from '@svelte-router/core';
+	import { Link, type ActiveState } from '@svelte-router/core';
 	import { slide } from 'svelte/transition';
 
 	type Props = {

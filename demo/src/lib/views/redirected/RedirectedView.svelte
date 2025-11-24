@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { location } from '@svelte-router/core';
 	import Alert from '../../Alert.svelte';
+	import { getTitleContext } from '../../state/title.svelte';
+
+	getTitleContext().current = 'New Feature (Redirector Demo)';
 </script>
 
 <article class="container">
