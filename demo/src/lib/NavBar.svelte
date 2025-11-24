@@ -22,7 +22,7 @@
 			text: 'In Code',
 			href: '/hash-routing/in-code',
 			activeFor: 'hr-in-code',
-			activeState: { class: 'active', aria: { 'aria-current': 'page' } }
+			activeState: { class: 'active', aria: { current: 'page' } }
 		},
 	];
 </script>
