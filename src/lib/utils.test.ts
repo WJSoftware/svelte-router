@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
-import { assertAllowedRoutingMode, expandAriaAttributes } from "./utils.js";
+import { assertAllowedRoutingMode, expandAriaAttributes, noTrailingSlash } from "./utils.js";
 import { ALL_HASHES } from "$test/test-utils.js";
 import { resetRoutingOptions, setRoutingOptions } from "./kernel/options.js";
 import type { ActiveStateAriaAttributes, ExtendedRoutingOptions, Hash } from "./types.js";
@@ -71,5 +71,24 @@ describe("expandAriaAttributes", () => {
 
         // Assert.
         expect(result).toEqual(expected);
+    });
+});
+
+describe("noTrailingSlash", () => {
+    test.each<{
+        input: string;
+        expected: string;
+    }>([
+        { input: '/path/', expected: '/path' },
+        { input: '/path/to/resource/', expected: '/path/to/resource' },
+        { input: '/path', expected: '/path' },
+        { input: '/', expected: '/' },
+        { input: '', expected: '' },
+    ])("Should convert $input to $expected .", ({ input, expected }) => {
+        // Act.
+        const result = noTrailingSlash(input);
+
+        // Assert.
+        expect(result).toBe(expected);
     });
 });

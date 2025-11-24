@@ -3,9 +3,9 @@ import { testWithEffect as test } from "$test/testWithEffect.svelte.js";
 import { ALL_HASHES, ROUTING_UNIVERSES } from "$test/test-utils.js";
 import { init } from "$lib/init.js";
 import type { Hash, PatternRouteInfo, RedirectedRouteInfo } from "$lib/types.js";
-import { resolveHashValue } from "./resolveHashValue.js";
+import { resolveHashValue } from "./kernel/resolveHashValue.js";
 import { Redirector } from "./Redirector.svelte.js";
-import { location } from "./Location.js";
+import { location } from "./kernel/Location.js";
 import { flushSync } from "svelte";
 
 ROUTING_UNIVERSES.forEach((universe) => {

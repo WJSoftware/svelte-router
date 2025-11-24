@@ -1,7 +1,7 @@
 import type { Hash, ParameterValue, RedirectedRouteInfo } from "$lib/types.js";
-import { RouteHelper } from "./RouteHelper.svelte.js";
-import { location } from "./Location.js";
-import { resolveHashValue } from "./resolveHashValue.js";
+import { RouteHelper } from "./kernel/RouteHelper.svelte.js";
+import { location } from "./kernel/Location.js";
+import { resolveHashValue } from "./kernel/resolveHashValue.js";
 import { untrack } from "svelte";
 
 /**
@@ -124,7 +124,7 @@ export class Redirector {
         const url = typeof redirection.href === 'function' ?
             redirection.href(routeParams) :
             redirection.href;
-        location[(redirection.goTo ? 'goTo' : 'navigate')](url, {
+        location[redirection.goTo ? 'goTo' : 'navigate'](url, {
             hash: this.#hash,
             replace: this.#options.replace,
             ...redirection.options,

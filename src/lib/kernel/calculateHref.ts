@@ -2,7 +2,7 @@ import type { Hash, PreserveQuery } from "../types.js";
 import { dissectHrefs } from "./dissectHrefs.js";
 import { location } from "./Location.js";
 import { mergeQueryParams } from "./preserveQuery.js";
-import { joinPaths } from "./RouteHelper.svelte.js";
+import { joinPaths } from "$lib/public-utils.js";
 import { resolveHashValue } from "./resolveHashValue.js";
 import { calculateMultiHashFragment } from "./calculateMultiHashFragment.js";
 
