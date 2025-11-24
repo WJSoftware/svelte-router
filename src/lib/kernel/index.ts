@@ -1,6 +1,5 @@
 export { location } from "./Location.js";
 export { RouterEngine } from "./RouterEngine.svelte.js";
-export { joinPaths } from "./RouteHelper.svelte.js";
 export { isConformantState } from "./isConformantState.js";
 export { calculateHref } from "./calculateHref.js";
 export { calculateMultiHashFragment } from "./calculateMultiHashFragment.js";

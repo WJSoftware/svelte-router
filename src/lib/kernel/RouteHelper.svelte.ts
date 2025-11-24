@@ -1,32 +1,7 @@
+import { joinPaths } from "$lib/public-utils.js";
 import type { AndUntyped, Hash, PatternRouteInfo, RouteStatus } from "$lib/types.js";
+import { noTrailingSlash } from "$lib/utils.js";
 import { location } from "./Location.js";
-
-function noTrailingSlash(path: string) {
-    return path !== '/' && path.endsWith('/') ? path.slice(0, -1) : path;
-}
-
-function hasLeadingSlash(paths: (string | undefined)[]) {
-    for (let path of paths) {
-        if (!path) {
-            continue;
-        }
-        return path.startsWith('/');
-    }
-    return false;
-}
-
-/**
- * Joins the provided paths into a single path.
- * @param paths Paths to join.
- * @returns The joined path.
- */
-export function joinPaths(...paths: string[]) {
-    const result = paths.reduce((acc, path, index) => {
-        const trimmedPath = (path ?? '').replace(/^\/|\/$/g, '');
-        return acc + (index > 0 && !acc.endsWith('/') && trimmedPath.length > 0 ? '/' : '') + trimmedPath;
-    }, hasLeadingSlash(paths) ? '/' : '');
-    return noTrailingSlash(result);
-}
 
 function escapeRegExp(string: string): string {
     return string.replace(/[.+^${}()|[\]\\]/g, '\\$&');

@@ -21,6 +21,7 @@ describe('index', () => {
             'activeBehavior',
             'Redirector',
             'buildHref',
+            'joinPaths',
         ];
 
         // Act.

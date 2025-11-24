@@ -4,7 +4,8 @@ import { location } from "./Location.js";
 import { routingOptions } from "./options.js";
 import { resolveHashValue } from "./resolveHashValue.js";
 import { assertAllowedRoutingMode } from "$lib/utils.js";
-import { joinPaths, RouteHelper } from "./RouteHelper.svelte.js";
+import { RouteHelper } from "./RouteHelper.svelte.js";
+import { joinPaths } from "$lib/public-utils.js";
 
 /**
  * RouterEngine's options.

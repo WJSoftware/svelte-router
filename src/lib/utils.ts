@@ -64,3 +64,7 @@ export function expandAriaAttributes(aria: ActiveStateAriaAttributes | undefined
     }
     return result;
 }
+
+export function noTrailingSlash(path: string) {
+    return path !== '/' && path.endsWith('/') ? path.slice(0, -1) : path;
+}

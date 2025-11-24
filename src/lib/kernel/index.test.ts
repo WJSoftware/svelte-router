@@ -6,7 +6,6 @@ describe('index', () => {
         const expectedList = [
             'location',
             'RouterEngine',
-            'joinPaths',
             'isConformantState',
             'calculateHref',
             'calculateState',
