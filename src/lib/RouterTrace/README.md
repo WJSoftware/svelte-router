@@ -33,6 +33,6 @@ same routing universe.
 | `childrenMenuPosition` | `'top' \| 'bottom'` | `'top'` | | Sets the position of the router engine's children menu. |
 | `darkTheme` | `boolean` | `false` | | Enables or disables the dark theme for the component. |
 | `themeBtn` | `boolean` | `false` | | Shows or hides a button capable of toggling the component's theme between light and dark themes. |
-| `buttonClass` | `string` | `undefined` | | Overrides the default CSS class of all buttons in the component. |
+| `buttonClass` | `ClassValue` | `undefined` | | Overrides the default CSS class of all buttons in the component. |
 
 [Online Documentation](https://wjfe-n-savant.hashnode.space/wjfe-n-savant/components/routertrace)
