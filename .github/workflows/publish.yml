@@ -14,6 +14,10 @@ on:
         default: false
         type: boolean
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   publish:
     uses: WJSoftware/cicd/.github/workflows/npm-publish.yml@main
