@@ -1,0 +1,26 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - 'playground/**'
+      - '.github/**'
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - 'eslint.config.js'
+      - 'add-component-help.ps1'
+      - 'AGENTS.md'
+      - '.prettierrc'
+      - '.prettierignore'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    uses: WJSoftware/cicd/.github/workflows/build-and-deploy-pages.yml@main
+    with:
+      project_folder: ./
+      output_folder: build
