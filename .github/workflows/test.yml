@@ -3,6 +3,18 @@ name: Test
 on:
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - 'docs/**'
+      - 'playground/**'
+      - '.github/**'
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - 'eslint.config.js'
+      - 'add-component-help.ps1'
+      - 'AGENTS.md'
+      - '.prettierrc'
+      - '.prettierignore'
 
 jobs:
   test:
