@@ -25,3 +25,6 @@ vite.config.ts.timestamp-*
 
 # Tarballs
 *.tgz
+
+# SveltePress
+.sveltepress
