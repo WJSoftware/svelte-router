@@ -16,6 +16,7 @@ on:
       - 'AGENTS.md'
       - '.prettierrc'
       - '.prettierignore'
+      - 'src/lib/**'
   workflow_dispatch:
 
 jobs:
