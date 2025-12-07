@@ -126,7 +126,7 @@ export default defineConfig({
 						collapsible: true,
 						items: [
 							{
-								title: 'Creating an Extenstion Package',
+								title: 'Creating an Extension Package',
 								to: '/docs/creating-an-extension-package'
 							},
 							{
