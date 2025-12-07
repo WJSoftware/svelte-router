@@ -176,7 +176,7 @@ The snippet provides, via its parameters, the route parameters, the current stat
 
 ```svelte
 <Router>
-    <Route paht="/users/:userId">
+    <Route path="/users/:userId">
         {#snippet children({ rp, state, rs })}
             ...
         {/snippet}
