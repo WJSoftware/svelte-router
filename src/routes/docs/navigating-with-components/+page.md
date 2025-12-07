@@ -184,7 +184,7 @@ For the cases where we want the same property value on `Link` components for the
   <Link href="...">...</Link>
   <Link
     href="/"
-    activeState={{ key: 'home', class='active' }}
+    activeState={{ key: 'home', class: 'active' }}
     preserveQuery={false}
   >
     Back to Homepage
