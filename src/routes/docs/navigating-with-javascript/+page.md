@@ -107,7 +107,7 @@ However, if we’re just creating a component, and we are relying entirely on th
 
 ### Rules Around the Value of HREFs
 
-Not every HREF that a normal HTML anchor link accepts is accepted by `calcluateHref()` (and the functionality that use it like the `Link` component and `location.navigate()`). The following rules should keep us out of trouble:
+Not every HREF that a normal HTML anchor link accepts is accepted by `calculateHref()` (and the functionality that use it like the `Link` component and `location.navigate()`). The following rules should keep us out of trouble:
 
 1. **Never add protocol, host or scheme**. If we needed this, we would be creating an HREF to an external resource. Don’t use `calculateHref()` (or `Link` components) for external resource links.
 2. **Hash routing doesn’t allow HREFs with hashes**. Counter-intuitive as this may sound, we must not specify hash values for hash routing. Specify the hash value as if it were a path value (i. e. `/this/is/the/path/in/hash`).
