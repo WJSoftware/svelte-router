@@ -1,13 +1,11 @@
 <script lang="ts">
-	import type { Snippet } from "svelte";
+    import type { Snippet } from 'svelte';
 
     type Props = {
         children?: Snippet;
-    }
+    };
 
-    let {
-        children,
-    }: Props = $props();
+    let { children }: Props = $props();
 </script>
 
 <ul class="list-unstyled">

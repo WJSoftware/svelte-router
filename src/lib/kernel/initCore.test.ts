@@ -1,11 +1,11 @@
-import type { Location } from "../types.js";
+import type { Location } from '../types.js';
 import { describe, test, expect, afterEach, vi } from 'vitest';
 import { initCore } from './initCore.js';
-import { SvelteURL } from "svelte/reactivity";
-import { location } from "./Location.js";
-import { defaultTraceOptions, traceOptions } from "./trace.svelte.js";
-import { defaultRoutingOptions, resetRoutingOptions, routingOptions } from "./options.js";
-import { logger } from "./Logger.js";
+import { SvelteURL } from 'svelte/reactivity';
+import { location } from './Location.js';
+import { defaultTraceOptions, traceOptions } from './trace.svelte.js';
+import { defaultRoutingOptions, resetRoutingOptions, routingOptions } from './options.js';
+import { logger } from './Logger.js';
 
 const initialUrl = 'http://example.com/';
 const locationMock: Location = {
@@ -19,7 +19,9 @@ const locationMock: Location = {
     on: vi.fn(),
     go: vi.fn(),
     navigate: vi.fn(),
-    get path() { return this.url.pathname; },
+    get path() {
+        return this.url.pathname;
+    }
 };
 
 describe('initCore', () => {
@@ -29,7 +31,7 @@ describe('initCore', () => {
         cleanup?.();
         resetRoutingOptions();
     });
-    test("Should initialize with all the expected default values.", () => {
+    test('Should initialize with all the expected default values.', () => {
         // Act.
         cleanup = initCore(locationMock);
 
@@ -39,20 +41,20 @@ describe('initCore', () => {
         expect(routingOptions).toEqual(defaultRoutingOptions);
         expect(logger).toBe(globalThis.console);
     });
-    test("Should throw an error when no location object is provided.", () => {
+    test('Should throw an error when no location object is provided.', () => {
         // Act.
         const act = () => initCore(null as unknown as Location);
 
         // Assert.
         expect(act).toThrow();
     });
-    test("Should initialize with custom options and rollback properly.", async () => {
+    test('Should initialize with custom options and rollback properly.', async () => {
         // Arrange.
         const customLogger = {
-            debug: () => { },
-            log: () => { },
-            warn: () => { },
-            error: () => { }
+            debug: () => {},
+            log: () => {},
+            warn: () => {},
+            error: () => {}
         };
 
         // Act - Initialize with custom options (use valid combo)
@@ -83,7 +85,7 @@ describe('initCore', () => {
         expect(traceOptions.routerHierarchy).toBe(defaultTraceOptions.routerHierarchy);
         expect(location).toBeNull();
     });
-    test("Should throw an error when called a second time without proper prior cleanup.", () => {
+    test('Should throw an error when called a second time without proper prior cleanup.', () => {
         // Arrange.
         cleanup = initCore(locationMock);
 
@@ -94,7 +96,7 @@ describe('initCore', () => {
         expect(act).toThrow();
     });
     describe('cleanup', () => {
-        test("Should rollback everything to defaults.", async () => {
+        test('Should rollback everything to defaults.', async () => {
             // Arrange - Initialize with custom options
             cleanup = initCore(locationMock, {
                 hashMode: 'multi',
@@ -119,22 +121,22 @@ describe('initCore', () => {
             expect(logger).not.toBe(globalThis.console); // Reverts to offLogger (uninitialized state)
             expect(traceOptions).toEqual(defaultTraceOptions);
         });
-        test("Should handle multiple init/cleanup cycles properly.", async () => {
+        test('Should handle multiple init/cleanup cycles properly.', async () => {
             // Capture initial logger state for comparison
             const initialLogger = logger;
-            
+
             // First cycle
             cleanup = initCore(locationMock, {
-                logger: { debug: () => { }, log: () => { }, warn: () => { }, error: () => { } }
+                logger: { debug: () => {}, log: () => {}, warn: () => {}, error: () => {} }
             });
             expect(logger).not.toBe(initialLogger);
             expect(location).toBeDefined();
-            
+
             cleanup();
             cleanup = undefined;
             expect(logger).toBe(initialLogger); // Back to initial state
             expect(location).toBeNull();
-            
+
             // Second cycle
             cleanup = initCore(locationMock, { hashMode: 'multi' });
             expect(routingOptions.hashMode).toBe('multi');

@@ -15,14 +15,14 @@ npm install @svelte-router/kit
 
 Then use its `init()` function instead of the stock `init()` from the core package. In **Sveltekit** projects, the best place would be the top layout component:
 
-
 ```svelte
-// +layout.svelte
 <script lang="ts">
-  import { init } from "@svelte-router/kit";
+    import { init } from '@svelte-router/kit';
 
-  init();
+    init();
 </script>
+
+// +layout.svelte
 ```
 
 :::tip[This Function Auto-Cleans Up]
@@ -33,9 +33,9 @@ To simplify things for end users, the `init()` function of `@svelte-router/kit` 
 
 Since path routing is disallowed, never use the value `false` for the `hash` property on any component. If you do it, a runtime error will be thrown telling you about it.
 
-The default hash value applied during this initialization is `true`. This means that components that don’t explicitly set a value of the `hash` property will route in single hash mode. If you specified a `hashMode` option of `'multi'`, then you must specify a string as default hash, or make sure all Svelte components get their `hash` property specified.  Otherwise, an error will occur.
+The default hash value applied during this initialization is `true`. This means that components that don’t explicitly set a value of the `hash` property will route in single hash mode. If you specified a `hashMode` option of `'multi'`, then you must specify a string as default hash, or make sure all Svelte components get their `hash` property specified. Otherwise, an error will occur.
 
-If all of this sounds like nonsense to you, no worries. Forget for now that you read this, continue learning about the library, and once you know about *library modes*, *routing modes* (a. k. a. routing universes) and a couple other concepts, come back. This will make sense.
+If all of this sounds like nonsense to you, no worries. Forget for now that you read this, continue learning about the library, and once you know about _library modes_, _routing modes_ (a. k. a. routing universes) and a couple other concepts, come back. This will make sense.
 
 ## History State Details
 

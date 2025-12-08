@@ -1,4 +1,4 @@
-import type { AriaAttributes, ClassValue, HTMLAnchorAttributes } from "svelte/elements";
+import type { AriaAttributes, ClassValue, HTMLAnchorAttributes } from 'svelte/elements';
 
 /**
  * Defines the data type of all `hash` properties found in almost all of the library's components.
@@ -6,13 +6,13 @@ import type { AriaAttributes, ClassValue, HTMLAnchorAttributes } from "svelte/el
 export type Hash = boolean | string;
 
 /**
- * Defines the possible values for the `preserveQuery` option or component property in components or functions, and 
+ * Defines the possible values for the `preserveQuery` option or component property in components or functions, and
  * determines what should happen with the current query string when (potentially) navigating to a new URL.
  */
 export type PreserveQuery = boolean | string | string[];
 
 /**
- * Defines the valid shape of the state object that must be in the windows History API at all times for proper 
+ * Defines the valid shape of the state object that must be in the windows History API at all times for proper
  * operation of the library.
  */
 export type State = {
@@ -22,12 +22,12 @@ export type State = {
     path: any;
     /**
      * Holds the state data associated to hash routing.
-     * 
-     * For single (or traditional) hash routing, the value is stored using the `single` key.  For multi-hash routing, 
+     *
+     * For single (or traditional) hash routing, the value is stored using the `single` key.  For multi-hash routing,
      * the value is stored using the hash identifier as the key.
      */
     hash: Record<string, any>;
-}
+};
 
 /**
  * Defines the possible data types for route parameter values.
@@ -44,11 +44,11 @@ export type RouteStatus = {
     match: boolean;
     /**
      * Contains the route's parameters, if any.
-     * 
+     *
      * This is only available if the route has matched.
      */
     routeParams?: RouteParamsRecord;
-}
+};
 
 /**
  * Resolves the parameter name from potentially optional parameters.
@@ -60,20 +60,22 @@ export type ParamName<T> = T extends `${infer P}?` ? P : T;
  */
 export type RouteParameters<T> = T extends string
     ? T extends `${string}:${infer Param}/${infer Rest}`
-    ? ParamName<Param> | RouteParameters<Rest>
-    : T extends `${string}:${infer Param}`
-    ? ParamName<Param>
-    : T extends `${string}/*`
-    ? 'rest'
-    : T extends '*'
-    ? 'rest'
-    : never
+        ? ParamName<Param> | RouteParameters<Rest>
+        : T extends `${string}:${infer Param}`
+          ? ParamName<Param>
+          : T extends `${string}/*`
+            ? 'rest'
+            : T extends '*'
+              ? 'rest'
+              : never
     : string;
 
 /**
  * Defines a record type mapping route parameter names to their values.
  */
-export type RouteParamsRecord<T extends string | RegExp = ""> = T extends "" ? Record<string, ParameterValue> : Record<RouteParameters<T extends string ? T : string>, ParameterValue>;
+export type RouteParamsRecord<T extends string | RegExp = ''> = T extends ''
+    ? Record<string, ParameterValue>
+    : Record<RouteParameters<T extends string ? T : string>, ParameterValue>;
 
 /**
  * Defines a record type mapping route identifiers to their route matching status.
@@ -97,7 +99,7 @@ export type RouterChildrenContext = {
 /**
  * Defines the context type provided by route components through their `children` snippet.
  */
-export type RouteChildrenContext<T extends string | RegExp = ""> = RouterChildrenContext & {
+export type RouteChildrenContext<T extends string | RegExp = ''> = RouterChildrenContext & {
     /**
      * Holds the route parameters for the route.
      */
@@ -124,7 +126,7 @@ export type AndUntyped = (params: RouteParamsRecord | undefined) => boolean;
  */
 export type RouteInfo = {
     /**
-     * The path to match.  It can contain route parameters in the form of `:paramName` when written as a string, or it 
+     * The path to match.  It can contain route parameters in the form of `:paramName` when written as a string, or it
      * can be a regular expression.
      */
     path?: string | RegExp;
@@ -148,29 +150,32 @@ export type RouteInfo = {
  */
 export type RedirectedRouteInfo = Omit<RouteInfo, 'ignoreForFallback'> & {
     /**
-     * The HREF to navigate to (via `location.navigate()` or `location.goTo()`).  It can be a string or a function that 
+     * The HREF to navigate to (via `location.navigate()` or `location.goTo()`).  It can be a string or a function that
      * receives the matched route parameters and returns a string.
      */
     href: string | ((routeParams: RouteParamsRecord | undefined) => string);
-} & ({
-    /**
-     * Indicates that the redirection should use the `Location.goTo` method.
-     */
-    goTo: true;
-    /**
-     * Options for the `Location.goTo` method.
-     */
-    options?: GoToOptions;
-} | {
-    /**
-     * Indicates that the redirection should use the `Location.goTo` method.
-     */
-    goTo?: false;
-    /**
-     * Options for the `Location.navigate` method.
-     */
-    options?: NavigateOptions;
-});
+} & (
+        | {
+              /**
+               * Indicates that the redirection should use the `Location.goTo` method.
+               */
+              goTo: true;
+              /**
+               * Options for the `Location.goTo` method.
+               */
+              options?: GoToOptions;
+          }
+        | {
+              /**
+               * Indicates that the redirection should use the `Location.goTo` method.
+               */
+              goTo?: false;
+              /**
+               * Options for the `Location.navigate` method.
+               */
+              options?: NavigateOptions;
+          }
+    );
 
 /**
  * Defines the options that can be used when calling `Location.goTo`.
@@ -187,12 +192,12 @@ export type GoToOptions = {
     state?: State;
     /**
      * Whether to preserve the current query string in the new URL.
-     * 
-     * New URL's can specify a query string, and if query string preservation is requested, the query parameters from 
+     *
+     * New URL's can specify a query string, and if query string preservation is requested, the query parameters from
      * the current URL will be appended with the ones from the new URL.
      */
     preserveQuery?: PreserveQuery;
-}
+};
 
 /**
  * Defines the options that can be used when calling `Location.navigate`.
@@ -202,23 +207,26 @@ export type NavigateOptions = Omit<GoToOptions, 'state'> & {
      * The state data to associate with the new URL and hash value.
      */
     state?: any;
-} & ({
-    /**
-     * The hash value that determines the routing universe in which navigation will take place.
-     */
-    hash?: Exclude<Hash, false>;
-} | {
-    /**
-     * The hash value that determines the routing universe in which navigation will take place.
-     */
-    hash?: false;
-    /**
-     * Determines whether the current hash value should be preserved when navigating.
-     * 
-     * **IMPORTANT**:  This option is only valid for path routing scenarios.
-     */
-    preserveHash?: boolean;
-});
+} & (
+        | {
+              /**
+               * The hash value that determines the routing universe in which navigation will take place.
+               */
+              hash?: Exclude<Hash, false>;
+          }
+        | {
+              /**
+               * The hash value that determines the routing universe in which navigation will take place.
+               */
+              hash?: false;
+              /**
+               * Determines whether the current hash value should be preserved when navigating.
+               *
+               * **IMPORTANT**:  This option is only valid for path routing scenarios.
+               */
+              preserveHash?: boolean;
+          }
+    );
 
 /**
  * Defines the options for the `buildHref` function.
@@ -235,47 +243,47 @@ export interface Location {
     readonly url: URL;
     /**
      * Gets the environment's current path, "sanitized" for the cases of `file:` URL's in Windows.
-     * 
+     *
      * It is highly recommended to always use this path instead of `Location.url.pathname` whenever possible.
      */
     readonly path: string;
     /**
      * Gets the current hash path or paths, depending on how the library was initialized.
-     * 
-     * If the library was initialized with the `hashMode` option set to `single`, do 
-     * `location.hashPaths.single` to obtain the one path.  If it was set to `multi`, do 
+     *
+     * If the library was initialized with the `hashMode` option set to `single`, do
+     * `location.hashPaths.single` to obtain the one path.  If it was set to `multi`, do
      * `location.hashPaths.<ID>`, where `<ID>` is the wanted path' identifier.
      */
     readonly hashPaths: Record<string, string>;
     /**
-     * Gets the current state object associated with the current URL that responds to the given hash value.  If no hash 
+     * Gets the current state object associated with the current URL that responds to the given hash value.  If no hash
      * value is given, it returns the state associated with the value of the `defaultHash` routing option.
      * @param hash The hash value to get the state for.
      */
     getState(hash?: Hash | undefined): any;
     /**
      * Navigates to the specified URL as it is given.
-     * 
+     *
      * It will push new URL's by default.  To instead replace the current URL, set the `replace` option to `true`.
-     * 
-     * **IMPORTANT:**  This method can only preserve query string values.  This method does not accept a `hash` value, 
-     * meaning that it cannot associate the navigation or state object with a given routing universe.  Use this method 
+     *
+     * **IMPORTANT:**  This method can only preserve query string values.  This method does not accept a `hash` value,
+     * meaning that it cannot associate the navigation or state object with a given routing universe.  Use this method
      * only when you know this is the desired behavior.  Otherwise, just use `Location.navigate()`.
-     * @param url The URL to navigate to.  Use an empty string (`""`) to navigate to the current URL, a. k. a., shallow 
+     * @param url The URL to navigate to.  Use an empty string (`""`) to navigate to the current URL, a. k. a., shallow
      * routing.
      * @param options Options for navigation.
      */
     goTo(url: string, options?: GoToOptions): void;
     /**
-     * Navigates to the specified URL, taking into account the specified hash value, making sure navigation and state 
+     * Navigates to the specified URL, taking into account the specified hash value, making sure navigation and state
      * value are associated with the correct routing universe.
-     * 
+     *
      * It will push new URL's by default.  To instead replace the current URL, set the `replace` option to `true`.
-     * 
+     *
      * ### About Paths
-     * 
-     * You should be able to specify relative or full paths, with or without query string values, or even just a query 
-     * string.  The value of `hash` will be used to determine where in the URL to put this path and the specified state 
+     *
+     * You should be able to specify relative or full paths, with or without query string values, or even just a query
+     * string.  The value of `hash` will be used to determine where in the URL to put this path and the specified state
      * data.
      * @param hash The hash value to associate with the navigation.
      * @param path The path to navigate to.
@@ -303,10 +311,10 @@ export interface Location {
     dispose(): void;
     /**
      * Adds an event listener for the `beforfeNavigate` event.
-     * 
+     *
      * This event has the ability to cancel navigation by calling the `cancel` method on the event object.
-     * 
-     * **IMPORTANT:**  This is a feature only available when initializing the routing library with the 
+     *
+     * **IMPORTANT:**  This is a feature only available when initializing the routing library with the
      * {@link initFull} function.
      * @param event The event to listen for.
      * @param callback The callback to invoke when the event occurs.
@@ -315,16 +323,19 @@ export interface Location {
     on(event: 'beforeNavigate', callback: (event: BeforeNavigateEvent) => void): () => void;
     /**
      * Adds an event listener for the `navigationCancelled` event.
-     * 
+     *
      * This event occurs when navigation is cancelled by a handler of the `beforeNavigate` event.
-     * 
+     *
      * **IMPORTANT:**  This is a feature only available when initializing the routing library with the
      * {@link initFull} function.
      * @param event The event to listen for.
      * @param callback The callback to invoke when the event occurs.
      * @returns A function that removes the event listener.
      */
-    on(event: 'navigationCancelled', callback: (event: NavigationCancelledEvent) => void): () => void;
+    on(
+        event: 'navigationCancelled',
+        callback: (event: NavigationCancelledEvent) => void
+    ): () => void;
 }
 
 /**
@@ -348,14 +359,14 @@ export type NavigationEvent = {
      * The method of navigation that was used.
      */
     method: 'push' | 'replace';
-}
+};
 
 /**
  * Represents an event that occurs before navigation takes place.
  */
 export type BeforeNavigateEvent = NavigationEvent & {
     /**
-     * Whether the navigation was cancelled by a previously-executed callback o the `beforeNavigate` 
+     * Whether the navigation was cancelled by a previously-executed callback o the `beforeNavigate`
      * event.
      */
     wasCancelled: boolean;
@@ -368,7 +379,7 @@ export type BeforeNavigateEvent = NavigationEvent & {
      * @param cause The reason for cancelling the navigation.
      */
     cancel(cause?: any): void;
-}
+};
 
 /**
  * Represents an event that occurs when navigation is cancelled.
@@ -379,60 +390,63 @@ export type NavigationCancelledEvent = NavigationEvent & {
 
 /**
  * Friendlier type mapping of ARIA attributes for use in the `ActiveState.aria` property.
- * 
+ *
  * Instead of asking the user to write `{ aria: { 'aria-selected': true } }`, they can simply write
  * `{ aria: { selected: true } }`.
  */
 export type ActiveStateAriaAttributes = {
     [K in keyof AriaAttributes as K extends `aria-${infer N}` ? `${N}` : never]?: AriaAttributes[K];
-}
+};
 
 /**
- * Defines the possible settings that can be set in `Link` components to control when they are considered active and 
+ * Defines the possible settings that can be set in `Link` components to control when they are considered active and
  * how they look like when active.
  */
 export type ActiveState = {
     /**
      * Sets the class or classes that the link will use when rendering as active.
-     * 
+     *
      * For example, set it to `"active"` for Bootstrap setups.
-     * 
+     *
      * **TIP**:  You can use any value type that is accepted by the popular `clsx` library.
      */
     class?: ClassValue;
     /**
      * Sets the style that the link will use when rendering as active.
-     * 
+     *
      * This can be a string of CSS styles or an object of key-value pairs.
      */
     style?: HTMLAnchorAttributes['style'] | Record<string, string>;
     /**
      * Sets additional ARIA attributes when the link is active.
-     * 
+     *
      * ### aria-selected
      * Use it for `gridcell`, `option`, `row`, `tab`, and `treeitem` roles to indicate the current item in a
      * selection.
-     * 
+     *
      * [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-selected)
-     * 
+     *
      * ### aria-current
      * Use it for `article`, `cell`, `columnheader`, `document`, `feed`, `listitem`, `math`, `rowheader`,
      * `section`, `table`, and `treeitem` roles to indicate the current item within a container or set of related
      * items.
-     * 
+     *
      * [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-current)
      */
     aria?: ActiveStateAriaAttributes;
-}
+};
 
 /**
  * Defines the type of function accepted by the `Fallback` component via its `when` property.
- * 
+ *
  * @param routeStatus The current route status data from the parent router.
  * @param fallback The value that the parent router has calculated as per standard fallback logic.
  * @returns `true` if the fallback content should be shown; `false` to prevent content from being shown.
  */
-export type WhenPredicate = (routeStatus: Record<string, RouteStatus>, fallback: boolean) => boolean;
+export type WhenPredicate = (
+    routeStatus: Record<string, RouteStatus>,
+    fallback: boolean
+) => boolean;
 
 /**
  * Defines the shape of logger objects that can be given to this library during initialization.
@@ -454,42 +468,42 @@ export interface ILogger {
      * See `console.error()` for reference.
      */
     error: (...args: any[]) => void;
-};
+}
 
 /**
  * Library's routing options.
  */
 export type RoutingOptions = {
     /**
-     * Whether to use a single or multiple hash mode.  In single hash mode, the hash value is always one path; in multi 
+     * Whether to use a single or multiple hash mode.  In single hash mode, the hash value is always one path; in multi
      * mode, the hash value can be multiple paths.
-     * 
+     *
      * The multiple paths option shapes the hash value as:  `'#id1=/path/of/id1;id2=/path/of/id2;...'`.
-     * 
+     *
      * @default 'single'
      */
     hashMode?: 'single' | 'multi';
     /**
      * Default hash value to use in components and other library functions when the `hash` property or parameter is not
      * set (left `undefined`).
-     * 
-     * It works exactly as described for the `hash` property of components, but its scope is global to all components 
+     *
+     * It works exactly as described for the `hash` property of components, but its scope is global to all components
      * and functions in the library.
-     * 
-     * This allows for everything the `implicitMode` option used to provide, plus the ability to set a named routing 
+     *
+     * This allows for everything the `implicitMode` option used to provide, plus the ability to set a named routing
      * hash universe as the default one.
-     * 
+     *
      * ### Equivalency With the Removed `implicitMode` Option
-     * 
-     * This option supersedes the now-removed `implicitMode` option.  Setting this option to `false` is equivalent to 
+     *
+     * This option supersedes the now-removed `implicitMode` option.  Setting this option to `false` is equivalent to
      * setting `implicitMode` to `'path'`; setting it to `true` is equivalent to setting `implicitMode` to `'hash'`.
      * Also, its default is `false`, which means that it defaults to the same routing mode (universe) as the removed
      * `implicitMode` option: `'path'`.
-     * 
+     *
      * @default false
      */
     defaultHash?: Hash;
-}
+};
 
 /**
  * Internal representation of routing options, including additional flags used internally by the library.
@@ -508,13 +522,12 @@ export type ExtendedRoutingOptions = RoutingOptions & {
 export type TraceOptions = {
     /**
      * Whether to trace the router hierarchy.
-     * 
+     *
      * This consumes extra RAM and a bit more CPU cycles.  Disable it on production builds.
      * @default false
      */
     routerHierarchy?: boolean;
 };
-
 
 /**
  * Library's initialization options.
@@ -525,19 +538,19 @@ export type InitOptions = RoutingOptions & {
      */
     trace?: TraceOptions;
     /**
-     * Controls logging.  If `true`, the default logger that logs to the console is used.  If `false`, logging is 
+     * Controls logging.  If `true`, the default logger that logs to the console is used.  If `false`, logging is
      * turned off.  If an object is provided, it is used as the logger.
-     * 
+     *
      * Logging is turned on by default.
-     * 
+     *
      * **TIP**: You can provide your own logger implementation to integrate with your application's logging system.
      */
     logger?: boolean | ILogger;
-}
+};
 
 /**
  * Extended initialization options that include all routing options.
- * 
+ *
  * _Meaningful only for library extension packages that need additional control over routing options._
  */
 export type ExtendedInitOptions = ExtendedRoutingOptions & Pick<InitOptions, 'trace' | 'logger'>;
@@ -545,14 +558,14 @@ export type ExtendedInitOptions = ExtendedRoutingOptions & Pick<InitOptions, 'tr
 /**
  * Defines an abstraction over the browser's History API that provides consistent navigation
  * and state management across different environments (browser, SvelteKit, memory-only, etc.).
- * 
+ *
  * This interface extends the standard History API with a reactive URL tracking capability
  * needed for the routing library.
  */
 export interface HistoryApi extends History {
     /**
      * Reactive URL object that reflects the current location.
-     * 
+     *
      * Implementations should ensure this stays synchronized with navigation changes.
      */
     readonly url: URL;
@@ -573,5 +586,8 @@ export interface FullModeHistoryApi extends HistoryApi {
      * Subscribe to navigation events.
      */
     on(event: 'beforeNavigate', callback: (event: BeforeNavigateEvent) => void): () => void;
-    on(event: 'navigationCancelled', callback: (event: NavigationCancelledEvent) => void): () => void;
+    on(
+        event: 'navigationCancelled',
+        callback: (event: NavigationCancelledEvent) => void
+    ): () => void;
 }

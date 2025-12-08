@@ -1,10 +1,16 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
-import { getAllChildRouters, registerRouter, resetTraceOptions, setTraceOptions, traceOptions } from "./trace.svelte.js";
-import { RouterEngine } from "./RouterEngine.svelte.js";
-import { init } from "../init.js";
+import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
+import {
+    getAllChildRouters,
+    registerRouter,
+    resetTraceOptions,
+    setTraceOptions,
+    traceOptions
+} from './trace.svelte.js';
+import { RouterEngine } from './RouterEngine.svelte.js';
+import { init } from '../init.js';
 
 vi.mock(import('./trace.svelte.js'), async (importActual) => {
-    const actual = await importActual<typeof import("./trace.svelte.js")>();
+    const actual = await importActual<typeof import('./trace.svelte.js')>();
     return {
         ...actual,
         registerRouter: vi.fn(actual.registerRouter)
@@ -12,10 +18,7 @@ vi.mock(import('./trace.svelte.js'), async (importActual) => {
 });
 
 describe('setTraceOptions', () => {
-    test.each([
-        true,
-        false
-    ])("Should set the 'routerHierarchy' option to %s.", (value) => {
+    test.each([true, false])("Should set the 'routerHierarchy' option to %s.", (value) => {
         // Act.
         setTraceOptions({ routerHierarchy: value });
 
@@ -25,7 +28,7 @@ describe('setTraceOptions', () => {
 });
 
 describe('resetTraceOptions', () => {
-    test("Should reset trace options to defaults.", () => {
+    test('Should reset trace options to defaults.', () => {
         // Arrange - Set to non-default value
         setTraceOptions({ routerHierarchy: true });
         expect(traceOptions.routerHierarchy).toBe(true);
@@ -37,7 +40,7 @@ describe('resetTraceOptions', () => {
         expect(traceOptions.routerHierarchy).toBe(false);
     });
 
-    test("Should reset trace options when already at defaults.", () => {
+    test('Should reset trace options when already at defaults.', () => {
         // Arrange - Ensure it's already at default
         resetTraceOptions();
         expect(traceOptions.routerHierarchy).toBe(false);
@@ -61,7 +64,7 @@ describe('registerRouter', () => {
     beforeEach(() => {
         vi.resetAllMocks();
     });
-    test("Should be called when a new router engine is created.", () => {
+    test('Should be called when a new router engine is created.', () => {
         // Act.
         new RouterEngine();
 
@@ -81,7 +84,7 @@ describe('getAllChildRouters', () => {
     beforeEach(() => {
         vi.clearAllMocks();
     });
-    test("Should return the children of the specified router.", () => {
+    test('Should return the children of the specified router.', () => {
         // Arrange.
         const parent = new RouterEngine();
         const child = new RouterEngine(parent);

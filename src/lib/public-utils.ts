@@ -1,6 +1,6 @@
-import { RouterEngine } from "./kernel/RouterEngine.svelte.js";
-import type { RouteStatus } from "./types.js";
-import { noTrailingSlash } from "./utils.js";
+import { RouterEngine } from './kernel/RouterEngine.svelte.js';
+import type { RouteStatus } from './types.js';
+import { noTrailingSlash } from './utils.js';
 
 /**
  * Checks if a specific route is active according to the provided router engine or route status record.
@@ -34,9 +34,16 @@ function hasLeadingSlash(paths: (string | undefined)[]) {
  * @returns The joined path.
  */
 export function joinPaths(...paths: string[]) {
-    const result = paths.reduce((acc, path, index) => {
-        const trimmedPath = (path ?? '').replace(/^\/|\/$/g, '');
-        return acc + (index > 0 && !acc.endsWith('/') && trimmedPath.length > 0 ? '/' : '') + trimmedPath;
-    }, hasLeadingSlash(paths) ? '/' : '');
+    const result = paths.reduce(
+        (acc, path, index) => {
+            const trimmedPath = (path ?? '').replace(/^\/|\/$/g, '');
+            return (
+                acc +
+                (index > 0 && !acc.endsWith('/') && trimmedPath.length > 0 ? '/' : '') +
+                trimmedPath
+            );
+        },
+        hasLeadingSlash(paths) ? '/' : ''
+    );
     return noTrailingSlash(result);
 }

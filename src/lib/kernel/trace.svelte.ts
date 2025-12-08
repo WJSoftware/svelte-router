@@ -1,5 +1,5 @@
-import type { TraceOptions } from "../types.js";
-import type { RouterEngine } from "./RouterEngine.svelte.js";
+import type { TraceOptions } from '../types.js';
+import type { RouterEngine } from './RouterEngine.svelte.js';
 
 /**
  * Weak references to all router engines that are created.
@@ -28,7 +28,7 @@ export function unregisterRouter(router: RouterEngine) {
     if (router.parent) {
         let parentRefs = allRouters.get(router.parent);
         if (parentRefs) {
-            let index = parentRefs.findIndex(ref => ref.deref() === router);
+            let index = parentRefs.findIndex((ref) => ref.deref() === router);
             if (index >= 0) {
                 parentRefs.splice(index, 1);
                 ++version;
@@ -65,7 +65,7 @@ export function getAllChildRouters(parent: RouterEngine) {
  * Default tracing options used for rollback.
  */
 export const defaultTraceOptions: Required<TraceOptions> = {
-    routerHierarchy: false,
+    routerHierarchy: false
 };
 
 /**

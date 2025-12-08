@@ -1,103 +1,103 @@
 {
-	"name": "@svelte-router/core",
-	"version": "1.0.2",
-	"author": {
-		"name": "José Pablo Ramírez Vargas",
-		"email": "webJose@gmail.com"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/WJSoftware/svelte-router.git"
-	},
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/WJSoftware/svelte-router/issues"
-	},
-	"homepage": "https://svelte-router.dev",
-	"description": "Next-level routing for Svelte and Sveltekit",
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build && node scripts/generate-sitemap.js && npm run prepack",
-		"preview": "vite preview",
-		"prepack": "svelte-kit sync && svelte-package && publint && pwsh ./add-component-help.ps1",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"format": "prettier --write .",
-		"lint": "prettier --check . && eslint .",
-		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run",
-		"postinstall": "patch-package"
-	},
-	"files": [
-		"dist",
-		"!dist/**/*.test.*",
-		"!dist/**/*.spec.*",
-		"!dist/testing"
-	],
-	"sideEffects": [
-		"**/*.css"
-	],
-	"svelte": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"type": "module",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"svelte": "./dist/index.js"
-		},
-		"./kernel": {
-			"types": "./dist/kernel/index.d.ts",
-			"default": "./dist/kernel/index.js"
-		},
-		"./logo": {
-			"types": "./dist/logo/logo.d.ts",
-			"default": "./dist/logo/logo.svg"
-		},
-		"./logo64": {
-			"types": "./dist/logo/logo.d.ts",
-			"default": "./dist/logo/logo-64.svg"
-		},
-		"./logo48": {
-			"types": "./dist/logo/logo.d.ts",
-			"default": "./dist/logo/logo-48.svg"
-		}
-	},
-	"keywords": [
-		"svelte",
-		"router",
-		"svelte-router",
-		"spa",
-		"micro-frontend",
-		"pwa"
-	],
-	"peerDependencies": {
-		"svelte": "^5.31.0"
-	},
-	"devDependencies": {
-		"@eslint/compat": "^2.0.0",
-		"@eslint/js": "^9.18.0",
-		"@sveltejs/adapter-static": "^3.0.10",
-		"@sveltejs/kit": "^2.0.0",
-		"@sveltejs/package": "^2.0.0",
-		"@sveltejs/vite-plugin-svelte": "^6.1.3",
-		"@sveltepress/theme-default": "^7.0.2",
-		"@sveltepress/vite": "^1.3.2",
-		"@testing-library/svelte": "^5.2.6",
-		"eslint": "^9.18.0",
-		"eslint-config-prettier": "^10.0.1",
-		"eslint-plugin-svelte": "^3.11.0",
-		"globals": "^16.3.0",
-		"jsdom": "^27.0.0",
-		"patch-package": "^8.0.1",
-		"prettier": "^3.4.2",
-		"prettier-plugin-svelte": "^3.3.3",
-		"publint": "^0.3.2",
-		"sass": "^1.83.4",
-		"svelte": "^5.0.0",
-		"svelte-check": "^4.0.0",
-		"typescript": "^5.0.0",
-		"typescript-eslint": "^8.20.0",
-		"vite": "^7.1.3",
-		"vitest": "^4.0.14"
-	}
+  "name": "@svelte-router/core",
+  "version": "1.0.2",
+  "author": {
+    "name": "José Pablo Ramírez Vargas",
+    "email": "webJose@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WJSoftware/svelte-router.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WJSoftware/svelte-router/issues"
+  },
+  "homepage": "https://svelte-router.dev",
+  "description": "Next-level routing for Svelte and Sveltekit",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build && node scripts/generate-sitemap.js && npm run prepack",
+    "preview": "vite preview",
+    "prepack": "svelte-kit sync && svelte-package && publint && pwsh ./add-component-help.ps1",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "format": "prettier --write .",
+    "lint": "prettier --check . && eslint .",
+    "test:unit": "vitest",
+    "test": "npm run test:unit -- --run",
+    "postinstall": "patch-package"
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.test.*",
+    "!dist/**/*.spec.*",
+    "!dist/testing"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "svelte": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js"
+    },
+    "./kernel": {
+      "types": "./dist/kernel/index.d.ts",
+      "default": "./dist/kernel/index.js"
+    },
+    "./logo": {
+      "types": "./dist/logo/logo.d.ts",
+      "default": "./dist/logo/logo.svg"
+    },
+    "./logo64": {
+      "types": "./dist/logo/logo.d.ts",
+      "default": "./dist/logo/logo-64.svg"
+    },
+    "./logo48": {
+      "types": "./dist/logo/logo.d.ts",
+      "default": "./dist/logo/logo-48.svg"
+    }
+  },
+  "keywords": [
+    "svelte",
+    "router",
+    "svelte-router",
+    "spa",
+    "micro-frontend",
+    "pwa"
+  ],
+  "peerDependencies": {
+    "svelte": "^5.31.0"
+  },
+  "devDependencies": {
+    "@eslint/compat": "^2.0.0",
+    "@eslint/js": "^9.18.0",
+    "@sveltejs/adapter-static": "^3.0.10",
+    "@sveltejs/kit": "^2.0.0",
+    "@sveltejs/package": "^2.0.0",
+    "@sveltejs/vite-plugin-svelte": "^6.1.3",
+    "@sveltepress/theme-default": "^7.0.2",
+    "@sveltepress/vite": "^1.3.2",
+    "@testing-library/svelte": "^5.2.6",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-svelte": "^3.11.0",
+    "globals": "^16.3.0",
+    "jsdom": "^27.0.0",
+    "patch-package": "^8.0.1",
+    "prettier": "^3.4.2",
+    "prettier-plugin-svelte": "^3.3.3",
+    "publint": "^0.3.2",
+    "sass": "^1.83.4",
+    "svelte": "^5.0.0",
+    "svelte-check": "^4.0.0",
+    "typescript": "^5.0.0",
+    "typescript-eslint": "^8.20.0",
+    "vite": "^7.1.3",
+    "vitest": "^4.0.14"
+  }
 }

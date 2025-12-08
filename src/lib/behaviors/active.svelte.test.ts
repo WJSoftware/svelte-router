@@ -1,14 +1,14 @@
-import { describe, test, expect, beforeEach, vi } from "vitest";
-import { activeBehavior } from "./active.svelte.js";
-import { RouterEngine } from "$lib/kernel/RouterEngine.svelte.js";
-import type { ActiveState, RouteStatus } from "$lib/types.js";
-import { render } from "@testing-library/svelte";
-import TestActiveBehavior from "$test/TestActiveBehavior.svelte";
-import { flushSync } from "svelte";
-import type { ClassValue } from "svelte/elements";
-import { clsx } from "clsx";
+import { describe, test, expect, beforeEach, vi } from 'vitest';
+import { activeBehavior } from './active.svelte.js';
+import { RouterEngine } from '$lib/kernel/RouterEngine.svelte.js';
+import type { ActiveState, RouteStatus } from '$lib/types.js';
+import { render } from '@testing-library/svelte';
+import TestActiveBehavior from '$test/TestActiveBehavior.svelte';
+import { flushSync } from 'svelte';
+import type { ClassValue } from 'svelte/elements';
+import { clsx } from 'clsx';
 
-describe("activeBehavior", () => {
+describe('activeBehavior', () => {
     let mockElement: HTMLElement;
 
     beforeEach(() => {
@@ -23,10 +23,10 @@ describe("activeBehavior", () => {
         } as unknown as HTMLElement;
     });
 
-    describe("Basic functionality", () => {
-        test("Should apply styles and classes when route is active.", () => {
+    describe('Basic functionality', () => {
+        test('Should apply styles and classes when route is active.', () => {
             // Arrange
-            const routeKey = "test-route";
+            const routeKey = 'test-route';
             const routeStatus: Record<string, RouteStatus> = {
                 [routeKey]: {
                     match: true,
@@ -35,60 +35,66 @@ describe("activeBehavior", () => {
             };
             const activeState: ActiveState & { key: string } = {
                 key: routeKey,
-                class: "active-class",
-                style: "color: red;"
+                class: 'active-class',
+                style: 'color: red;'
             };
-            const baseStyle = "background: white;";
+            const baseStyle = 'background: white;';
 
             // Act
             const attachment = activeBehavior(routeStatus, activeState, baseStyle);
             attachment(mockElement);
 
             // Assert
-            expect(mockElement.setAttribute).toHaveBeenCalledWith('style', 'background: white; color: red;');
+            expect(mockElement.setAttribute).toHaveBeenCalledWith(
+                'style',
+                'background: white; color: red;'
+            );
             expect(mockElement.classList.add).toHaveBeenCalledWith('active-class');
         });
         test.each<{
             text: string;
-            classValue: ClassValue
+            classValue: ClassValue;
         }>([
             {
-                text: "string",
-                classValue: "single-class",
+                text: 'string',
+                classValue: 'single-class'
             },
             {
-                text: "object",
-                classValue: { active: true, },
+                text: 'object',
+                classValue: { active: true }
             },
             {
-                text: "array",
-                classValue: ["class1", "class2"],
-            },
-        ])("Should apply classes provided in $text form when route is active.", ({ classValue }) => {
-            // Arrange.
-            const routeKey = "test-route";
-            const routeStatus: Record<string, RouteStatus> = {
-                [routeKey]: {
-                    match: true,
-                    routeParams: undefined
-                }
-            };
-            const activeState: ActiveState & { key: string } = {
-                key: routeKey,
-                class: classValue,
-            };
+                text: 'array',
+                classValue: ['class1', 'class2']
+            }
+        ])(
+            'Should apply classes provided in $text form when route is active.',
+            ({ classValue }) => {
+                // Arrange.
+                const routeKey = 'test-route';
+                const routeStatus: Record<string, RouteStatus> = {
+                    [routeKey]: {
+                        match: true,
+                        routeParams: undefined
+                    }
+                };
+                const activeState: ActiveState & { key: string } = {
+                    key: routeKey,
+                    class: classValue
+                };
 
-            // Act.
-            const attachment = activeBehavior(routeStatus, activeState);
-            attachment(mockElement);
+                // Act.
+                const attachment = activeBehavior(routeStatus, activeState);
+                attachment(mockElement);
 
-            // Assert.
-            const expectedClass = clsx(classValue).split(' ');
-            expect(mockElement.classList.add).toHaveBeenCalledWith(...expectedClass);
-        });
-        test("Should return a cleanup function when route is active.", () => {
+                // Assert.
+                const expectedClass = clsx(classValue).split(' ');
+                expect(mockElement.classList.add).toHaveBeenCalledWith(...expectedClass);
+            }
+        );
+        test('Should return a cleanup function when route is active.', () => {
             // Arrange
-            const routeKey = "test-route";
+            const routeKey = 'test-route';
             const routeStatus: Record<string, RouteStatus> = {
                 [routeKey]: {
                     match: true,
@@ -97,10 +103,10 @@ describe("activeBehavior", () => {
             };
             const activeState: ActiveState & { key: string } = {
                 key: routeKey,
-                class: "active-class",
-                style: "color: red;"
+                class: 'active-class',
+                style: 'color: red;'
             };
-            const baseStyle = "background: white;";
+            const baseStyle = 'background: white;';
             const attachment = activeBehavior(routeStatus, activeState, baseStyle);
 
             // Act
@@ -109,15 +115,15 @@ describe("activeBehavior", () => {
             // Assert
             expect(typeof cleanup).toBe('function');
         });
-        test("Should not return a cleanup function when route is not active.", () => {
+        test('Should not return a cleanup function when route is not active.', () => {
             // Arrange
             const routeStatus: Record<string, RouteStatus> = {}; // Empty - route not found
             const activeState: ActiveState & { key: string } = {
-                key: "test-route",
-                class: "active-class",
-                style: "color: red;"
+                key: 'test-route',
+                class: 'active-class',
+                style: 'color: red;'
             };
-            const baseStyle = "background: white;";
+            const baseStyle = 'background: white;';
             const attachment = activeBehavior(routeStatus, activeState, baseStyle);
             const cleanup = attachment(mockElement);
 
@@ -128,10 +134,10 @@ describe("activeBehavior", () => {
         });
     });
 
-    describe("Cleanup functionality", () => {
-        test("Should restore base style and remove classes when cleanup is called.", () => {
+    describe('Cleanup functionality', () => {
+        test('Should restore base style and remove classes when cleanup is called.', () => {
             // Arrange
-            const routeKey = "test-route";
+            const routeKey = 'test-route';
             const routeStatus: Record<string, RouteStatus> = {
                 [routeKey]: {
                     match: true,
@@ -140,10 +146,10 @@ describe("activeBehavior", () => {
             };
             const activeState: ActiveState & { key: string } = {
                 key: routeKey,
-                class: "active-class",
-                style: "color: red;"
+                class: 'active-class',
+                style: 'color: red;'
             };
-            const baseStyle = "background: white;";
+            const baseStyle = 'background: white;';
 
             const attachment = activeBehavior(routeStatus, activeState, baseStyle);
             const cleanup = attachment(mockElement);
@@ -153,12 +159,12 @@ describe("activeBehavior", () => {
 
             // Assert
             expect(mockElement.setAttribute).toHaveBeenLastCalledWith('style', baseStyle);
-            expect(mockElement.classList.remove).toHaveBeenCalledWith("active-class");
+            expect(mockElement.classList.remove).toHaveBeenCalledWith('active-class');
         });
 
-        test("Should restore empty style when no base style is provided.", () => {
+        test('Should restore empty style when no base style is provided.', () => {
             // Arrange
-            const routeKey = "test-route";
+            const routeKey = 'test-route';
             const routeStatus: Record<string, RouteStatus> = {
                 [routeKey]: {
                     match: true,
@@ -167,8 +173,8 @@ describe("activeBehavior", () => {
             };
             const activeState: ActiveState & { key: string } = {
                 key: routeKey,
-                class: "active-class",
-                style: "color: red;"
+                class: 'active-class',
+                style: 'color: red;'
             };
 
             const attachment = activeBehavior(routeStatus, activeState); // no baseStyle
@@ -179,15 +185,15 @@ describe("activeBehavior", () => {
 
             // Assert
             expect(mockElement.setAttribute).toHaveBeenLastCalledWith('style', '');
-            expect(mockElement.classList.remove).toHaveBeenCalledWith("active-class");
+            expect(mockElement.classList.remove).toHaveBeenCalledWith('active-class');
         });
 
-        test("Should not perform cleanup operations when route was not active.", () => {
+        test('Should not perform cleanup operations when route was not active.', () => {
             // Arrange
             const routeStatus: Record<string, RouteStatus> = {}; // Empty - route not found
             const activeState: ActiveState & { key: string } = {
-                key: "test-route",
-                class: "active-class"
+                key: 'test-route',
+                class: 'active-class'
             };
 
             const attachment = activeBehavior(routeStatus, activeState);
@@ -202,13 +208,13 @@ describe("activeBehavior", () => {
         });
     });
 
-    describe("Input types and edge cases", () => {
-        test("Should work with RouterEngine as input.", () => {
+    describe('Input types and edge cases', () => {
+        test('Should work with RouterEngine as input.', () => {
             // Arrange
             const routerEngine = {} as RouterEngine; // Mock RouterEngine without construction
             const activeState: ActiveState & { key: string } = {
-                key: "test-route",
-                class: "active-class"
+                key: 'test-route',
+                class: 'active-class'
             };
 
             // Act
@@ -220,11 +226,11 @@ describe("activeBehavior", () => {
             expect(mockElement.classList.add).not.toHaveBeenCalled();
         });
 
-        test("Should work with null/undefined router input.", () => {
+        test('Should work with null/undefined router input.', () => {
             // Arrange
             const activeState: ActiveState & { key: string } = {
-                key: "test-route",
-                class: "active-class"
+                key: 'test-route',
+                class: 'active-class'
             };
 
             // Act
@@ -239,9 +245,9 @@ describe("activeBehavior", () => {
             expect(mockElement.classList.add).not.toHaveBeenCalled();
         });
 
-        test("Should handle activeState with no class property.", () => {
+        test('Should handle activeState with no class property.', () => {
             // Arrange
-            const routeKey = "test-route";
+            const routeKey = 'test-route';
             const routeStatus: Record<string, RouteStatus> = {
                 [routeKey]: {
                     match: true,
@@ -250,7 +256,7 @@ describe("activeBehavior", () => {
             };
             const activeState: ActiveState & { key: string } = {
                 key: routeKey,
-                style: "color: red;"
+                style: 'color: red;'
             };
 
             // Act
@@ -262,9 +268,9 @@ describe("activeBehavior", () => {
             expect(mockElement.classList.add).not.toHaveBeenCalled();
         });
 
-        test("Should handle activeState with no style property.", () => {
+        test('Should handle activeState with no style property.', () => {
             // Arrange
-            const routeKey = "test-route";
+            const routeKey = 'test-route';
             const routeStatus: Record<string, RouteStatus> = {
                 [routeKey]: {
                     match: true,
@@ -273,7 +279,7 @@ describe("activeBehavior", () => {
             };
             const activeState: ActiveState & { key: string } = {
                 key: routeKey,
-                class: "active-class"
+                class: 'active-class'
             };
 
             // Act
@@ -285,12 +291,12 @@ describe("activeBehavior", () => {
             expect(mockElement.classList.add).toHaveBeenCalledWith('active-class');
         });
 
-        test("Should handle empty activeState key.", () => {
+        test('Should handle empty activeState key.', () => {
             // Arrange
             const routeStatus: Record<string, RouteStatus> = {};
             const activeState: ActiveState & { key: string } = {
-                key: "",
-                class: "active-class"
+                key: '',
+                class: 'active-class'
             };
 
             // Act
@@ -303,14 +309,17 @@ describe("activeBehavior", () => {
         });
     });
 
-    describe("Class value processing", () => {
+    describe('Class value processing', () => {
         test.each([
-            { classValue: "single-class", description: "string class" },
-            { classValue: ["class1", "class2"], description: "array of classes" },
-            { classValue: { active: true, disabled: false }, description: "object with boolean values" }
-        ])("Should process $description through clsx correctly.", ({ classValue }) => {
+            { classValue: 'single-class', description: 'string class' },
+            { classValue: ['class1', 'class2'], description: 'array of classes' },
+            {
+                classValue: { active: true, disabled: false },
+                description: 'object with boolean values'
+            }
+        ])('Should process $description through clsx correctly.', ({ classValue }) => {
             // Arrange
-            const routeKey = "test-route";
+            const routeKey = 'test-route';
             const routeStatus: Record<string, RouteStatus> = {
                 [routeKey]: {
                     match: true,
@@ -327,15 +336,17 @@ describe("activeBehavior", () => {
             attachment(mockElement);
 
             // Assert - clsx should process the class value and add it to classList if non-empty
-            const processedClass = clsx(classValue).split(' ').filter(c => c.trim().length > 0);
+            const processedClass = clsx(classValue)
+                .split(' ')
+                .filter((c) => c.trim().length > 0);
             expect(mockElement.classList.add).toHaveBeenCalledWith(...processedClass);
         });
     });
 
-    describe("Style handling", () => {
-        test("Should handle joinStyles returning null/undefined.", () => {
+    describe('Style handling', () => {
+        test('Should handle joinStyles returning null/undefined.', () => {
             // Arrange
-            const routeKey = "test-route";
+            const routeKey = 'test-route';
             const routeStatus: Record<string, RouteStatus> = {
                 [routeKey]: {
                     match: true,
@@ -344,8 +355,8 @@ describe("activeBehavior", () => {
             };
             const activeState: ActiveState & { key: string } = {
                 key: routeKey,
-                class: "active-class",
-                style: "color: red;"
+                class: 'active-class',
+                style: 'color: red;'
             };
 
             // Act
@@ -356,9 +367,9 @@ describe("activeBehavior", () => {
             expect(mockElement.setAttribute).toHaveBeenCalledWith('style', expect.any(String));
         });
 
-        test("Should preserve base style parameter.", () => {
+        test('Should preserve base style parameter.', () => {
             // Arrange
-            const routeKey = "test-route";
+            const routeKey = 'test-route';
             const routeStatus: Record<string, RouteStatus> = {
                 [routeKey]: {
                     match: true,
@@ -367,17 +378,20 @@ describe("activeBehavior", () => {
             };
             const activeState: ActiveState & { key: string } = {
                 key: routeKey,
-                class: "active-class",
-                style: "color: red;"
+                class: 'active-class',
+                style: 'color: red;'
             };
-            const baseStyle = "background: blue; font-size: 14px;";
+            const baseStyle = 'background: blue; font-size: 14px;';
 
             // Act
             const attachment = activeBehavior(routeStatus, activeState, baseStyle);
             const cleanup = attachment(mockElement);
 
             // Assert: Should combine base style with active style
-            expect(mockElement.setAttribute).toHaveBeenCalledWith('style', expect.stringContaining('background: blue'));
+            expect(mockElement.setAttribute).toHaveBeenCalledWith(
+                'style',
+                expect.stringContaining('background: blue')
+            );
 
             // Act: Test cleanup restores baseStyle
             cleanup?.();
@@ -385,9 +399,9 @@ describe("activeBehavior", () => {
             expect(mockElement.setAttribute).toHaveBeenLastCalledWith('style', baseStyle);
         });
 
-        test("Should default to empty string when no base style is provided.", () => {
+        test('Should default to empty string when no base style is provided.', () => {
             // Arrange
-            const routeKey = "test-route";
+            const routeKey = 'test-route';
             const routeStatus: Record<string, RouteStatus> = {
                 [routeKey]: {
                     match: true,
@@ -396,7 +410,7 @@ describe("activeBehavior", () => {
             };
             const activeState: ActiveState & { key: string } = {
                 key: routeKey,
-                style: "color: red;"
+                style: 'color: red;'
             };
 
             // Act
@@ -408,10 +422,10 @@ describe("activeBehavior", () => {
         });
     });
 
-    describe("ARIA attributes", () => {
-        test("Should apply aria attributes when route is active.", () => {
+    describe('ARIA attributes', () => {
+        test('Should apply aria attributes when route is active.', () => {
             // Arrange
-            const routeKey = "test-route";
+            const routeKey = 'test-route';
             const routeStatus: Record<string, RouteStatus> = {
                 [routeKey]: {
                     match: true,
@@ -420,9 +434,9 @@ describe("activeBehavior", () => {
             };
             const activeState: ActiveState & { key: string } = {
                 key: routeKey,
-                class: "active-class",
-                style: "color: red;",
-                aria: { current: "page", selected: "true" }
+                class: 'active-class',
+                style: 'color: red;',
+                aria: { current: 'page', selected: 'true' }
             };
 
             // Act
@@ -430,17 +444,17 @@ describe("activeBehavior", () => {
             attachment(mockElement);
 
             // Assert
-            expect(mockElement.setAttribute).toHaveBeenCalledWith("aria-current", "page");
-            expect(mockElement.setAttribute).toHaveBeenCalledWith("aria-selected", "true");
+            expect(mockElement.setAttribute).toHaveBeenCalledWith('aria-current', 'page');
+            expect(mockElement.setAttribute).toHaveBeenCalledWith('aria-selected', 'true');
         });
 
-        test("Should not apply aria attributes when route is not active.", () => {
+        test('Should not apply aria attributes when route is not active.', () => {
             // Arrange
             const routeStatus: Record<string, RouteStatus> = {}; // Empty - route not found
             const activeState: ActiveState & { key: string } = {
-                key: "test-route",
-                class: "active-class",
-                aria: { current: "page", selected: "true" }
+                key: 'test-route',
+                class: 'active-class',
+                aria: { current: 'page', selected: 'true' }
             };
 
             // Act
@@ -448,13 +462,13 @@ describe("activeBehavior", () => {
             attachment(mockElement);
 
             // Assert
-            expect(mockElement.setAttribute).not.toHaveBeenCalledWith("aria-current", "page");
-            expect(mockElement.setAttribute).not.toHaveBeenCalledWith("aria-selected", "true");
+            expect(mockElement.setAttribute).not.toHaveBeenCalledWith('aria-current', 'page');
+            expect(mockElement.setAttribute).not.toHaveBeenCalledWith('aria-selected', 'true');
         });
 
-        test("Should remove aria attributes during cleanup.", () => {
+        test('Should remove aria attributes during cleanup.', () => {
             // Arrange
-            const routeKey = "test-route";
+            const routeKey = 'test-route';
             const routeStatus: Record<string, RouteStatus> = {
                 [routeKey]: {
                     match: true,
@@ -463,8 +477,8 @@ describe("activeBehavior", () => {
             };
             const activeState: ActiveState & { key: string } = {
                 key: routeKey,
-                class: "active-class",
-                aria: { current: "page", selected: "true" }
+                class: 'active-class',
+                aria: { current: 'page', selected: 'true' }
             };
 
             // Act
@@ -473,13 +487,13 @@ describe("activeBehavior", () => {
             cleanup?.();
 
             // Assert
-            expect(mockElement.removeAttribute).toHaveBeenCalledWith("aria-current");
-            expect(mockElement.removeAttribute).toHaveBeenCalledWith("aria-selected");
+            expect(mockElement.removeAttribute).toHaveBeenCalledWith('aria-current');
+            expect(mockElement.removeAttribute).toHaveBeenCalledWith('aria-selected');
         });
 
-        test("Should handle activeState without aria attributes.", () => {
+        test('Should handle activeState without aria attributes.', () => {
             // Arrange
-            const routeKey = "test-route";
+            const routeKey = 'test-route';
             const routeStatus: Record<string, RouteStatus> = {
                 [routeKey]: {
                     match: true,
@@ -488,8 +502,8 @@ describe("activeBehavior", () => {
             };
             const activeState: ActiveState & { key: string } = {
                 key: routeKey,
-                class: "active-class",
-                style: "color: red;"
+                class: 'active-class',
+                style: 'color: red;'
                 // No aria property
             };
 
@@ -498,9 +512,9 @@ describe("activeBehavior", () => {
             expect(() => attachment(mockElement)).not.toThrow();
         });
 
-        test("Should handle empty aria object.", () => {
+        test('Should handle empty aria object.', () => {
             // Arrange
-            const routeKey = "test-route";
+            const routeKey = 'test-route';
             const routeStatus: Record<string, RouteStatus> = {
                 [routeKey]: {
                     match: true,
@@ -509,7 +523,7 @@ describe("activeBehavior", () => {
             };
             const activeState: ActiveState & { key: string } = {
                 key: routeKey,
-                class: "active-class",
+                class: 'active-class',
                 aria: {} // Empty aria object
             };
 
@@ -519,12 +533,12 @@ describe("activeBehavior", () => {
         });
     });
 
-    describe("Reactivity", () => {
-        describe("Property Change", () => {
+    describe('Reactivity', () => {
+        describe('Property Change', () => {
             test("Should apply the new styles whenever 'activeState.style' changes.", async () => {
                 // Arrange.
-                const newStyle = "color: blue;";
-                const routeKey = "home";
+                const newStyle = 'color: blue;';
+                const routeKey = 'home';
                 const routeStatus: Record<string, RouteStatus> = {
                     [routeKey]: {
                         match: true,
@@ -545,14 +559,14 @@ describe("activeBehavior", () => {
                 });
 
                 // Assert.
-                const el = getByTestId("subject");
+                const el = getByTestId('subject');
                 expect(el.getAttribute('style')).toBe(newStyle);
             });
 
             test("Should apply the new class whenever 'activeState.class' changes.", async () => {
                 // Arrange.
-                const newClass = "new-active-class";
-                const routeKey = "home";
+                const newClass = 'new-active-class';
+                const routeKey = 'home';
                 const routeStatus: Record<string, RouteStatus> = {
                     [routeKey]: {
                         match: true,
@@ -573,14 +587,14 @@ describe("activeBehavior", () => {
                 });
 
                 // Assert.
-                const el = getByTestId("subject");
+                const el = getByTestId('subject');
                 expect(el.classList.contains(newClass)).toBe(true);
             });
 
             test("Should apply new ARIA attributes whenever 'activeState.aria' changes.", async () => {
                 // Arrange.
-                const newAria = { current: "page" as const, selected: true };
-                const routeKey = "home";
+                const newAria = { current: 'page' as const, selected: true };
+                const routeKey = 'home';
                 const routeStatus: Record<string, RouteStatus> = {
                     [routeKey]: {
                         match: true,
@@ -601,14 +615,14 @@ describe("activeBehavior", () => {
                 });
 
                 // Assert.
-                const el = getByTestId("subject");
-                expect(el.getAttribute("aria-current")).toBe("page");
-                expect(el.getAttribute("aria-selected")).toBe("true");
+                const el = getByTestId('subject');
+                expect(el.getAttribute('aria-current')).toBe('page');
+                expect(el.getAttribute('aria-selected')).toBe('true');
             });
 
-            test("Should remove styles when route becomes inactive.", async () => {
+            test('Should remove styles when route becomes inactive.', async () => {
                 // Arrange.
-                const routeKey = "home";
+                const routeKey = 'home';
                 const activeRouteStatus: Record<string, RouteStatus> = {
                     [routeKey]: {
                         match: true,
@@ -620,26 +634,26 @@ describe("activeBehavior", () => {
                     props: {
                         routeStatus: activeRouteStatus,
                         key: routeKey,
-                        activeState: { style: "color: red;", class: "active-class" }
+                        activeState: { style: 'color: red;', class: 'active-class' }
                     }
                 });
 
                 // Act.
                 await rerender({
-                    routeStatus: inactiveRouteStatus,
+                    routeStatus: inactiveRouteStatus
                 });
 
                 // Assert.
-                const el = getByTestId("subject");
+                const el = getByTestId('subject');
                 expect(el.getAttribute('style')).toBe(''); // When inactive, no style is applied
-                expect(el.classList.contains("active-class")).toBe(false);
+                expect(el.classList.contains('active-class')).toBe(false);
             });
 
-            test("Should apply new base style when route is inactive then becomes active.", async () => {
+            test('Should apply new base style when route is inactive then becomes active.', async () => {
                 // Arrange.
-                const initialBaseStyle = "background: white;";
-                const newBaseStyle = "background: gray; margin: 10px;";
-                const routeKey = "home";
+                const initialBaseStyle = 'background: white;';
+                const newBaseStyle = 'background: gray; margin: 10px;';
+                const routeKey = 'home';
                 const inactiveRouteStatus: Record<string, RouteStatus> = {}; // No matching route
                 const activeRouteStatus: Record<string, RouteStatus> = {
                     [routeKey]: {
@@ -651,45 +665,47 @@ describe("activeBehavior", () => {
                     props: {
                         routeStatus: inactiveRouteStatus,
                         key: routeKey,
-                        activeState: { style: "color: red;" },
+                        activeState: { style: 'color: red;' },
                         style: initialBaseStyle
                     }
                 });
 
                 // Initially should have no style since route is inactive
-                let el = getByTestId("subject");
+                let el = getByTestId('subject');
                 expect(el.getAttribute('style')).toBe(null);
 
                 // Act 1 - Change base style while inactive
                 await rerender({
                     routeStatus: inactiveRouteStatus,
                     key: routeKey,
-                    activeState: { style: "color: red;" },
+                    activeState: { style: 'color: red;' },
                     style: newBaseStyle
                 });
 
                 // Still inactive - no immediate visual change
-                el = getByTestId("subject");
+                el = getByTestId('subject');
                 expect(el.getAttribute('style')).toBe(null);
 
                 // Act 2 - Activate route
                 await rerender({
                     routeStatus: activeRouteStatus,
                     key: routeKey,
-                    activeState: { style: "color: red;" },
+                    activeState: { style: 'color: red;' },
                     style: newBaseStyle
                 });
 
                 // Assert - should now show the updated base style + active style
-                el = getByTestId("subject");
-                expect(el.getAttribute('style')).toBe("background: gray; margin: 10px; color: red;");
+                el = getByTestId('subject');
+                expect(el.getAttribute('style')).toBe(
+                    'background: gray; margin: 10px; color: red;'
+                );
             });
 
-            test("Should preserve new base style when route becomes active then inactive (baseStyle is reactive).", async () => {
+            test('Should preserve new base style when route becomes active then inactive (baseStyle is reactive).', async () => {
                 // Arrange.
-                const initialBaseStyle = "background: white;";
-                const newBaseStyle = "background: gray; margin: 10px;";
-                const routeKey = "home";
+                const initialBaseStyle = 'background: white;';
+                const newBaseStyle = 'background: gray; margin: 10px;';
+                const routeKey = 'home';
                 const inactiveRouteStatus: Record<string, RouteStatus> = {};
                 const activeRouteStatus: Record<string, RouteStatus> = {
                     [routeKey]: {
@@ -701,7 +717,7 @@ describe("activeBehavior", () => {
                     props: {
                         routeStatus: inactiveRouteStatus,
                         key: routeKey,
-                        activeState: { style: "color: red;" },
+                        activeState: { style: 'color: red;' },
                         style: initialBaseStyle
                     }
                 });
@@ -710,7 +726,7 @@ describe("activeBehavior", () => {
                 await rerender({
                     routeStatus: inactiveRouteStatus,
                     key: routeKey,
-                    activeState: { style: "color: red;" },
+                    activeState: { style: 'color: red;' },
                     style: newBaseStyle
                 });
 
@@ -718,32 +734,34 @@ describe("activeBehavior", () => {
                 await rerender({
                     routeStatus: activeRouteStatus,
                     key: routeKey,
-                    activeState: { style: "color: red;" },
+                    activeState: { style: 'color: red;' },
                     style: newBaseStyle
                 });
 
                 // Should have combined styles
-                let el = getByTestId("subject");
-                expect(el.getAttribute('style')).toBe("background: gray; margin: 10px; color: red;");
+                let el = getByTestId('subject');
+                expect(el.getAttribute('style')).toBe(
+                    'background: gray; margin: 10px; color: red;'
+                );
 
                 // Act 3 - Deactivate route
                 await rerender({
                     routeStatus: inactiveRouteStatus,
                     key: routeKey,
-                    activeState: { style: "color: red;" },
+                    activeState: { style: 'color: red;' },
                     style: newBaseStyle
                 });
 
                 // Assert - should restore the new base style (baseStyle is reactive!)
-                el = getByTestId("subject");
+                el = getByTestId('subject');
                 expect(el.getAttribute('style')).toBe(newBaseStyle);
             });
 
-            test("Should handle base style changes while route is active.", async () => {
+            test('Should handle base style changes while route is active.', async () => {
                 // Arrange.
-                const initialBaseStyle = "background: white;";
-                const newBaseStyle = "background: gray; margin: 10px;";
-                const routeKey = "home";
+                const initialBaseStyle = 'background: white;';
+                const newBaseStyle = 'background: gray; margin: 10px;';
+                const routeKey = 'home';
                 const activeRouteStatus: Record<string, RouteStatus> = {
                     [routeKey]: {
                         match: true,
@@ -754,34 +772,36 @@ describe("activeBehavior", () => {
                     props: {
                         routeStatus: activeRouteStatus,
                         key: routeKey,
-                        activeState: { style: "color: red;" },
+                        activeState: { style: 'color: red;' },
                         style: initialBaseStyle
                     }
                 });
 
                 // Initially active with initial base style
-                let el = getByTestId("subject");
-                expect(el.getAttribute('style')).toBe("background: white; color: red;");
+                let el = getByTestId('subject');
+                expect(el.getAttribute('style')).toBe('background: white; color: red;');
 
                 // Act - Change base style while active
                 await rerender({
                     routeStatus: activeRouteStatus,
                     key: routeKey,
-                    activeState: { style: "color: red;" },
+                    activeState: { style: 'color: red;' },
                     style: newBaseStyle
                 });
 
                 // Assert - should have new combined style
-                el = getByTestId("subject");
-                expect(el.getAttribute('style')).toBe("background: gray; margin: 10px; color: red;");
+                el = getByTestId('subject');
+                expect(el.getAttribute('style')).toBe(
+                    'background: gray; margin: 10px; color: red;'
+                );
             });
         });
 
-        describe("State Change", () => {
+        describe('State Change', () => {
             test("Should apply the new styles whenever 'activeState.style' changes.", () => {
                 // Arrange.
-                const newStyle = "color: blue;";
-                const routeKey = "home";
+                const newStyle = 'color: blue;';
+                const routeKey = 'home';
                 const routeStatus = $state<Record<string, RouteStatus>>({
                     [routeKey]: {
                         match: true,
@@ -803,14 +823,14 @@ describe("activeBehavior", () => {
                 flushSync();
 
                 // Assert.
-                const el = getByTestId("subject");
+                const el = getByTestId('subject');
                 expect(el.getAttribute('style')).toBe(newStyle);
             });
 
             test("Should apply the new class whenever 'activeState.class' changes.", () => {
                 // Arrange.
-                const newClass = "new-active-class";
-                const routeKey = "home";
+                const newClass = 'new-active-class';
+                const routeKey = 'home';
                 const routeStatus = $state<Record<string, RouteStatus>>({
                     [routeKey]: {
                         match: true,
@@ -832,14 +852,14 @@ describe("activeBehavior", () => {
                 flushSync();
 
                 // Assert.
-                const el = getByTestId("subject");
+                const el = getByTestId('subject');
                 expect(el.classList.contains(newClass)).toBe(true);
             });
 
             test("Should apply new ARIA attributes whenever 'activeState.aria' changes.", () => {
                 // Arrange.
-                const newAria = { current: "page" as const, selected: true };
-                const routeKey = "home";
+                const newAria = { current: 'page' as const, selected: true };
+                const routeKey = 'home';
                 const routeStatus = $state<Record<string, RouteStatus>>({
                     [routeKey]: {
                         match: true,
@@ -861,18 +881,18 @@ describe("activeBehavior", () => {
                 flushSync();
 
                 // Assert.
-                const el = getByTestId("subject");
-                expect(el.getAttribute("aria-current")).toBe("page");
-                expect(el.getAttribute("aria-selected")).toBe("true");
+                const el = getByTestId('subject');
+                expect(el.getAttribute('aria-current')).toBe('page');
+                expect(el.getAttribute('aria-selected')).toBe('true');
             });
 
-            test("Should respond to routeStatus changes.", () => {
+            test('Should respond to routeStatus changes.', () => {
                 // Arrange.
-                const routeKey = "home";
+                const routeKey = 'home';
                 const routeStatus = $state<Record<string, RouteStatus>>({});
                 const activeState = $state<ActiveState>({
-                    style: "color: red;",
-                    class: "active-class"
+                    style: 'color: red;',
+                    class: 'active-class'
                 });
                 const key = $state(routeKey);
                 const { getByTestId } = render(TestActiveBehavior, {
@@ -884,9 +904,9 @@ describe("activeBehavior", () => {
                 });
 
                 // Initially inactive
-                let el = getByTestId("subject");
+                let el = getByTestId('subject');
                 expect(el.getAttribute('style')).toBe(null);
-                expect(el.classList.contains("active-class")).toBe(false);
+                expect(el.classList.contains('active-class')).toBe(false);
 
                 // Act - activate route
                 routeStatus[routeKey] = {
@@ -896,15 +916,15 @@ describe("activeBehavior", () => {
                 flushSync();
 
                 // Assert.
-                el = getByTestId("subject");
-                expect(el.getAttribute('style')).toBe("color: red;");
-                expect(el.classList.contains("active-class")).toBe(true);
+                el = getByTestId('subject');
+                expect(el.getAttribute('style')).toBe('color: red;');
+                expect(el.classList.contains('active-class')).toBe(true);
             });
 
-            test("Should respond to key changes.", () => {
+            test('Should respond to key changes.', () => {
                 // Arrange.
-                const oldKey = "home";
-                const newKey = "about";
+                const oldKey = 'home';
+                const newKey = 'about';
                 const routeStatus = $state<Record<string, RouteStatus>>({
                     [newKey]: {
                         match: true,
@@ -912,60 +932,70 @@ describe("activeBehavior", () => {
                     }
                 });
                 const activeState = $state<ActiveState>({
-                    style: "color: red;",
-                    class: "active-class"
+                    style: 'color: red;',
+                    class: 'active-class'
                 });
                 let key = $state(oldKey); // Start with inactive key
                 const { getByTestId } = render(TestActiveBehavior, {
                     props: {
                         routeStatus,
-                        get key() { return key; },
-                        activeState,
+                        get key() {
+                            return key;
+                        },
+                        activeState
                     }
                 });
 
                 // Initially inactive
-                let el = getByTestId("subject");
+                let el = getByTestId('subject');
                 expect(el.getAttribute('style')).toBe(null);
-                expect(el.classList.contains("active-class")).toBe(false);
+                expect(el.classList.contains('active-class')).toBe(false);
 
                 // Act - change key to active one
                 key = newKey;
                 flushSync();
 
                 // Assert.
-                el = getByTestId("subject");
-                expect(el.getAttribute('style')).toBe("color: red;");
-                expect(el.classList.contains("active-class")).toBe(true);
+                el = getByTestId('subject');
+                expect(el.getAttribute('style')).toBe('color: red;');
+                expect(el.classList.contains('active-class')).toBe(true);
             });
-            
-            test("Should apply new base style when route is inactive then becomes active.", () => {
+
+            test('Should apply new base style when route is inactive then becomes active.', () => {
                 // Arrange.
-                const routeKey = "home";
+                const routeKey = 'home';
                 const routeStatus = $state<Record<string, RouteStatus>>({});
-                const activeState = $state<ActiveState>({ style: "color: red;" });
+                const activeState = $state<ActiveState>({ style: 'color: red;' });
                 const key = $state(routeKey);
-                let baseStyle = $state("background: white;");
+                let baseStyle = $state('background: white;');
 
                 const { getByTestId } = render(TestActiveBehavior, {
                     props: {
-                        get routeStatus() { return routeStatus; },
-                        get key() { return key; },
-                        get activeState() { return activeState; },
-                        get style() { return baseStyle; }
+                        get routeStatus() {
+                            return routeStatus;
+                        },
+                        get key() {
+                            return key;
+                        },
+                        get activeState() {
+                            return activeState;
+                        },
+                        get style() {
+                            return baseStyle;
+                        }
                     }
                 });
 
                 // Initially inactive - no style applied
-                let el = getByTestId("subject");
+                let el = getByTestId('subject');
                 expect(el.getAttribute('style')).toBe(null);
 
                 // Act 1 - Change base style while inactive
-                baseStyle = "background: gray; margin: 10px;";
+                baseStyle = 'background: gray; margin: 10px;';
                 flushSync();
 
                 // Still inactive - no immediate visual change
-                el = getByTestId("subject");
+                el = getByTestId('subject');
                 expect(el.getAttribute('style')).toBe(null);
 
                 // Act 2 - Activate route
@@ -976,29 +1006,39 @@ describe("activeBehavior", () => {
                 flushSync();
 
                 // Assert - should now show the updated base style + active style
-                el = getByTestId("subject");
-                expect(el.getAttribute('style')).toBe("background: gray; margin: 10px; color: red;");
+                el = getByTestId('subject');
+                expect(el.getAttribute('style')).toBe(
+                    'background: gray; margin: 10px; color: red;'
+                );
             });
 
-            test("Should preserve new base style through active/inactive transitions (baseStyle is reactive).", () => {
+            test('Should preserve new base style through active/inactive transitions (baseStyle is reactive).', () => {
                 // Arrange.
-                const routeKey = "home";
+                const routeKey = 'home';
                 const routeStatus = $state<Record<string, RouteStatus>>({});
-                const activeState = $state<ActiveState>({ style: "color: red;" });
+                const activeState = $state<ActiveState>({ style: 'color: red;' });
                 const key = $state(routeKey);
-                let baseStyle = $state("background: white;");
+                let baseStyle = $state('background: white;');
 
                 const { getByTestId } = render(TestActiveBehavior, {
                     props: {
-                        get routeStatus() { return routeStatus; },
-                        get key() { return key; },
-                        get activeState() { return activeState; },
-                        get style() { return baseStyle; }
+                        get routeStatus() {
+                            return routeStatus;
+                        },
+                        get key() {
+                            return key;
+                        },
+                        get activeState() {
+                            return activeState;
+                        },
+                        get style() {
+                            return baseStyle;
+                        }
                     }
                 });
 
                 // Act 1 - Change base style while inactive
-                baseStyle = "background: gray; margin: 10px;";
+                baseStyle = 'background: gray; margin: 10px;';
                 flushSync();
 
                 // Act 2 - Activate route
@@ -1009,51 +1049,63 @@ describe("activeBehavior", () => {
                 flushSync();
 
                 // Should have combined styles
-                let el = getByTestId("subject");
-                expect(el.getAttribute('style')).toBe("background: gray; margin: 10px; color: red;");
+                let el = getByTestId('subject');
+                expect(el.getAttribute('style')).toBe(
+                    'background: gray; margin: 10px; color: red;'
+                );
 
                 // Act 3 - Deactivate route
                 delete routeStatus[routeKey];
                 flushSync();
 
                 // Assert - should restore the new base style (baseStyle is reactive!)
-                el = getByTestId("subject");
-                expect(el.getAttribute('style')).toBe("background: gray; margin: 10px;");
+                el = getByTestId('subject');
+                expect(el.getAttribute('style')).toBe('background: gray; margin: 10px;');
             });
 
-            test("Should handle base style changes while route is active.", () => {
+            test('Should handle base style changes while route is active.', () => {
                 // Arrange.
-                const routeKey = "home";
+                const routeKey = 'home';
                 const routeStatus = $state<Record<string, RouteStatus>>({
                     [routeKey]: {
                         match: true,
                         routeParams: undefined
                     }
                 });
-                const activeState = $state<ActiveState>({ style: "color: red;" });
+                const activeState = $state<ActiveState>({ style: 'color: red;' });
                 const key = $state(routeKey);
-                let baseStyle = $state("background: white;");
+                let baseStyle = $state('background: white;');
 
                 const { getByTestId } = render(TestActiveBehavior, {
                     props: {
-                        get routeStatus() { return routeStatus; },
-                        get key() { return key; },
-                        get activeState() { return activeState; },
-                        get style() { return baseStyle; }
+                        get routeStatus() {
+                            return routeStatus;
+                        },
+                        get key() {
+                            return key;
+                        },
+                        get activeState() {
+                            return activeState;
+                        },
+                        get style() {
+                            return baseStyle;
+                        }
                     }
                 });
 
                 // Initially active with initial base style
-                let el = getByTestId("subject");
-                expect(el.getAttribute('style')).toBe("background: white; color: red;");
+                let el = getByTestId('subject');
+                expect(el.getAttribute('style')).toBe('background: white; color: red;');
 
                 // Act - Change base style while active
-                baseStyle = "background: gray; margin: 10px;";
+                baseStyle = 'background: gray; margin: 10px;';
                 flushSync();
 
                 // Assert - should have new combined style
-                el = getByTestId("subject");
-                expect(el.getAttribute('style')).toBe("background: gray; margin: 10px; color: red;");
+                el = getByTestId('subject');
+                expect(el.getAttribute('style')).toBe(
+                    'background: gray; margin: 10px; color: red;'
+                );
             });
         });
     });

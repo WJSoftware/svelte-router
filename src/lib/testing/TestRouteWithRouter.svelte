@@ -1,8 +1,8 @@
 <script lang="ts">
-    import Router from "$lib/Router/Router.svelte";
-    import Route from "$lib/Route/Route.svelte";
-    import type { Snippet } from "svelte";
-    
+    import Router from '$lib/Router/Router.svelte';
+    import Route from '$lib/Route/Route.svelte';
+    import type { Snippet } from 'svelte';
+
     interface Props {
         hash?: boolean | string;
         routeKey?: string;
@@ -15,11 +15,11 @@
         routerInstance?: any;
         params?: any;
     }
-    
-    let { 
+
+    let {
         hash,
-        routeKey = "test-route",
-        routePath,  // No default - let it be undefined
+        routeKey = 'test-route',
+        routePath, // No default - let it be undefined
         routeAnd,
         ignoreForFallback,
         caseSensitive,
@@ -31,7 +31,7 @@
 </script>
 
 <Router {hash} bind:router={routerInstance}>
-    <Route 
+    <Route
         key={routeKey}
         path={routePath}
         and={routeAnd}

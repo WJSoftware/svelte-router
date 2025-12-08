@@ -1,9 +1,9 @@
-import { describe, expect, test } from "vitest";
-import { routingOptions } from "./kernel/options.js";
-import { location } from "./kernel/Location.js";
+import { describe, expect, test } from 'vitest';
+import { routingOptions } from './kernel/options.js';
+import { location } from './kernel/Location.js';
 
 describe('index', () => {
-    test("Should export exactly the expected objects.", async () => {
+    test('Should export exactly the expected objects.', async () => {
         // Arrange.
         const expectedList = [
             'Link',
@@ -21,7 +21,7 @@ describe('index', () => {
             'activeBehavior',
             'Redirector',
             'buildHref',
-            'joinPaths',
+            'joinPaths'
         ];
 
         // Act.
@@ -32,17 +32,20 @@ describe('index', () => {
             expect(item in lib, `The expected object ${item} is not exported.`).toEqual(true);
         }
         for (let key of Object.keys(lib)) {
-            expect(expectedList.includes(key), `The library exports object ${key}, which is not expected.`).toEqual(true);
+            expect(
+                expectedList.includes(key),
+                `The library exports object ${key}, which is not expected.`
+            ).toEqual(true);
         }
     });
 
-    test("Should have default routing options in uninitialized state.", () => {
+    test('Should have default routing options in uninitialized state.', () => {
         // Assert.
         expect(routingOptions.hashMode).toBe('single');
         expect(routingOptions.defaultHash).toBe(false);
     });
 
-    test("Should have no location in uninitialized state.", () => {
+    test('Should have no location in uninitialized state.', () => {
         // Assert.
         expect(location).toBeUndefined();
     });

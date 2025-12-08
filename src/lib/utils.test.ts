@@ -1,21 +1,23 @@
-import { afterEach, describe, expect, test, vi } from "vitest";
-import { assertAllowedRoutingMode, expandAriaAttributes, noTrailingSlash } from "./utils.js";
-import { ALL_HASHES } from "$test/test-utils.js";
-import { resetRoutingOptions, setRoutingOptions } from "./kernel/options.js";
-import type { ActiveStateAriaAttributes, ExtendedRoutingOptions, Hash } from "./types.js";
-import type { AriaAttributes } from "svelte/elements";
+import { afterEach, describe, expect, test, vi } from 'vitest';
+import { assertAllowedRoutingMode, expandAriaAttributes, noTrailingSlash } from './utils.js';
+import { ALL_HASHES } from '$test/test-utils.js';
+import { resetRoutingOptions, setRoutingOptions } from './kernel/options.js';
+import type { ActiveStateAriaAttributes, ExtendedRoutingOptions, Hash } from './types.js';
+import type { AriaAttributes } from 'svelte/elements';
 
-const hashValues = Object.values(ALL_HASHES).filter(x => x !== undefined);
+const hashValues = Object.values(ALL_HASHES).filter((x) => x !== undefined);
 
-describe("assertAllowedRoutingMode", () => {
+describe('assertAllowedRoutingMode', () => {
     afterEach(() => {
         resetRoutingOptions();
     });
 
-    test.each(hashValues)
-        ("Should not throw when all routing modes are allowed (hash=%s).", (hash) => {
+    test.each(hashValues)(
+        'Should not throw when all routing modes are allowed (hash=%s).',
+        (hash) => {
             expect(() => assertAllowedRoutingMode(hash)).not.toThrow();
-        });
+        }
+    );
 
     test.each<{
         options: Partial<ExtendedRoutingOptions>;
@@ -23,30 +25,33 @@ describe("assertAllowedRoutingMode", () => {
     }>([
         {
             options: {
-                disallowHashRouting: true,
+                disallowHashRouting: true
             },
-            hash: ALL_HASHES.single,
+            hash: ALL_HASHES.single
         },
         {
             options: {
-                disallowMultiHashRouting: true,
+                disallowMultiHashRouting: true
             },
-            hash: ALL_HASHES.multi,
+            hash: ALL_HASHES.multi
         },
         {
             options: {
-                disallowPathRouting: true,
+                disallowPathRouting: true
             },
-            hash: ALL_HASHES.path,
-        },
-    ])("Should throw when the specified routing mode is disallowed (hash=$hash).", ({ options, hash }) => {
-        setRoutingOptions(options);
-        expect(() => assertAllowedRoutingMode(hash)).toThrow();
-    });
+            hash: ALL_HASHES.path
+        }
+    ])(
+        'Should throw when the specified routing mode is disallowed (hash=$hash).',
+        ({ options, hash }) => {
+            setRoutingOptions(options);
+            expect(() => assertAllowedRoutingMode(hash)).toThrow();
+        }
+    );
 });
 
-describe("expandAriaAttributes", () => {
-    test("Should return undefined when input is undefined.", () => {
+describe('expandAriaAttributes', () => {
+    test('Should return undefined when input is undefined.', () => {
         // Act.
         const result = expandAriaAttributes(undefined);
 
@@ -59,13 +64,13 @@ describe("expandAriaAttributes", () => {
     }>([
         {
             input: { current: 'page' },
-            expected: { 'aria-current': 'page' },
+            expected: { 'aria-current': 'page' }
         },
         {
             input: { disabled: true, hidden: false },
-            expected: { 'aria-disabled': true, 'aria-hidden': false },
-        },
-    ])("Should expand $input as $expected .", ({ input, expected }) => {
+            expected: { 'aria-disabled': true, 'aria-hidden': false }
+        }
+    ])('Should expand $input as $expected .', ({ input, expected }) => {
         // Act.
         const result = expandAriaAttributes(input);
 
@@ -74,7 +79,7 @@ describe("expandAriaAttributes", () => {
     });
 });
 
-describe("noTrailingSlash", () => {
+describe('noTrailingSlash', () => {
     test.each<{
         input: string;
         expected: string;
@@ -83,8 +88,8 @@ describe("noTrailingSlash", () => {
         { input: '/path/to/resource/', expected: '/path/to/resource' },
         { input: '/path', expected: '/path' },
         { input: '/', expected: '/' },
-        { input: '', expected: '' },
-    ])("Should convert $input to $expected .", ({ input, expected }) => {
+        { input: '', expected: '' }
+    ])('Should convert $input to $expected .', ({ input, expected }) => {
         // Act.
         const result = noTrailingSlash(input);
 

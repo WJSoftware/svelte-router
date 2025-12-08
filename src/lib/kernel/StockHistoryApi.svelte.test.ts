@@ -1,9 +1,9 @@
-import { describe, test, expect, beforeEach, afterEach, vi } from "vitest";
-import { StockHistoryApi } from "./StockHistoryApi.svelte.js";
-import { setupBrowserMocks } from "$test/test-utils.js";
+import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
+import { StockHistoryApi } from './StockHistoryApi.svelte.js';
+import { setupBrowserMocks } from '$test/test-utils.js';
 
-describe("StockHistoryApi", () => {
-    const initialUrl = "http://example.com/";
+describe('StockHistoryApi', () => {
+    const initialUrl = 'http://example.com/';
     let historyApi: StockHistoryApi;
     let browserMocks: ReturnType<typeof setupBrowserMocks>;
 
@@ -17,8 +17,8 @@ describe("StockHistoryApi", () => {
         browserMocks.cleanup();
     });
 
-    describe("constructor", () => {
-        test("Should create a new instance with the expected default values.", () => {
+    describe('constructor', () => {
+        test('Should create a new instance with the expected default values.', () => {
             // Assert.
             expect(historyApi.url.href).toBe(initialUrl);
             expect(historyApi.state).toEqual({
@@ -27,12 +27,12 @@ describe("StockHistoryApi", () => {
             });
         });
 
-        test("Should accept initial URL and state parameters.", () => {
+        test('Should accept initial URL and state parameters.', () => {
             // Arrange.
-            const customUrl = "http://example.com/custom";
+            const customUrl = 'http://example.com/custom';
             const customState = {
-                path: { custom: "value" },
-                hash: { single: { data: "test" } }
+                path: { custom: 'value' },
+                hash: { single: { data: 'test' } }
             };
 
             // Act.
@@ -46,7 +46,7 @@ describe("StockHistoryApi", () => {
             customHistoryApi.dispose();
         });
 
-        test("Should set up event listeners for popstate and hashchange when window is available.", () => {
+        test('Should set up event listeners for popstate and hashchange when window is available.', () => {
             // Arrange.
             const addEventListenerSpy = vi.spyOn(globalThis.window, 'addEventListener');
 
@@ -54,8 +54,16 @@ describe("StockHistoryApi", () => {
             const testApi = new StockHistoryApi();
 
             // Assert.
-            expect(addEventListenerSpy).toHaveBeenCalledWith('popstate', expect.any(Function), expect.any(Object));
-            expect(addEventListenerSpy).toHaveBeenCalledWith('hashchange', expect.any(Function), expect.any(Object));
+            expect(addEventListenerSpy).toHaveBeenCalledWith(
+                'popstate',
+                expect.any(Function),
+                expect.any(Object)
+            );
+            expect(addEventListenerSpy).toHaveBeenCalledWith(
+                'hashchange',
+                expect.any(Function),
+                expect.any(Object)
+            );
 
             // Cleanup.
             testApi.dispose();
@@ -63,8 +71,8 @@ describe("StockHistoryApi", () => {
         });
     });
 
-    describe("Browser History API delegation", () => {
-        test("Should delegate length property to window.history.length.", () => {
+    describe('Browser History API delegation', () => {
+        test('Should delegate length property to window.history.length.', () => {
             // Arrange.
             const mockLength = 5;
             Object.defineProperty(globalThis.window.history, 'length', {
@@ -76,7 +84,7 @@ describe("StockHistoryApi", () => {
             expect(historyApi.length).toBe(mockLength);
         });
 
-        test("Should delegate scrollRestoration getter to window.history.scrollRestoration.", () => {
+        test('Should delegate scrollRestoration getter to window.history.scrollRestoration.', () => {
             // Arrange.
             globalThis.window.history.scrollRestoration = 'manual';
 
@@ -84,7 +92,7 @@ describe("StockHistoryApi", () => {
             expect(historyApi.scrollRestoration).toBe('manual');
         });
 
-        test("Should delegate scrollRestoration setter to window.history.scrollRestoration.", () => {
+        test('Should delegate scrollRestoration setter to window.history.scrollRestoration.', () => {
             // Act.
             historyApi.scrollRestoration = 'manual';
 
@@ -92,7 +100,7 @@ describe("StockHistoryApi", () => {
             expect(globalThis.window.history.scrollRestoration).toBe('manual');
         });
 
-        test("Should delegate back() to window.history.back().", () => {
+        test('Should delegate back() to window.history.back().', () => {
             // Arrange.
             const backSpy = vi.spyOn(globalThis.window.history, 'back');
 
@@ -103,7 +111,7 @@ describe("StockHistoryApi", () => {
             expect(backSpy).toHaveBeenCalled();
         });
 
-        test("Should delegate forward() to window.history.forward().", () => {
+        test('Should delegate forward() to window.history.forward().', () => {
             // Arrange.
             const forwardSpy = vi.spyOn(globalThis.window.history, 'forward');
 
@@ -114,7 +122,7 @@ describe("StockHistoryApi", () => {
             expect(forwardSpy).toHaveBeenCalled();
         });
 
-        test("Should delegate go() to window.history.go().", () => {
+        test('Should delegate go() to window.history.go().', () => {
             // Arrange.
             const goSpy = vi.spyOn(globalThis.window.history, 'go');
             const delta = 2;
@@ -127,31 +135,27 @@ describe("StockHistoryApi", () => {
         });
     });
 
-    describe("pushState", () => {
-        test("Should call window.history.pushState with the provided state.", () => {
+    describe('pushState', () => {
+        test('Should call window.history.pushState with the provided state.', () => {
             // Arrange.
             const pushStateSpy = vi.spyOn(globalThis.window.history, 'pushState');
-            const testState = { path: { custom: "data" }, hash: {} };
-            const testUrl = "/new/path";
+            const testState = { path: { custom: 'data' }, hash: {} };
+            const testUrl = '/new/path';
 
             // Act.
-            historyApi.pushState(testState, "", testUrl);
+            historyApi.pushState(testState, '', testUrl);
 
             // Assert.
-            expect(pushStateSpy).toHaveBeenCalledWith(
-                testState,
-                "",
-                testUrl
-            );
+            expect(pushStateSpy).toHaveBeenCalledWith(testState, '', testUrl);
         });
 
-        test("Should update internal URL and state after pushState.", () => {
+        test('Should update internal URL and state after pushState.', () => {
             // Arrange.
-            const testState = { path: { custom: "data" }, hash: {} };
-            const testUrl = "http://example.com/new/path";
+            const testState = { path: { custom: 'data' }, hash: {} };
+            const testUrl = 'http://example.com/new/path';
 
             // Act.
-            historyApi.pushState(testState, "", testUrl);
+            historyApi.pushState(testState, '', testUrl);
 
             // Assert.
             expect(historyApi.url.href).toBe(testUrl);
@@ -159,31 +163,27 @@ describe("StockHistoryApi", () => {
         });
     });
 
-    describe("replaceState", () => {
-        test("Should call window.history.replaceState with the provided state.", () => {
+    describe('replaceState', () => {
+        test('Should call window.history.replaceState with the provided state.', () => {
             // Arrange.
             const replaceStateSpy = vi.spyOn(globalThis.window.history, 'replaceState');
-            const testState = { path: { custom: "data" }, hash: {} };
-            const testUrl = "/replaced/path";
+            const testState = { path: { custom: 'data' }, hash: {} };
+            const testUrl = '/replaced/path';
 
             // Act.
-            historyApi.replaceState(testState, "", testUrl);
+            historyApi.replaceState(testState, '', testUrl);
 
             // Assert.
-            expect(replaceStateSpy).toHaveBeenCalledWith(
-                testState,
-                "",
-                testUrl
-            );
+            expect(replaceStateSpy).toHaveBeenCalledWith(testState, '', testUrl);
         });
 
-        test("Should update internal URL and state after replaceState.", () => {
+        test('Should update internal URL and state after replaceState.', () => {
             // Arrange.
-            const testState = { path: { custom: "data" }, hash: {} };
-            const testUrl = "http://example.com/replaced/path";
+            const testState = { path: { custom: 'data' }, hash: {} };
+            const testUrl = 'http://example.com/replaced/path';
 
             // Act.
-            historyApi.replaceState(testState, "", testUrl);
+            historyApi.replaceState(testState, '', testUrl);
 
             // Assert.
             expect(historyApi.url.href).toBe(testUrl);
@@ -191,13 +191,13 @@ describe("StockHistoryApi", () => {
         });
     });
 
-    describe("Event handling", () => {
-        test("Should update URL and state when popstate event occurs.", () => {
+    describe('Event handling', () => {
+        test('Should update URL and state when popstate event occurs.', () => {
             // Arrange.
-            const newUrl = "http://example.com/popstate-test";
+            const newUrl = 'http://example.com/popstate-test';
             const newState = {
-                path: { popped: "data" },
-                hash: { single: { test: "value" } }
+                path: { popped: 'data' },
+                hash: { single: { test: 'value' } }
             };
 
             // Act.
@@ -208,19 +208,19 @@ describe("StockHistoryApi", () => {
             expect(historyApi.state).toEqual(newState);
         });
 
-        test("Should preserve state when popstate event has null state.", () => {
+        test('Should preserve state when popstate event has null state.', () => {
             // Arrange.
             const initialState = {
-                path: { preserved: "data" },
-                hash: { single: { preserved: "hash-data" } }
+                path: { preserved: 'data' },
+                hash: { single: { preserved: 'hash-data' } }
             };
-            historyApi.replaceState(initialState.path, "", historyApi.url.href);
-            
+            historyApi.replaceState(initialState.path, '', historyApi.url.href);
+
             // Set hash state separately
             const newState = { ...initialState };
             historyApi['state'] = newState;
 
-            const newUrl = "http://example.com/null-state-test";
+            const newUrl = 'http://example.com/null-state-test';
 
             // Act.
             browserMocks.simulateHistoryChange(null, newUrl);
@@ -231,15 +231,15 @@ describe("StockHistoryApi", () => {
             expect(historyApi.state.hash).toEqual(initialState.hash);
         });
 
-        test("Should handle hashchange event by updating URL and clearing hash state.", () => {
+        test('Should handle hashchange event by updating URL and clearing hash state.', () => {
             // Arrange.
             const initialState = {
-                path: { preserved: "path-data" },
-                hash: { single: { cleared: "will-be-cleared" } }
+                path: { preserved: 'path-data' },
+                hash: { single: { cleared: 'will-be-cleared' } }
             };
             historyApi['state'] = initialState;
 
-            const newUrl = "http://example.com/test#newhash";
+            const newUrl = 'http://example.com/test#newhash';
             const replaceStateSpy = vi.spyOn(globalThis.window.history, 'replaceState');
 
             // Act.
@@ -260,8 +260,8 @@ describe("StockHistoryApi", () => {
         });
     });
 
-    describe("dispose", () => {
-        test("Should remove event listeners when disposed.", () => {
+    describe('dispose', () => {
+        test('Should remove event listeners when disposed.', () => {
             // Arrange.
             const removeEventListenerSpy = vi.spyOn(globalThis.window, 'removeEventListener');
 
@@ -269,11 +269,19 @@ describe("StockHistoryApi", () => {
             historyApi.dispose();
 
             // Assert.
-            expect(removeEventListenerSpy).toHaveBeenCalledWith('popstate', expect.any(Function), expect.any(Object));
-            expect(removeEventListenerSpy).toHaveBeenCalledWith('hashchange', expect.any(Function), expect.any(Object));
+            expect(removeEventListenerSpy).toHaveBeenCalledWith(
+                'popstate',
+                expect.any(Function),
+                expect.any(Object)
+            );
+            expect(removeEventListenerSpy).toHaveBeenCalledWith(
+                'hashchange',
+                expect.any(Function),
+                expect.any(Object)
+            );
         });
 
-        test("Should not throw when disposed multiple times.", () => {
+        test('Should not throw when disposed multiple times.', () => {
             // Act & Assert.
             expect(() => {
                 historyApi.dispose();
@@ -282,44 +290,36 @@ describe("StockHistoryApi", () => {
         });
     });
 
-    describe("State normalization", () => {
-        test("Should handle invalid state by normalizing to default state.", () => {
+    describe('State normalization', () => {
+        test('Should handle invalid state by normalizing to default state.', () => {
             // Arrange.
             const pushStateSpy = vi.spyOn(globalThis.window.history, 'pushState');
-            const invalidState = "not a valid state";
+            const invalidState = 'not a valid state';
 
             // Act.
-            historyApi.pushState(invalidState, "", "/test");
+            historyApi.pushState(invalidState, '', '/test');
 
             // Assert.
-            expect(pushStateSpy).toHaveBeenCalledWith(
-                { path: undefined, hash: {} },
-                "",
-                "/test"
-            );
+            expect(pushStateSpy).toHaveBeenCalledWith({ path: undefined, hash: {} }, '', '/test');
         });
 
-        test("Should handle URL objects in pushState.", () => {
+        test('Should handle URL objects in pushState.', () => {
             // Arrange.
             const pushStateSpy = vi.spyOn(globalThis.window.history, 'pushState');
-            const testState = { path: { test: "data" }, hash: {} };
-            const urlObject = new URL("http://example.com/url-object");
+            const testState = { path: { test: 'data' }, hash: {} };
+            const urlObject = new URL('http://example.com/url-object');
 
             // Act.
-            historyApi.pushState(testState, "", urlObject);
+            historyApi.pushState(testState, '', urlObject);
 
             // Assert.
-            expect(pushStateSpy).toHaveBeenCalledWith(
-                testState,
-                "",
-                urlObject
-            );
+            expect(pushStateSpy).toHaveBeenCalledWith(testState, '', urlObject);
             expect(historyApi.url.href).toBe(urlObject.href);
         });
     });
 
-    describe("Error handling", () => {
-        test("Should handle missing window gracefully.", () => {
+    describe('Error handling', () => {
+        test('Should handle missing window gracefully.', () => {
             // Arrange.
             const originalWindow = globalThis.window;
             // @ts-ignore
@@ -334,8 +334,8 @@ describe("StockHistoryApi", () => {
                 testApi.back();
                 testApi.forward();
                 testApi.go(1);
-                testApi.pushState({}, "", "/test");
-                testApi.replaceState({}, "", "/test");
+                testApi.pushState({}, '', '/test');
+                testApi.replaceState({}, '', '/test');
                 testApi.dispose();
             }).not.toThrow();
 
@@ -343,18 +343,18 @@ describe("StockHistoryApi", () => {
             globalThis.window = originalWindow;
         });
     });
-    describe("Event Synchronization", () => {
-        test("Should preserve history state when popstate is triggered carrying a non-conformant state value.", () => {
+    describe('Event Synchronization', () => {
+        test('Should preserve history state when popstate is triggered carrying a non-conformant state value.', () => {
             // Arrange.
             const initialState = {
-                path: { preserved: "path-data" },
+                path: { preserved: 'path-data' },
                 hash: {
-                    single: { preserved: "hash-data" },
-                    multi1: { preserved: "multi-data" }
+                    single: { preserved: 'hash-data' },
+                    multi1: { preserved: 'multi-data' }
                 }
             };
             browserMocks.simulateHistoryChange(initialState);
-            
+
             // Act.
             browserMocks.triggerPopstate({});
 
@@ -362,13 +362,13 @@ describe("StockHistoryApi", () => {
             expect(historyApi.state).toEqual(initialState);
         });
 
-        test("Should reflect HistoryApi hash state clearing on hashchange.", () => {
+        test('Should reflect HistoryApi hash state clearing on hashchange.', () => {
             // Arrange.
             const initialState = {
-                path: { preserved: "path-data" },
+                path: { preserved: 'path-data' },
                 hash: {
-                    single: { preserved: "hash-data" },
-                    multi1: { preserved: "multi-data" }
+                    single: { preserved: 'hash-data' },
+                    multi1: { preserved: 'multi-data' }
                 }
             };
             browserMocks.simulateHistoryChange(initialState);
@@ -383,20 +383,20 @@ describe("StockHistoryApi", () => {
             });
         });
 
-        test("Should reflect HistoryApi state updates from browser events.", () => {
+        test('Should reflect HistoryApi state updates from browser events.', () => {
             // Arrange - Set up initial state
             const initialState = {
-                path: { initial: "data" },
-                hash: { single: { initial: "hash" } }
+                path: { initial: 'data' },
+                hash: { single: { initial: 'hash' } }
             };
             browserMocks.simulateHistoryChange(initialState);
 
             // Act - Trigger popstate with new state
             const newState = {
-                path: { updated: "data" },
-                hash: { single: { updated: "hash" } }
+                path: { updated: 'data' },
+                hash: { single: { updated: 'hash' } }
             };
-            const newUrl = "http://example.com/updated";
+            const newUrl = 'http://example.com/updated';
             browserMocks.simulateHistoryChange(newState, newUrl);
 
             // Assert - LocationLite should reflect HistoryApi state changes
@@ -404,24 +404,24 @@ describe("StockHistoryApi", () => {
             expect(historyApi.state).toEqual(newState);
         });
 
-        test.each([
-            undefined,
-            null
-        ])("Should reflect HistoryApi state preservation when history.state is %s.", (stateValue) => {
-            // Arrange - Set up state through LocationLite
-            const initialState = {
-                path: { preserved: "path" },
-                hash: { single: { preserved: "single" } }
-            };
-            browserMocks.simulateHistoryChange(initialState);
+        test.each([undefined, null])(
+            'Should reflect HistoryApi state preservation when history.state is %s.',
+            (stateValue) => {
+                // Arrange - Set up state through LocationLite
+                const initialState = {
+                    path: { preserved: 'path' },
+                    hash: { single: { preserved: 'single' } }
+                };
+                browserMocks.simulateHistoryChange(initialState);
 
-            // Act - Simulate browser event with undefined state
-            browserMocks.history.state = undefined;
-            const event = new PopStateEvent('popstate', { state: stateValue });
-            browserMocks.window.dispatchEvent(event);
+                // Act - Simulate browser event with undefined state
+                browserMocks.history.state = undefined;
+                const event = new PopStateEvent('popstate', { state: stateValue });
+                browserMocks.window.dispatchEvent(event);
 
-            // Assert - LocationLite should reflect preserved state from HistoryApi
-            expect(historyApi.state).toEqual(initialState);
-        });
+                // Assert - LocationLite should reflect preserved state from HistoryApi
+                expect(historyApi.state).toEqual(initialState);
+            }
+        );
     });
 });

@@ -8,7 +8,7 @@ Before routers can work, the library must be initialized with the desired config
 The function used for this purpose is, most of the time, the `init()` function:
 
 ```typescript
-import { init } from "@svelte-router/core";
+import { init } from '@svelte-router/core';
 
 const cleanup = init(/* options */);
 ```
@@ -44,16 +44,19 @@ To fully understand, read the [Routing Modes](/docs/routing-modes) document in t
 As stated, developers must tell every `Router`, `Route`, `Link`, `Fallback` and `RouterTrace` Svelte component instance which routing mode to operate on. This can become tedious for common application scenarios that only need one routing mode. The `defaultHash` option relieves developers from this chore by allowing them to specify, during initialization, which routing mode will be used, or used the most. This way, developers only need to specify the routing mode on Svelte components that must not work on the specified default routing mode, if the project even has those.
 
 ## The `trace` Option
+
 Type: `TraceOptions`; Default: `undefined`
 
 This option accepts an object used to fine-tune the tracing abilities of the `RouterTrace` Svelte component. Currently, it only defines one option.
 
 ### The `trace.routerHierarchy` Option
+
 Type: `boolean`; Default: `false`
 
 `RouterTrace` components can traverse the hierarchy of routers, starting from an arbitrary router. For this to be possible, a separate object is kept in memory that tracks the relationships between the routers. This costs resources. This option exists to avoid paying this price, especially in production builds.
 
 ## The `logger` Option
+
 Type: `boolean | Logger`; Default: `true`
 
 This routing library tries to not soil the environment’s console output with messages. However, this is sometimes inevitable. Currently, there are 2 cases where console logging happens, and as time goes by and features come and go from the library, this count may increase.

@@ -1,21 +1,14 @@
 <script lang="ts">
-	import type { HTMLAttributes } from "svelte/elements";
-	import type { ClassValue } from "svelte/elements";
+    import type { HTMLAttributes } from 'svelte/elements';
+    import type { ClassValue } from 'svelte/elements';
 
     type Props = HTMLAttributes<HTMLDivElement> & {
         class?: ClassValue;
-    }
+    };
 
-    let {
-        class: cssClass,
-        children,
-        ...restProps
-    }: Props = $props();
+    let { class: cssClass, children, ...restProps }: Props = $props();
 
-    const classes: ClassValue = $derived([
-        "card-body",
-        cssClass
-    ]);
+    const classes: ClassValue = $derived(['card-body', cssClass]);
 </script>
 
 <div class={classes} {...restProps}>

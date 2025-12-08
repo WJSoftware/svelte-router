@@ -60,6 +60,7 @@ Type: boolean
 Option to preserve the current hash by copying it from the location’s URL to the calculated result. This is only valid when the hash option is false, meaning path routing HREF’s.
 
 ## `calculateMultiHashFragment`
+
 Import from: `@svelte-router/core/kernel`
 
 `calculateMultiHashFragment(hashPaths: Record<string, string>): string`
@@ -114,7 +115,7 @@ Sets the desired implicit mode (when the hash property is not specified in compo
 
 Type: `boolean`
 
-Turns router hierarchy tracking on.  Its default value is `false`, and `RouterTrace` components only show children information if this value is `true`.
+Turns router hierarchy tracking on. Its default value is `false`, and `RouterTrace` components only show children information if this value is `true`.
 
 ## `initCore`
 

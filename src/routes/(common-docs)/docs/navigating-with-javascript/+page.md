@@ -8,7 +8,7 @@ Navigation is also very possible in JavaScript. There are 4 helper functions tha
 To actually navigate, you can choose to use `navigate()` or `goTo()`:
 
 ```typescript
-import { location } from "@svelte-router/core";
+import { location } from '@svelte-router/core';
 
 location.navigate('/some/new/path?page=1' /*, { options } */);
 location.goTo('/some/new/path?page=1' /*, { options } */);
@@ -22,14 +22,14 @@ On the other hand, `location.goTo()` doesn’t care at all about routing univers
 
 In the context of the previous example, let’s create a Results table that shows the end result of the functions:
 
-| Function | Routing Universe (hash) | Resulting URL |
-| - | - | - |
-| `navigate` | `false` | `https://example.com/some/new/path?page=1` |
-| `navigate` | `true` | `https://example.com?page=1#/some/new/path` |
-| `navigate` | `'namedPath'` | `https://example.com?page=1#namedPath=/some/new/path` |
-| `goTo` | `false` | `https://example.com/some/new/path?page=1` |
-| `goTo` | `true` | `https://example.com/some/new/path?page=1` |
-| `goTo` | `'namedPath'` | `https://example.com/some/new/path?page=1` |
+| Function   | Routing Universe (hash) | Resulting URL                                         |
+| ---------- | ----------------------- | ----------------------------------------------------- |
+| `navigate` | `false`                 | `https://example.com/some/new/path?page=1`            |
+| `navigate` | `true`                  | `https://example.com?page=1#/some/new/path`           |
+| `navigate` | `'namedPath'`           | `https://example.com?page=1#namedPath=/some/new/path` |
+| `goTo`     | `false`                 | `https://example.com/some/new/path?page=1`            |
+| `goTo`     | `true`                  | `https://example.com/some/new/path?page=1`            |
+| `goTo`     | `'namedPath'`           | `https://example.com/some/new/path?page=1`            |
 
 As seen in the table, `goTo()` just doesn’t care! It doesn’t even define the `hash` option at all. However, its `navigate()` sibling is the smart one of the family, correctly moving the path to the appropriate location.
 
@@ -43,7 +43,7 @@ In the case of state data for `goTo()`, `options.state` is typed as `State`, so 
 
 ## Traversing History
 
-If the user uses the environment’s *Back* and *Forward* buttons, the global `location` object will know about it and will stay in sync. In code, this is equivalent to calling `window.history.back()` and and `window.history.forward()`. This should be OK… **most of the time**.
+If the user uses the environment’s _Back_ and _Forward_ buttons, the global `location` object will know about it and will stay in sync. In code, this is equivalent to calling `window.history.back()` and and `window.history.forward()`. This should be OK… **most of the time**.
 
 There is a small chance that using these methods directly from the window’s `history` object might become the source of problems. As a best practice, always use the methods in the global `location` object provided by the library: `location.back()`, `location.forward()` and `location.go()`.
 
@@ -75,28 +75,22 @@ Usage of these functions is simple:
 
 ```typescript
 // Inside a component, for example:
-import { calculateHref, calculateState } from "@svelte-router/core/kernel";
-import { location, type Hash } from "@svelte-router/core";
+import { calculateHref, calculateState } from '@svelte-router/core/kernel';
+import { location, type Hash } from '@svelte-router/core';
 
 type Props = {
-  keyProp: string;
-  hash: Hash;
+    keyProp: string;
+    hash: Hash;
 };
 
-let {
-  keyProp,
-  hash,
-} : Props = $props();
+let { keyProp, hash }: Props = $props();
 
 // Use href in, say, the component template.  It will be reactive.
-let href = $derived(calculateHref(
-  { hash, preserveQuery: 'debug' },
-  inferPath(keyProp)
-));
+let href = $derived(calculateHref({ hash, preserveQuery: 'debug' }, inferPath(keyProp)));
 
 function handleClick() {
-  const finalState = calculateState(hash, someStateData);
-  location.goTo(href, { state: finalState });
+    const finalState = calculateState(hash, someStateData);
+    location.goTo(href, { state: finalState });
 }
 ```
 

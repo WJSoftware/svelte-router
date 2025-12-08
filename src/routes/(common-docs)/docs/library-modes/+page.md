@@ -6,7 +6,7 @@ description: Choose between lite and full modes to optimize bundle size and feat
 This routing library can operate in 2 different modes: **Lite** mode, and **Full** mode. The lite mode is the recommended and most popular mode and is enforced when the call to `init()` is made. Full mode can be turned on by calling the `initFull()` function instead, like this:
 
 ```typescript
-import { initFull } from "@svelte-router/core";
+import { initFull } from '@svelte-router/core';
 
 initFull(/* { options } */);
 ```
@@ -15,36 +15,36 @@ Library modes exist to reduce the code imported and bundled into applications.
 
 The following table lists all features of the library, denoting the modes in which it is available.
 
-| Feature | Lite Mode | Full Mode |
-| - | - | - |
-| Always-on path and hash routing | ✔ | ✔ |
-| Multi hash routing | ✔ | ✔ |
-| Multiple route matching | ✔ | ✔ |
-| Router base paths | ✔ | ✔ |
-| Nesting routers | ✔ | ✔ |
-| Exact path matching | ✔ | ✔ |
-| Path specification via regular expression | ✔ | ✔ |
-| Route parameters | ✔ | ✔ |
-| Rest parameter | ✔ | ✔ |
-| Optional parameters | ✔ | ✔ |
-| Additional route-matching logic | ✔ | ✔ |
-| Disconnected pieces of UI for routes and fallback | ✔ | ✔ |
-| Automatic active state in Link components | ✔ | ✔ |
-| Active behavior Svelte attachment | ✔ | ✔ |
-| Fallback content | ✔ | ✔ |
-| Additional fallback matching logic | ✔ | ✔ |
-| Router tracing | ✔ | ✔ |
-| Reactive URL | ✔ | ✔ |
-| Reactive state | ✔ | ✔ |
-| Reactive hash paths | ✔ | ✔ |
-| Programmatic navigation | ✔ | ✔ |
-| Dynamic Routes | ✔ | ✔ |
-| Electron Support | ✔ | ✔ |
-| Extension packages | ✔ | ✔ |
-| URL Redirection | ✔ | ✔ |
-| Cancellable `beforeNavigate` event | ✘ | ✔ |
-| `navigationCancelled` event | ✘ | ✔ |
-| History API interception | ✘ | ✔ |
+| Feature                                           | Lite Mode | Full Mode |
+| ------------------------------------------------- | --------- | --------- |
+| Always-on path and hash routing                   | ✔         | ✔         |
+| Multi hash routing                                | ✔         | ✔         |
+| Multiple route matching                           | ✔         | ✔         |
+| Router base paths                                 | ✔         | ✔         |
+| Nesting routers                                   | ✔         | ✔         |
+| Exact path matching                               | ✔         | ✔         |
+| Path specification via regular expression         | ✔         | ✔         |
+| Route parameters                                  | ✔         | ✔         |
+| Rest parameter                                    | ✔         | ✔         |
+| Optional parameters                               | ✔         | ✔         |
+| Additional route-matching logic                   | ✔         | ✔         |
+| Disconnected pieces of UI for routes and fallback | ✔         | ✔         |
+| Automatic active state in Link components         | ✔         | ✔         |
+| Active behavior Svelte attachment                 | ✔         | ✔         |
+| Fallback content                                  | ✔         | ✔         |
+| Additional fallback matching logic                | ✔         | ✔         |
+| Router tracing                                    | ✔         | ✔         |
+| Reactive URL                                      | ✔         | ✔         |
+| Reactive state                                    | ✔         | ✔         |
+| Reactive hash paths                               | ✔         | ✔         |
+| Programmatic navigation                           | ✔         | ✔         |
+| Dynamic Routes                                    | ✔         | ✔         |
+| Electron Support                                  | ✔         | ✔         |
+| Extension packages                                | ✔         | ✔         |
+| URL Redirection                                   | ✔         | ✔         |
+| Cancellable `beforeNavigate` event                | ✘         | ✔         |
+| `navigationCancelled` event                       | ✘         | ✔         |
+| History API interception                          | ✘         | ✔         |
 
 Most of the features are the subject of this online guide, so the next section will explain the full mode features only, which are most likely only needed in micro-frontend scenarios to battle/counter the presence of other client-side router libraries.
 
@@ -82,11 +82,11 @@ const off2 = location.on('navigationCancelled', (event) => { ... });
 
 The data available in the events differ, but have the following common properties:
 
-| Property | Type | Description |
-| - | - | - |
-| `url` | `string` | The URL about to be pushed, or that was about to be pushed, to the environment’s history. |
-| `state` | `unknown` | The state object about to be pushed, or that was about to be pushed, along with the URL to the environment’s history. |
-| `method` | `'push' \| 'replace'` | Indicates which **History API** method was used. |
+| Property | Type                  | Description                                                                                                           |
+| -------- | --------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `url`    | `string`              | The URL about to be pushed, or that was about to be pushed, to the environment’s history.                             |
+| `state`  | `unknown`             | The state object about to be pushed, or that was about to be pushed, along with the URL to the environment’s history. |
+| `method` | `'push' \| 'replace'` | Indicates which **History API** method was used.                                                                      |
 
 :::important[Verify State!]
 The state data needs verification. If you read [Per-Routing Mode Data](docs/per-routing-mode-data), then you know that state data must conform to the `State` data type. When handling `beforeNavigate`, it is highly recommended that you validate state using the `isConformantState()` function.
@@ -101,7 +101,7 @@ Event Type: `BeforeNavigateEvent`
 Fires whenever the **History API** is invoked to push or replace the environment’s URL. Code listening for this event has the ability to cancel navigation:
 
 ```typescript
-import { location } from "@svelte-router/core";
+import { location } from '@svelte-router/core';
 
 const off = location.on('beforeNavigate', (event) => {
     const cancelReason = cancelEventForSomeReason(event);
@@ -114,7 +114,7 @@ const off = location.on('beforeNavigate', (event) => {
 Once a listener cancels navigation, it cannot be reversed, and navigation won’t happen. However, this doesn’t stop other listeners of the event to be invoked. You can account for a previous listener cancelling the event using the event’s `wasCancelled` property. The next code snippet is the previous one, amended with this new information:
 
 ```typescript
-import { location } from "@svelte-router/core";
+import { location } from '@svelte-router/core';
 
 const off = location.on('beforeNavigate', (event) => {
     if (!event.wasCancelled) {
@@ -133,12 +133,12 @@ Event listeners can access the cancellation reason given by the cancelling event
 As stated above, this is the event to use if you would like the opportunity to ensure that state data coming from an external router/routing code is conformant to what this library expects:
 
 ```typescript
-import { location, type BeforeNavigateEvent } from "@svelte-router/core";
+import { location, type BeforeNavigateEvent } from '@svelte-router/core';
 import { isConformantState } from '@svelte-router/core/kernel';
 
 function cancelEventForSomeReason(event: BeforeNavigateEvent) {
     if (!isConformantState(event.state)) {
-        return "State is malformed.";
+        return 'State is malformed.';
     }
     // ETC.  Other checks.
 }

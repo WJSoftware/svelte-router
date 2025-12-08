@@ -1,8 +1,8 @@
-import { describe, test, expect, afterEach } from "vitest";
-import { init, initFull } from "./init.js";
-import { location } from "./kernel/Location.js";
-import { LocationLite } from "./kernel/LocationLite.svelte.js";
-import { LocationFull } from "./kernel/LocationFull.js";
+import { describe, test, expect, afterEach } from 'vitest';
+import { init, initFull } from './init.js';
+import { location } from './kernel/Location.js';
+import { LocationLite } from './kernel/LocationLite.svelte.js';
+import { LocationFull } from './kernel/LocationFull.js';
 
 let cleanup: (() => void) | undefined;
 
@@ -40,20 +40,23 @@ describe('init + initFull', () => {
     test.each([
         {
             fn1: init,
-            fn2: initFull,
+            fn2: initFull
         },
         {
             fn1: initFull,
-            fn2: init,
-        },
-    ])("Should throw an error when calling $fn2.name without prior cleaning of a call to $fn1.name .", ({ fn1, fn2 }) => {
-        // Arrange.
-        cleanup = fn1();
+            fn2: init
+        }
+    ])(
+        'Should throw an error when calling $fn2.name without prior cleaning of a call to $fn1.name .',
+        ({ fn1, fn2 }) => {
+            // Arrange.
+            cleanup = fn1();
 
-        // Act.
-        const act = () => fn2();
+            // Act.
+            const act = () => fn2();
 
-        // Assert.
-        expect(act).toThrow();
-    });
+            // Assert.
+            expect(act).toThrow();
+        }
+    );
 });

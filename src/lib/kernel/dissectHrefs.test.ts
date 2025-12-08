@@ -2,87 +2,88 @@ import { describe, test, expect } from 'vitest';
 import { dissectHrefs } from './dissectHrefs.js';
 
 describe('dissectHrefs', () => {
-    test.each([
-        '',
-        null,
-        undefined,
-        0,
-    ])("Should return empty strings for all parts when given falsy href: %s", (href) => {
-        // Act.
-        // @ts-expect-error ts2345
-        const { paths, hashes, searchParams } = dissectHrefs(href);
+    test.each(['', null, undefined, 0])(
+        'Should return empty strings for all parts when given falsy href: %s',
+        (href) => {
+            // Act.
+            // @ts-expect-error ts2345
+            const { paths, hashes, searchParams } = dissectHrefs(href);
 
-        // Assert.
-        expect(paths).toEqual(['']);
-        expect(hashes).toEqual(['']);
-        expect(searchParams).toEqual(['']);
-    });
+            // Assert.
+            expect(paths).toEqual(['']);
+            expect(hashes).toEqual(['']);
+            expect(searchParams).toEqual(['']);
+        }
+    );
     test.each([
         {
             href: 'path',
             expectedPaths: ['path'],
             expectedHashes: [''],
-            expectedSearchParams: [''],
+            expectedSearchParams: ['']
         },
         {
             href: 'path#hash',
             expectedPaths: ['path'],
             expectedHashes: ['hash'],
-            expectedSearchParams: [''],
+            expectedSearchParams: ['']
         },
         {
             href: 'path?search',
             expectedPaths: ['path'],
             expectedHashes: [''],
-            expectedSearchParams: ['search'],
+            expectedSearchParams: ['search']
         },
         {
             href: 'path?search#hash',
             expectedPaths: ['path'],
             expectedHashes: ['hash'],
-            expectedSearchParams: ['search'],
+            expectedSearchParams: ['search']
         },
         {
             href: '?search#hash',
             expectedPaths: [''],
             expectedHashes: ['hash'],
-            expectedSearchParams: ['search'],
+            expectedSearchParams: ['search']
         },
         {
             href: '#hash',
             expectedPaths: [''],
             expectedHashes: ['hash'],
-            expectedSearchParams: [''],
+            expectedSearchParams: ['']
         },
         {
             href: '?search',
             expectedPaths: [''],
             expectedHashes: [''],
-            expectedSearchParams: ['search'],
+            expectedSearchParams: ['search']
         },
         {
             href: '/',
             expectedPaths: ['/'],
             expectedHashes: [''],
-            expectedSearchParams: [''],
-        },
-    ])("Should appropriately parse href $href .", ({ href, expectedPaths, expectedHashes, expectedSearchParams }) => {
-        // Act.
-        const { paths, hashes, searchParams } = dissectHrefs(href);
+            expectedSearchParams: ['']
+        }
+    ])(
+        'Should appropriately parse href $href .',
+        ({ href, expectedPaths, expectedHashes, expectedSearchParams }) => {
+            // Act.
+            const { paths, hashes, searchParams } = dissectHrefs(href);
 
-        // Assert.
-        expect(paths).toEqual(expectedPaths);
-        expect(hashes).toEqual(expectedHashes);
-        expect(searchParams).toEqual(expectedSearchParams);
-    });
-    test("Should strip the pound sign when returning the stripped hash value.", () => {
+            // Assert.
+            expect(paths).toEqual(expectedPaths);
+            expect(hashes).toEqual(expectedHashes);
+            expect(searchParams).toEqual(expectedSearchParams);
+        }
+    );
+    test('Should strip the pound sign when returning the stripped hash value.', () => {
         // Act.
         const { hashes } = dissectHrefs('path?search#hash');
 
         // Assert.
         expect(hashes).toEqual(['hash']);
     });
-    test("Should strip the question mark when returning the stripped search parameters value.", () => {
+    test('Should strip the question mark when returning the stripped search parameters value.', () => {
         // Act.
         const { searchParams } = dissectHrefs('path?search#hash');
 
@@ -90,8 +91,8 @@ describe('dissectHrefs', () => {
         expect(searchParams).toEqual(['search']);
     });
 
-    describe("Multiple hrefs processing", () => {
-        test("Should process multiple hrefs and maintain correct index correspondence", () => {
+    describe('Multiple hrefs processing', () => {
+        test('Should process multiple hrefs and maintain correct index correspondence', () => {
             // Act
             const { paths, hashes, searchParams } = dissectHrefs(
                 'path1?search1#hash1',
@@ -105,7 +106,7 @@ describe('dissectHrefs', () => {
             expect(searchParams).toEqual(['search1', 'search2', 'search3']);
         });
 
-        test("Should handle mixed falsy and valid hrefs", () => {
+        test('Should handle mixed falsy and valid hrefs', () => {
             // Act
             const { paths, hashes, searchParams } = dissectHrefs(
                 'valid/path?search#hash',
@@ -120,7 +121,7 @@ describe('dissectHrefs', () => {
             expect(searchParams).toEqual(['search', '', '', '']);
         });
 
-        test("Should handle empty array (no hrefs)", () => {
+        test('Should handle empty array (no hrefs)', () => {
             // Act
             const { paths, hashes, searchParams } = dissectHrefs();
 
@@ -131,8 +132,8 @@ describe('dissectHrefs', () => {
         });
     });
 
-    describe("Complex URL patterns", () => {
-        test("Should handle complex search parameters with multiple values", () => {
+    describe('Complex URL patterns', () => {
+        test('Should handle complex search parameters with multiple values', () => {
             // Act
             const { searchParams } = dissectHrefs('path?param1=value1&param2=value2&param3=value3');
 
@@ -140,7 +141,7 @@ describe('dissectHrefs', () => {
             expect(searchParams).toEqual(['param1=value1&param2=value2&param3=value3']);
         });
 
-        test("Should handle complex hash values with special characters", () => {
+        test('Should handle complex hash values with special characters', () => {
             // Act
             const { hashes } = dissectHrefs('path#section-1:subsection-2/path');
 
@@ -148,9 +149,11 @@ describe('dissectHrefs', () => {
             expect(hashes).toEqual(['section-1:subsection-2/path']);
         });
 
-        test("Should handle URLs with encoded characters", () => {
+        test('Should handle URLs with encoded characters', () => {
             // Act
-            const { paths, hashes, searchParams } = dissectHrefs('path%20with%20spaces?search%3Dvalue#hash%20value');
+            const { paths, hashes, searchParams } = dissectHrefs(
+                'path%20with%20spaces?search%3Dvalue#hash%20value'
+            );
 
             // Assert
             expect(paths).toEqual(['path%20with%20spaces']);
@@ -159,8 +162,8 @@ describe('dissectHrefs', () => {
         });
     });
 
-    describe("Edge cases and malformed inputs", () => {
-        test("Should handle multiple question marks (only first one counts)", () => {
+    describe('Edge cases and malformed inputs', () => {
+        test('Should handle multiple question marks (only first one counts)', () => {
             // Act
             const { paths, searchParams } = dissectHrefs('path?search1?search2');
 
@@ -169,7 +172,7 @@ describe('dissectHrefs', () => {
             expect(searchParams).toEqual(['search1?search2']);
         });
 
-        test("Should handle multiple hashes (only first one counts)", () => {
+        test('Should handle multiple hashes (only first one counts)', () => {
             // Act
             const { paths, hashes } = dissectHrefs('path#hash1#hash2');
 
@@ -178,7 +181,7 @@ describe('dissectHrefs', () => {
             expect(hashes).toEqual(['hash1#hash2']);
         });
 
-        test("Should handle paths with forward slashes", () => {
+        test('Should handle paths with forward slashes', () => {
             // Act
             const { paths } = dissectHrefs('/root/path/to/resource');
 
@@ -186,7 +189,7 @@ describe('dissectHrefs', () => {
             expect(paths).toEqual(['/root/path/to/resource']);
         });
 
-        test("Should handle empty path with just query and hash", () => {
+        test('Should handle empty path with just query and hash', () => {
             // Act
             const { paths, hashes, searchParams } = dissectHrefs('?just-query#just-hash');
 

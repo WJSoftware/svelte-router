@@ -1,55 +1,51 @@
 <script lang="ts">
-	import type { HTMLAttributes } from "svelte/elements";
-	import type { ClassValue } from "svelte/elements";
-	import type { BootstrapColor } from "./types.js";
+    import type { HTMLAttributes } from 'svelte/elements';
+    import type { ClassValue } from 'svelte/elements';
+    import type { BootstrapColor } from './types.js';
 
-	type Props = HTMLAttributes<HTMLDivElement> & {
-		class?: ClassValue;
-		background?: BootstrapColor;
-		dismissible?: boolean;
-		children?: any;
-		onDismiss?: () => void;
-	};
+    type Props = HTMLAttributes<HTMLDivElement> & {
+        class?: ClassValue;
+        background?: BootstrapColor;
+        dismissible?: boolean;
+        children?: any;
+        onDismiss?: () => void;
+    };
 
-	let {
-		class: cssClass,
-		background = 'primary',
-		dismissible = false,
-		children,
-		onDismiss,
-		...restProps
-	}: Props = $props();
+    let {
+        class: cssClass,
+        background = 'primary',
+        dismissible = false,
+        children,
+        onDismiss,
+        ...restProps
+    }: Props = $props();
 
-	let dismissed = $state(false);
+    let dismissed = $state(false);
 
-	const classes: ClassValue = $derived([
-		'alert',
-		`alert-${background}`,
-		dismissible && 'alert-dismissible',
-		cssClass
-	]);
+    const classes: ClassValue = $derived([
+        'alert',
+        `alert-${background}`,
+        dismissible && 'alert-dismissible',
+        cssClass
+    ]);
 
-	function handleDismiss() {
-		dismissed = true;
-		onDismiss?.();
-	}
+    function handleDismiss() {
+        dismissed = true;
+        onDismiss?.();
+    }
 </script>
 
 {#if !dismissed}
-	<div class={classes} role="alert" {...restProps}>
-		{#if children}
-			{@render children()}
-		{/if}
-		
-		{#if dismissible}
-			<button 
-				type="button" 
-				class="btn-close" 
-				aria-label="Close" 
-				onclick={handleDismiss}
-			></button>
-		{/if}
-	</div>
+    <div class={classes} role="alert" {...restProps}>
+        {#if children}
+            {@render children()}
+        {/if}
+
+        {#if dismissible}
+            <button type="button" class="btn-close" aria-label="Close" onclick={handleDismiss}
+            ></button>
+        {/if}
+    </div>
 {/if}
 
 <!--

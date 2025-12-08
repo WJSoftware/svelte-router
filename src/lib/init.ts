@@ -1,11 +1,11 @@
-import { LocationFull } from "./kernel/LocationFull.js";
-import { LocationLite } from "./kernel/LocationLite.svelte.js";
-import type { InitOptions } from "./types.js";
-import { initCore } from "./kernel/initCore.js";
+import { LocationFull } from './kernel/LocationFull.js';
+import { LocationLite } from './kernel/LocationLite.svelte.js';
+import type { InitOptions } from './types.js';
+import { initCore } from './kernel/initCore.js';
 
 /**
  * Initializes the routing library in normal mode.  The following features are available:
- * 
+ *
  * - URL and state tracking
  * - Navigation
  * - Event handling of the `popstate` and `hashchange` events
@@ -14,11 +14,11 @@ import { initCore } from "./kernel/initCore.js";
  * - Links
  * - Fallbacks
  * - Link contexts
- * 
+ *
  * Use `initFull()` to enable the following features:
  * - Raising the `beforeNavigate` and `navigationCancelled` events
  * - Intercepting navigation from other libraries or routers
- * 
+ *
  * @returns A cleanup function that reverts the initialization process.
  */
 export function init(options?: InitOptions) {
@@ -27,10 +27,10 @@ export function init(options?: InitOptions) {
 
 /**
  * Initializes the routing library in full mode. All features of normal mode are available, plus the following:
- * 
+ *
  * - Raising the `beforeNavigate` and `navigationCancelled` events
  * - Intercepting navigation from other libraries or routers
- * 
+ *
  * @returns A cleanup function that reverts the initialization process.
  */
 export function initFull(options?: InitOptions) {

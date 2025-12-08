@@ -1,17 +1,17 @@
-import { location, setLocation } from "./Location.js";
-import { describe, test, expect, afterEach } from "vitest";
-import { LocationLite } from "./LocationLite.svelte.js";
+import { location, setLocation } from './Location.js';
+import { describe, test, expect, afterEach } from 'vitest';
+import { LocationLite } from './LocationLite.svelte.js';
 
-describe("Location", () => {
+describe('Location', () => {
     afterEach(() => {
         location?.dispose();
         setLocation(null);
     });
-    test("Should be initially undefined.", () => {
+    test('Should be initially undefined.', () => {
         // Assert.
-        expect(location).toBeUndefined
+        expect(location).toBeUndefined;
     });
-    test("Should reflect the updated value after being assigned.", () => {
+    test('Should reflect the updated value after being assigned.', () => {
         // Act.
         setLocation(new LocationLite());
 
@@ -25,7 +25,7 @@ describe('setLocation', () => {
         location?.dispose();
         setLocation(null);
     });
-    test("Should throw an error when trying to override the current location object.", () => {
+    test('Should throw an error when trying to override the current location object.', () => {
         // Arrange.
         setLocation(new LocationLite());
         const secondLoc = new LocationLite();
