@@ -6,7 +6,7 @@ description: Learn the specifics of Svelte Router for Electron applications.
 The `@svelte-router/core` router works in **Electron**. Both path and hash routing works. However, path routing requires one extra step, which is very simple:
 
 ```typescript
-import { init, location } from "@svelte-router/core";
+import { init, location } from '@svelte-router/core';
 
 init(/* options */);
 location.goTo('/'); // <----- HERE.  Just perform navigation.
@@ -14,7 +14,7 @@ location.goTo('/'); // <----- HERE.  Just perform navigation.
 
 By navigating immediately after initializing, path routing will work just fine.
 
-Again: **This is only needed for path routing mode**. Hash routing (*single* or *multi*) works without this.
+Again: **This is only needed for path routing mode**. Hash routing (_single_ or _multi_) works without this.
 
 ## Applications That Also Run in Browser
 
@@ -23,13 +23,13 @@ If your application also runs in browser, condition this navigation trick to Ele
 For example, Electron applications commonly register a global electronAPI object via a `preload.js|ts|cjs|cts` script. If this is your case, you can simply do:
 
 ```typescript
-import { init, location } from "@svelte-router/core";
+import { init, location } from '@svelte-router/core';
 
 const isElectron = !!window.electronAPI;
 
 init(/* options */);
 if (isElectron) {
-  location.goTo('/');
+    location.goTo('/');
 }
 ```
 

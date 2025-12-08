@@ -1,4 +1,4 @@
-import { test } from "vitest";
+import { test } from 'vitest';
 
 export function testWithEffect(name: string, fn: () => void | Promise<void>) {
     test(name, () => {
@@ -8,8 +8,7 @@ export function testWithEffect(name: string, fn: () => void | Promise<void>) {
         });
         if (promise) {
             return promise.finally(cleanup);
-        }
-        else {
+        } else {
             cleanup();
         }
     });

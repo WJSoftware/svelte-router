@@ -12,9 +12,7 @@ This component defines one route, which is defined by setting conditions that ro
 The most common route definition is one where an expected path is defined:
 
 ```svelte
-<Route key="sf" path="/some-feature">
-    ...
-</Route>
+<Route key="sf" path="/some-feature">...</Route>
 ```
 
 Whenever the environment’s location’s URL matches this path (in its path name if doing path routing, or in the hash if doing hash routing), the contents of the component’s children snippet are rendered.
@@ -36,17 +34,13 @@ Route matching can be further constrained using a predicate function set in the 
 Specify a predicate function in the `and` property to further constrain route matching:
 
 ```svelte
-<Route key="sf" path="/some-feature" and={() => userIsAuthorized()}>
-    ...
-</Route>
+<Route key="sf" path="/some-feature" and={() => userIsAuthorized()}>...</Route>
 ```
 
 This predicate adds much flexibility and can even use route parameter values in its decision-making process:
 
 ```svelte
-<Route key="sf" path="/some-feature/:id" and={rp => rp?.id > 0}>
-    ...
-</Route>
+<Route key="sf" path="/some-feature/:id" and={(rp) => rp?.id > 0}>...</Route>
 ```
 
 :::tip[Use and for Guarded Routes]
@@ -67,15 +61,15 @@ In this example, we conditionally register a new route based on the matching sta
 
 ```svelte
 <Router>
-  {#snippet children({ state, rs: routerRs })}
-    {#if !routerRs.home.match}
-      <Route key="abc" path="/abc/:someId?">
-        {#snippet children({ rp, state, rs })}
-          ...
-        {/snippet}
-      </Route>
-    {/if}
-  {/snippet}
+    {#snippet children({ state, rs: routerRs })}
+        {#if !routerRs.home.match}
+            <Route key="abc" path="/abc/:someId?">
+                {#snippet children({ rp, state, rs })}
+                    ...
+                {/snippet}
+            </Route>
+        {/if}
+    {/snippet}
 </Router>
 ```
 
@@ -116,9 +110,10 @@ This topic is covered in the [Routing with Components](/docs/routing-with-compon
 
 Type: `string`; Default: None; Bindable: **No**
 
-*Required*. Names the route. This identifier is expected to be unique among all routes in the router, but note that this library will not enforce this, meaning there is no runtime check for uniqueness. The only allowed scenario for key repetition is to render disconnected pieces of UI (*DPUI*).
+_Required_. Names the route. This identifier is expected to be unique among all routes in the router, but note that this library will not enforce this, meaning there is no runtime check for uniqueness. The only allowed scenario for key repetition is to render disconnected pieces of UI (_DPUI_).
 
 ### `path`
+
 Type: `string | RegExp`; Default: `undefined`; Bindable: **No**
 
 Sets the route's path pattern, or a regular expression used to test and match the environment's URL. As explained earlier, it can define route parameters. If not specified, the route will match using the predicate function in the `and` property.
@@ -130,6 +125,7 @@ The `Route` component will behave as if the router matched it, but in reality, t
 :::
 
 ### `and`
+
 Type: `(params: RouteParamsRecord<T> | undefined) => boolean`; Default: `undefined`; Bindable: **No**
 
 Sets a function for additional matching conditions. This function does directly affect the value of the match property of its router’s route status object.
@@ -141,6 +137,7 @@ This function is only evaluated if there is no `path`, or if the `path` has matc
 If there is no `path` and no `and`, the route behaves as an always-matching route.
 
 ### `ignoreForFallback`
+
 Type: `boolean`; Default: `false`; Bindable: **No**
 
 This is an advanced feature that allows developers to tell routers that the route’s matching status must not be used to determine whether fallback content shows.
@@ -148,11 +145,13 @@ This is an advanced feature that allows developers to tell routers that the rout
 It is useful to, for example, ensure that an always- (or near-always-) matching route (i. e. a route with inexact matching like `<Route key="layout" path="/*">`) doesn’t influence the visibility of fallback content.
 
 ### `caseSensitive`
+
 Type: `boolean`; Default: `false`; Bindable: **No**
 
 Sets whether the route's path pattern should be matched case-sensitively. This only has an effect when the `path`’s property value is a string pattern. If `path` is a regular expression, this setting has no effect. It is up to you to make the regular expression match the way you want or need.
 
 ### `hash`
+
 Type: `Hash`; Default: `undefined`; Bindable: **No**
 
 This property controls the universe the `Route` component will be a part of. Read the `Router` component’s explanation on this property for detailed information.
@@ -164,11 +163,13 @@ If you need reactive hash values, destroy and re-create the component whenever t
 :::
 
 ### `params`
+
 Type: `RouteParamsRecord<T>`; Default: `undefined`; Bindable: **Yes**
 
 Provides a way to obtain the route's parameters through property binding. This property serves no other purpose and cannot be used to forcefully inject parameter values anywhere.
 
 ### `children`
+
 Type: `Snippet<[RouteChildrenContext]>`; Default: `undefined`; Bindable: **No**
 
 The component’s default snippet. Children rendering is conditioned to the route matching.

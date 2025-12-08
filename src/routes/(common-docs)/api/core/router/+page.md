@@ -46,7 +46,7 @@ Other routing libraries have their `Route` components collaborate their matched 
 
 `Route` components inside `Route` components do not inherit any matched path from any parent `Route` component, only from `Router` components. If needed, nest a `Router` component.
 
-*This might change in v2.0*.
+_This might change in v2.0_.
 :::
 
 ### `id`
@@ -56,6 +56,7 @@ Type: `string`; Default: `undefined`; Bindable: **No**
 This is a tracing-only property, and it provides a human-readable identifier for the router. This identifier is visible in the `RouterTrace` component.
 
 ### `hash`
+
 Type: `Hash`; Default: `undefined`; Bindable: **No**
 
 This property controls whether the router matches routes against the current location’s pathname, or against the hash fragment of the current location, or a named path in said hash fragment.
@@ -65,6 +66,7 @@ In short: The `hash` property determines the universe the router will belong to.
 Just like the `router` property, `hash` has a fundamental role in getting and setting the context, so this property cannot be reactive in the normal Svelte sense, and if you find yourself in the need to reactively change its value, you are forced to destroy and recreate the router component with the newly desired property value.
 
 ### `children`
+
 Type: `Snippet<[RouterChildrenContext]>`; Default: `undefined`; Bindable: **No**
 
 The component’s default snippet. The children are always rendered, meaning that any non-routing component/markup renders as per usual.

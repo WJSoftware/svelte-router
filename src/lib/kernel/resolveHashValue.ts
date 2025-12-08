@@ -1,5 +1,5 @@
-import type { Hash } from "$lib/types.js";
-import { routingOptions } from "./options.js";
+import type { Hash } from '$lib/types.js';
+import { routingOptions } from './options.js';
 
 /**
  * Resolves the given hash value taking into account the library's routing options.

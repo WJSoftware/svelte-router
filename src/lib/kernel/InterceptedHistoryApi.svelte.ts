@@ -1,7 +1,14 @@
-import type { BeforeNavigateEvent, NavigationCancelledEvent, NavigationEvent, State, FullModeHistoryApi, Events } from "../types.js";
-import { isConformantState } from "./isConformantState.js";
-import { StockHistoryApi } from "./StockHistoryApi.svelte.js";
-import { logger } from "./Logger.js";
+import type {
+    BeforeNavigateEvent,
+    NavigationCancelledEvent,
+    NavigationEvent,
+    State,
+    FullModeHistoryApi,
+    Events
+} from '../types.js';
+import { isConformantState } from './isConformantState.js';
+import { StockHistoryApi } from './StockHistoryApi.svelte.js';
+import { logger } from './Logger.js';
 
 /**
  * HistoryApi implementation that intercepts navigation calls to provide beforeNavigate
@@ -10,7 +17,7 @@ import { logger } from "./Logger.js";
 export class InterceptedHistoryApi extends StockHistoryApi implements FullModeHistoryApi {
     #eventSubs: Record<Events, Record<number, Function>> = {
         beforeNavigate: {},
-        navigationCancelled: {},
+        navigationCancelled: {}
     };
     #nextSubId = 0;
     #originalHistory: History | undefined;
@@ -31,7 +38,12 @@ export class InterceptedHistoryApi extends StockHistoryApi implements FullModeHi
         this.#navigate('replace', data, unused, url);
     }
 
-    #navigate(method: NavigationEvent['method'], state: any, unused: string, url?: string | URL | null) {
+    #navigate(
+        method: NavigationEvent['method'],
+        state: any,
+        unused: string,
+        url?: string | URL | null
+    ) {
         const urlString = url?.toString() || '';
         const event: BeforeNavigateEvent = {
             url: urlString,
@@ -60,12 +72,14 @@ export class InterceptedHistoryApi extends StockHistoryApi implements FullModeHi
                     url: urlString,
                     state: event.state,
                     method,
-                    cause: event.cancelReason,
+                    cause: event.cancelReason
                 });
             }
         } else {
             if (!isConformantState(event.state)) {
-                logger.warn(`Warning: Non-conformant state object passed to history.${method}State. Previous state will prevail.`);
+                logger.warn(
+                    `Warning: Non-conformant state object passed to history.${method}State. Previous state will prevail.`
+                );
                 event.state = this.state;
             }
             this.#originalHistory?.[`${method}State`](event.state, unused, url);
@@ -78,7 +92,10 @@ export class InterceptedHistoryApi extends StockHistoryApi implements FullModeHi
      * Subscribe to navigation events.
      */
     on(event: 'beforeNavigate', callback: (event: BeforeNavigateEvent) => void): () => void;
-    on(event: 'navigationCancelled', callback: (event: NavigationCancelledEvent) => void): () => void;
+    on(
+        event: 'navigationCancelled',
+        callback: (event: NavigationCancelledEvent) => void
+    ): () => void;
     on(event: Events, callback: Function): () => void {
         const id = ++this.#nextSubId;
         this.#eventSubs[event][id] = callback;
@@ -89,7 +106,7 @@ export class InterceptedHistoryApi extends StockHistoryApi implements FullModeHi
         // Clear event subscriptions
         this.#eventSubs = {
             beforeNavigate: {},
-            navigationCancelled: {},
+            navigationCancelled: {}
         };
         if (this.#originalHistory) {
             globalThis.window.history = this.#originalHistory;

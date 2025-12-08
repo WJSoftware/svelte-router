@@ -3,7 +3,7 @@ title: Introduction
 description: Meet Svelte Router, the most advanced routing library for Svelte with unique multi-universe routing capabilities
 ---
 
-**webJose's Svelte Router** is the most unique router in existence, even considering routers for other libraries and frameworks.  Among many commonly-known features, it introduces **3 no other router in the world has**.  This router library:
+**webJose's Svelte Router** is the most unique router in existence, even considering routers for other libraries and frameworks. Among many commonly-known features, it introduces **3 no other router in the world has**. This router library:
 
 1. Matches multiple routes
 2. Can do path routing using the **History API**, or it can do hash routing using the URL’s hashtag
@@ -25,13 +25,14 @@ npm i @svelte-router/core
 ```
 
 :::info[Library Requirements]
-+ Svelte **v5.31.0** or newer
-:::
+
+- Svelte **v5.31.0** or newer
+  :::
 
 Initialize the library before attempting to create any routers. The project’s `main.ts` file is usually the ideal place:
 
 ```typescript
-import { init } from "@svelte-router/core";
+import { init } from '@svelte-router/core';
 
 init(/* options */);
 
@@ -57,31 +58,31 @@ Create routers and routes however you need. Routers and routes may contain anyth
 </script>
 
 <Router id="root-router">
-  <div class="app">
-    <NavBar />
-    <main class="container">
-      <Route key="home" path="/">
-        <Home />
-      </Route>
-      <Route key="register" path="/register">
-        <Register />
-      </Route>
-      <Fallback>
-        <NotFound />
-      </Fallback>
-    </main>
-    <Footer>
-      <Route key="home">
-        <HomeFooter />
-      </Route>
-      <Route key="non-home" path="/*" and={(rp) => rp.rest !== '/'}>
-        <NonHomeFooter />
-      </Route>
-    </Footer>
-  </div>
-  {#if showTracer}
-    <RouterTrace />
-  {/if}
+    <div class="app">
+        <NavBar />
+        <main class="container">
+            <Route key="home" path="/">
+                <Home />
+            </Route>
+            <Route key="register" path="/register">
+                <Register />
+            </Route>
+            <Fallback>
+                <NotFound />
+            </Fallback>
+        </main>
+        <Footer>
+            <Route key="home">
+                <HomeFooter />
+            </Route>
+            <Route key="non-home" path="/*" and={(rp) => rp.rest !== '/'}>
+                <NonHomeFooter />
+            </Route>
+        </Footer>
+    </div>
+    {#if showTracer}
+        <RouterTrace />
+    {/if}
 </Router>
 ```
 
@@ -101,32 +102,28 @@ All that remains now is see about the navigation links in the `NavBar` component
 
 ```svelte
 <script lang="ts">
-    import { Link, LinkContext } from "@svelte-router/core";
+    import { Link, LinkContext } from '@svelte-router/core';
 </script>
 
 <nav class="navbar navbar-collapse-lg">
-  <div class="container-fluid">
-    <h3 class="navbar-brand">Svelte Router</h3>
-    <ul class="navbar-nav">
-      <LinkContext
-        activeState={{
-          class: 'active',
-          aria: { current: 'page' }
-        }}
-      >
-        <li>
-          <Link href="/" activeFor="home">
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link href="/register" activeFor="register">
-            Register
-          </Link>
-        </li>
-      </LinkContext>
-    </ul>
-  </div>
+    <div class="container-fluid">
+        <h3 class="navbar-brand">Svelte Router</h3>
+        <ul class="navbar-nav">
+            <LinkContext
+                activeState={{
+                    class: 'active',
+                    aria: { current: 'page' }
+                }}
+            >
+                <li>
+                    <Link href="/" activeFor="home">Home</Link>
+                </li>
+                <li>
+                    <Link href="/register" activeFor="register">Register</Link>
+                </li>
+            </LinkContext>
+        </ul>
+    </div>
 </nav>
 ```
 
@@ -145,7 +142,7 @@ Combine path-routing components with hash-routing components any way you want. T
 But maybe this simultaneous feature is overkill for your case, and it is inconvenient to keep adding the `hash` property when all you want to do is one type of routing. If this is your case, you can change the default hash value during initialization (as the quickstart example showed to default to classic hash routing)[^defaultHash]:
 
 ```typescript
-import { init } from "@svelte-router/core";
+import { init } from '@svelte-router/core';
 
 init({ defaultHash: true }); // Classic (single path) hash routing
 init({ defaultHash: 'named' }); // A named hash routing path
@@ -202,5 +199,4 @@ It is expected that the provided regular expression:
 
 Other than this, feel free to match with the best of your regular expressions’ ability.
 
-[^defaultHash]:
-    When not specified, `defaultHash` acquires the value `false`, meaning path routing.
+[^defaultHash]: When not specified, `defaultHash` acquires the value `false`, meaning path routing.

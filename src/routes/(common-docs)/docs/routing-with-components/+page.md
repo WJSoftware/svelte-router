@@ -10,36 +10,36 @@ The following is a basic routing example. This exact same code works in the path
 ```svelte
 <!-- App.svelte -->
 <script lang="ts">
-  import { Fallback, Route, Router } from "@svelte-router/core";
-  import Navbar from "./lib/Navbar.svelte";
-  import Footer from "./lib/Footer.svelte";
-  import HomeView from "./lib/views/HomeView.svelte";
-  import UserProfile from "./lib/views/UserProfile.svelte";
-  import RouteNotDefined from "./lib/views/RouteNotDefined.svelte";
+    import { Fallback, Route, Router } from '@svelte-router/core';
+    import Navbar from './lib/Navbar.svelte';
+    import Footer from './lib/Footer.svelte';
+    import HomeView from './lib/views/HomeView.svelte';
+    import UserProfile from './lib/views/UserProfile.svelte';
+    import RouteNotDefined from './lib/views/RouteNotDefined.svelte';
 </script>
 
 <Router>
-  <header>
-    <Navbar />
-  </header>
-  <main>
-    <Route key="home" path="/">
-      <HomeView />
-    </Route>
-    <Route key="profile" path="/profile">
-      <UserProfile />
-    </Route>
-    <Fallback>
-      <RouteNotDefined />
-    </Fallback>
-  </main>
-  <footer>
-    <Footer />
-  </footer>
+    <header>
+        <Navbar />
+    </header>
+    <main>
+        <Route key="home" path="/">
+            <HomeView />
+        </Route>
+        <Route key="profile" path="/profile">
+            <UserProfile />
+        </Route>
+        <Fallback>
+            <RouteNotDefined />
+        </Fallback>
+    </main>
+    <footer>
+        <Footer />
+    </footer>
 </Router>
 ```
 
-The `key` property in routes uniquely name routes. The given key must be unique inside the parent router. As an exception to this rule, “other” routes can specify the same key without any other properties to render *disconnected pieces of user interface* (*DPUI*). These “other” routes, under the *DPUI* condition, are not really separate routes.
+The `key` property in routes uniquely name routes. The given key must be unique inside the parent router. As an exception to this rule, “other” routes can specify the same key without any other properties to render _disconnected pieces of user interface_ (_DPUI_). These “other” routes, under the _DPUI_ condition, are not really separate routes.
 
 Let’s add some extra things we commonly need:
 
@@ -55,7 +55,6 @@ Let’s add some extra things we commonly need:
 
 The path specified for the route defines the `id` route parameter. Parameters are required, unless you append a question mark to their definition, as in `:id?`.
 
-
 ## About the Rest Parameter
 
 The special ending `/*` in route paths define the `rest` parameter. This parameter collects “the rest of the path”, hence its name.
@@ -68,21 +67,21 @@ For finer-grained control of content, both `Router` and `Route` components offer
 
 ```svelte
 <Router>
-  {#snippet children({ state: routerState, rs: routerRs })}
-    <Route key="home" path="/">
-      {#snippet children({ rp, state, rs })}
+    {#snippet children({ state: routerState, rs: routerRs })}
+        <Route key="home" path="/">
+            {#snippet children({ rp, state, rs })}
+                ...
+            {/snippet}
+        </Route>
         ...
-      {/snippet}
-    </Route>
-    ...
-    <footer>
-      {#if routerRs.home.match}
-        <HomeFooter />
-      {:else}
-        <NonHomeFooter />
-      {/if}
-    </footer>
-  {/snippet}
+        <footer>
+            {#if routerRs.home.match}
+                <HomeFooter />
+            {:else}
+                <NonHomeFooter />
+            {/if}
+        </footer>
+    {/snippet}
 </Router>
 ```
 
@@ -98,41 +97,41 @@ The extra `rp` parameter for the `Route` component’s `children` snippet provid
 
 All other router libraries are only capable of showing or hiding user interface in one place in the HTML markup, mostly because their route component implementations/definitions are designed to accept a component to render via a property. This is very inconvenient: We cannot use the standard way of writing markup; we cannot use snippets; we’re forced to always group things inside a single component whether we want to or not; etc. Just to name some issues.
 
-This router implementation is ground-breaking: `Route`’s don’t work with component specifications. They just conditionally render the contents of their children snippet. *DPUI* is the ability to make content appear and disappear from more than one place in the HTML markup for a given route.
+This router implementation is ground-breaking: `Route`’s don’t work with component specifications. They just conditionally render the contents of their children snippet. _DPUI_ is the ability to make content appear and disappear from more than one place in the HTML markup for a given route.
 
-*DPUI* is achieved by adding `Route` components in the places we want UI pieces for a given route, and then only specifying the full definition in one of the places (`path`, `and`, etc.). The other places must only specify the `key` property.
+_DPUI_ is achieved by adding `Route` components in the places we want UI pieces for a given route, and then only specifying the full definition in one of the places (`path`, `and`, etc.). The other places must only specify the `key` property.
 
 This example shows how there’s a piece of the "admin" route inside the `Navbar` component:
 
 ```svelte
 <!-- Navbar.svelte -->
 <nav>
-  <Link href="/">Home</Link>
-  <Route key="admin">
-    <AdminNavMenu />
-  </Route>
+    <Link href="/">Home</Link>
+    <Route key="admin">
+        <AdminNavMenu />
+    </Route>
 </nav>
 
 <!-- App.svelte -->
 <Router>
-  <header>
-    <Navbar />
-  </header>
-  <main>
-    <Route key="admin" path="/admin" and={() => loggedInUserIsAdmin()}>
-      <AdminHomeView />
-    </Route>
-  </main>
+    <header>
+        <Navbar />
+    </header>
+    <main>
+        <Route key="admin" path="/admin" and={() => loggedInUserIsAdmin()}>
+            <AdminHomeView />
+        </Route>
+    </main>
 </Router>
 ```
 
-With *DPUI*, you don’t need extra calculations inside the `Navbar` component just to determine if we’re currently viewing the **Admin** homepage. The piece inside `Navbar` is automatically and simultaneously controlled by the same router as if they were just one route, because they are just one route. It’s just 2 pieces of the same route.
+With _DPUI_, you don’t need extra calculations inside the `Navbar` component just to determine if we’re currently viewing the **Admin** homepage. The piece inside `Navbar` is automatically and simultaneously controlled by the same router as if they were just one route, because they are just one route. It’s just 2 pieces of the same route.
 
 ## Fallback Content
 
 As seen in the first example, there’s a special `Fallback` component that is used to show content whenever its parent router determines that no defined routes match.
 
-You can do *DPUI* with the `Fallback` component, except that you don’t need to specify a `key` property. Just add `Fallback` components anywhere you want within the router’s `children` snippet.
+You can do _DPUI_ with the `Fallback` component, except that you don’t need to specify a `key` property. Just add `Fallback` components anywhere you want within the router’s `children` snippet.
 
 ### Fallback Fine-Tuning
 
@@ -154,9 +153,7 @@ Effectively speaking, the `when` property brings the `Fallback` component total 
 Note that the value of `fallback` will have been affected by the routes’ `ignoreForFallback` property setting, if any had it set, by the time the predicate function is evaluated.
 
 ```svelte
-<Fallback when={(rs) => onlyLayoutRoutesRemain(rs)}>
-  ...
-</Fallback>
+<Fallback when={(rs) => onlyLayoutRoutesRemain(rs)}>...</Fallback>
 ```
 
 As the example shows, we are in complete liberty of executing arbitrary code in the predicate.

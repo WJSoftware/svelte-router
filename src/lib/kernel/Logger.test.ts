@@ -1,8 +1,8 @@
-import { describe, test, expect, beforeEach, afterEach, vi } from "vitest";
-import { logger, resetLogger, setLogger } from "./Logger.js";
-import type { ILogger } from "../types.js";
+import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
+import { logger, resetLogger, setLogger } from './Logger.js';
+import type { ILogger } from '../types.js';
 
-describe("logger", () => {
+describe('logger', () => {
     test("Should default to offLogger when the library hasn't been initialized.", () => {
         expect(logger).not.toBe(globalThis.console);
         expect(logger.debug).toBeDefined();
@@ -12,7 +12,7 @@ describe("logger", () => {
     });
 });
 
-describe("setLogger", () => {
+describe('setLogger', () => {
     let originalLogger: ILogger;
     let mockLogger: ILogger;
     let consoleSpy: {
@@ -25,7 +25,7 @@ describe("setLogger", () => {
     beforeEach(() => {
         // Store original logger state
         originalLogger = logger;
-        
+
         // Create mock logger
         mockLogger = {
             debug: vi.fn(),
@@ -49,26 +49,26 @@ describe("setLogger", () => {
         vi.restoreAllMocks();
     });
 
-    describe("Boolean arguments", () => {
-        test("Should set logger to globalThis.console when true", () => {
+    describe('Boolean arguments', () => {
+        test('Should set logger to globalThis.console when true', () => {
             setLogger(true);
-            
+
             expect(logger).toBe(globalThis.console);
-            
-            logger.debug("test");
-            expect(consoleSpy.debug).toHaveBeenCalledWith("test");
+
+            logger.debug('test');
+            expect(consoleSpy.debug).toHaveBeenCalledWith('test');
         });
 
-        test("Should set logger to noop functions when false", () => {
+        test('Should set logger to noop functions when false', () => {
             setLogger(false);
-            
+
             expect(logger).not.toBe(globalThis.console);
-            
+
             // Should not throw and should not call console
-            logger.debug("debug message");
-            logger.log("log message");
-            logger.warn("warn message");
-            logger.error("error message");
+            logger.debug('debug message');
+            logger.log('log message');
+            logger.warn('warn message');
+            logger.error('error message');
 
             expect(consoleSpy.debug).not.toHaveBeenCalled();
             expect(consoleSpy.log).not.toHaveBeenCalled();
@@ -76,38 +76,38 @@ describe("setLogger", () => {
             expect(consoleSpy.error).not.toHaveBeenCalled();
         });
 
-        test("Should allow switching between true and false", () => {
+        test('Should allow switching between true and false', () => {
             setLogger(true);
-            logger.log("enabled message");
-            expect(consoleSpy.log).toHaveBeenCalledWith("enabled message");
+            logger.log('enabled message');
+            expect(consoleSpy.log).toHaveBeenCalledWith('enabled message');
 
             setLogger(false);
-            logger.log("disabled message");
+            logger.log('disabled message');
             expect(consoleSpy.log).toHaveBeenCalledTimes(1); // Should not be called again
 
             setLogger(true);
-            logger.log("re-enabled message");
-            expect(consoleSpy.log).toHaveBeenCalledWith("re-enabled message");
+            logger.log('re-enabled message');
+            expect(consoleSpy.log).toHaveBeenCalledWith('re-enabled message');
             expect(consoleSpy.log).toHaveBeenCalledTimes(2);
         });
     });
 
-    describe("ILogger implementations", () => {
-        test("Should set custom logger as the global logger", () => {
+    describe('ILogger implementations', () => {
+        test('Should set custom logger as the global logger', () => {
             setLogger(mockLogger);
-            
-            expect(logger).toBe(mockLogger);
-            
-            logger.debug("custom debug");
-            logger.log("custom log");
-            logger.warn("custom warn");
-            logger.error("custom error");
 
-            expect(mockLogger.debug).toHaveBeenCalledWith("custom debug");
-            expect(mockLogger.log).toHaveBeenCalledWith("custom log");
-            expect(mockLogger.warn).toHaveBeenCalledWith("custom warn");
-            expect(mockLogger.error).toHaveBeenCalledWith("custom error");
-            
+            expect(logger).toBe(mockLogger);
+
+            logger.debug('custom debug');
+            logger.log('custom log');
+            logger.warn('custom warn');
+            logger.error('custom error');
+
+            expect(mockLogger.debug).toHaveBeenCalledWith('custom debug');
+            expect(mockLogger.log).toHaveBeenCalledWith('custom log');
+            expect(mockLogger.warn).toHaveBeenCalledWith('custom warn');
+            expect(mockLogger.error).toHaveBeenCalledWith('custom error');
+
             // Console should not be called
             expect(consoleSpy.debug).not.toHaveBeenCalled();
             expect(consoleSpy.log).not.toHaveBeenCalled();
@@ -115,7 +115,7 @@ describe("setLogger", () => {
             expect(consoleSpy.error).not.toHaveBeenCalled();
         });
 
-        test("Should work with extended logger implementations", () => {
+        test('Should work with extended logger implementations', () => {
             const extendedLogger = {
                 ...mockLogger,
                 trace: vi.fn(),
@@ -123,48 +123,48 @@ describe("setLogger", () => {
             };
 
             setLogger(extendedLogger);
-            
-            expect(logger).toBe(extendedLogger);
-            
-            logger.debug("debug");
-            logger.log("log");
-            logger.warn("warn");
-            logger.error("error");
 
-            expect(extendedLogger.debug).toHaveBeenCalledWith("debug");
-            expect(extendedLogger.log).toHaveBeenCalledWith("log");
-            expect(extendedLogger.warn).toHaveBeenCalledWith("warn");
-            expect(extendedLogger.error).toHaveBeenCalledWith("error");
+            expect(logger).toBe(extendedLogger);
+
+            logger.debug('debug');
+            logger.log('log');
+            logger.warn('warn');
+            logger.error('error');
+
+            expect(extendedLogger.debug).toHaveBeenCalledWith('debug');
+            expect(extendedLogger.log).toHaveBeenCalledWith('log');
+            expect(extendedLogger.warn).toHaveBeenCalledWith('warn');
+            expect(extendedLogger.error).toHaveBeenCalledWith('error');
         });
 
-        test("Should allow switching from custom logger back to stock logger", () => {
+        test('Should allow switching from custom logger back to stock logger', () => {
             setLogger(mockLogger);
-            logger.log("custom message");
-            expect(mockLogger.log).toHaveBeenCalledWith("custom message");
+            logger.log('custom message');
+            expect(mockLogger.log).toHaveBeenCalledWith('custom message');
 
             setLogger(true);
-            logger.log("stock message");
-            expect(consoleSpy.log).toHaveBeenCalledWith("stock message");
+            logger.log('stock message');
+            expect(consoleSpy.log).toHaveBeenCalledWith('stock message');
             expect(mockLogger.log).toHaveBeenCalledTimes(1); // Should not be called again
         });
 
-        test("Should handle multiple parameters correctly", () => {
+        test('Should handle multiple parameters correctly', () => {
             setLogger(mockLogger);
-            
-            logger.debug("debug", 123, { key: "value" });
-            logger.log("log", true, null);
-            logger.warn("warn", "multiple", "parameters");
-            logger.error("error", { error: "object" });
 
-            expect(mockLogger.debug).toHaveBeenCalledWith("debug", 123, { key: "value" });
-            expect(mockLogger.log).toHaveBeenCalledWith("log", true, null);
-            expect(mockLogger.warn).toHaveBeenCalledWith("warn", "multiple", "parameters");
-            expect(mockLogger.error).toHaveBeenCalledWith("error", { error: "object" });
+            logger.debug('debug', 123, { key: 'value' });
+            logger.log('log', true, null);
+            logger.warn('warn', 'multiple', 'parameters');
+            logger.error('error', { error: 'object' });
+
+            expect(mockLogger.debug).toHaveBeenCalledWith('debug', 123, { key: 'value' });
+            expect(mockLogger.log).toHaveBeenCalledWith('log', true, null);
+            expect(mockLogger.warn).toHaveBeenCalledWith('warn', 'multiple', 'parameters');
+            expect(mockLogger.error).toHaveBeenCalledWith('error', { error: 'object' });
         });
     });
 
-    describe("resetLogger", () => {
-        test("Should reset logger to offLogger (default uninitialized state).", () => {
+    describe('resetLogger', () => {
+        test('Should reset logger to offLogger (default uninitialized state).', () => {
             // Arrange - Set logger to console
             setLogger(true);
             expect(logger).toBe(globalThis.console);
@@ -180,7 +180,7 @@ describe("setLogger", () => {
             expect(logger.error).toBeDefined();
         });
 
-        test("Should reset logger from custom logger to offLogger.", () => {
+        test('Should reset logger from custom logger to offLogger.', () => {
             // Arrange - Set logger to custom logger
             const customLogger = {
                 debug: vi.fn(),

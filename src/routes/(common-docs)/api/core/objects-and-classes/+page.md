@@ -49,11 +49,11 @@ Calculates the appropriate HREF according to the specified value of the `hash` o
 
 These options inherit the `replace` and `preserveQuery` from [GoToOptions](#GoToOptions), plus:
 
-| Property | Type | Default | Description |
-| - | - | - | - |
-| `state` | `any` | `undefined` | The state data to associate with the new URL and hash value. |
-| `hash` | `Hash` | `undefined` | The hash value that determines the routing universe in which navigation will take place. |
-| `preserveHash` | `boolean` | `false` | Determines whether the current hash value should be preserved when navigating.  Only available when navigating the path routing universe. |
+| Property       | Type      | Default     | Description                                                                                                                              |
+| -------------- | --------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `state`        | `any`     | `undefined` | The state data to associate with the new URL and hash value.                                                                             |
+| `hash`         | `Hash`    | `undefined` | The hash value that determines the routing universe in which navigation will take place.                                                 |
+| `preserveHash` | `boolean` | `false`     | Determines whether the current hash value should be preserved when navigating. Only available when navigating the path routing universe. |
 
 ### `location.goTo`
 
@@ -63,11 +63,11 @@ Navigates to the specified URL by using the browser’s History API.
 
 #### `GoToOptions`
 
-| Property | Type | Default | Description |
-| - | - | - | - |
-| `replace` | `boolean` | `false` | Whether to replace the current URL in the history stack. |
-| `state` | `State` | `undefined` | The state object to associate with the new URL that is conformant with what this router library expects. |
-| `preserveQuery` | `PreserveQuery` | `undefined` | Whether to preserve the current query string in the new URL. |
+| Property        | Type            | Default     | Description                                                                                              |
+| --------------- | --------------- | ----------- | -------------------------------------------------------------------------------------------------------- |
+| `replace`       | `boolean`       | `false`     | Whether to replace the current URL in the history stack.                                                 |
+| `state`         | `State`         | `undefined` | The state object to associate with the new URL that is conformant with what this router library expects. |
+| `preserveQuery` | `PreserveQuery` | `undefined` | Whether to preserve the current query string in the new URL.                                             |
 
 ### `location.on`
 
@@ -187,7 +187,7 @@ Gets the router engine’s parent router engine, if any.
 
 `(): void`
 
-Disposes the router engine. `Router` components do this when unmounted. Make sure to dispose any instances manually created **that were not handed to a `Router` component**.  Instances that were given to a `Router` component are disposed of by the `Router` component when it unmounts from the DOM.
+Disposes the router engine. `Router` components do this when unmounted. Make sure to dispose any instances manually created **that were not handed to a `Router` component**. Instances that were given to a `Router` component are disposed of by the `Router` component when it unmounts from the DOM.
 
 ### `RouterEngine.resolvedHash`
 

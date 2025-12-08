@@ -19,10 +19,10 @@ Refer to the [Navigating with Components](/docs/navigating-with-components) docu
 
 The following is the list of properties this component supports:
 
-+ `replace`
-+ `prependBasePath`
-+ `preserveQuery`
-+ `activeState`
-+ `children`
+- `replace`
+- `prependBasePath`
+- `preserveQuery`
+- `activeState`
+- `children`
 
 These properties propagate their values to any child Link components rendered inside its children snippet and they work as described in the [Link Component](/api/core/link) document.

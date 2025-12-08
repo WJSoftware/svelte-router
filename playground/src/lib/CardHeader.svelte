@@ -1,18 +1,18 @@
 <script lang="ts">
-	import type { HTMLAttributes } from "svelte/elements";
-	import type { ClassValue } from "svelte/elements";
-	import type { BootstrapBackgroundColor, BootstrapTextColor } from "./types.js";
+    import type { HTMLAttributes } from 'svelte/elements';
+    import type { ClassValue } from 'svelte/elements';
+    import type { BootstrapBackgroundColor, BootstrapTextColor } from './types.js';
 
     type Props = HTMLAttributes<HTMLDivElement> & {
         class?: ClassValue;
         tag?: string;
         background?: BootstrapBackgroundColor;
         textColor?: BootstrapTextColor;
-    }
+    };
 
     let {
         class: cssClass,
-        tag = "div",
+        tag = 'div',
         background,
         textColor,
         children,
@@ -20,8 +20,8 @@
     }: Props = $props();
 
     const classes: ClassValue = $derived([
-        "card-header",
-        "mb-0", // Remove default margin when used as heading
+        'card-header',
+        'mb-0', // Remove default margin when used as heading
         background && `bg-${background}`,
         textColor && `text-${textColor}`,
         cssClass

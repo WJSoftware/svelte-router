@@ -39,7 +39,6 @@ Command line: `cloc .\src\lib\ --exclude-dir=testing --exclude-ext=test.ts --exc
 
 cloc version: **v2.07**
 
-
 ```plaintext
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
@@ -109,6 +108,7 @@ SUM:                            35            214           1269           1590
 ```
 
 ## Version 1.0.0-beta.1
+
 Lines of Code: **1,482** (**1,280** without `RouterTrace`)
 
 Command line: `cloc .\src\lib\ --exclude-ext=test.ts --exclude-lang=Markdown,SVG --strip-str-comments`
@@ -203,6 +203,7 @@ SUM:                            31            202           1034           1445
 ```
 
 ## Version 0.10.2
+
 Lines of Code: **1,394** (**1,188** without `RouterTrace`)
 
 Command line: `cloc .\src\lib\ --exclude-ext=test.ts --exclude-lang=Markdown,SVG --strip-str-comments`

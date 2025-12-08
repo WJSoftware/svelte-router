@@ -1,6 +1,6 @@
-import { getContext, setContext } from "svelte";
+import { getContext, setContext } from 'svelte';
 
-const defaultTitle = "Svelte Router:  Live Demo";
+const defaultTitle = 'Svelte Router:  Live Demo';
 
 export class TitleState {
     #current = $state(defaultTitle);

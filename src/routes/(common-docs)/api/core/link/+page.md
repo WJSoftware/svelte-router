@@ -28,6 +28,7 @@ For a detailed explanation of what this is, refer to this [Sveltekit page](https
 ## Properties
 
 ### `hash`
+
 Type: `Hash`; Default: `undefined`; Bindable: **No**
 
 This property controls the universe the `Link` component will be a part of. Read the `Router` component’s explanation on this property for detailed information.
@@ -39,9 +40,10 @@ If you need reactive hash values, destroy and re-create the component whenever t
 :::
 
 ### `href`
+
 Type: `string`; Default: None; Bindable: `No`
 
-*Required*. Sets the HTML anchor element’s href attribute. Never set a full URL with this property.
+_Required_. Sets the HTML anchor element’s href attribute. Never set a full URL with this property.
 
 :::tip[Also read Navigating with JavaScript]
 The [Navigating with JavaScript](/docs/navigating-with-javascript) topic covers in detail what is considered a good HREF value, because this routing library doesn’t support just any valid HREF. What’s valid for a regular HTML anchor element might very well not be supported by this library.
@@ -75,9 +77,9 @@ This feature requires the collaboration of a parent router.
 
 This is a property that allows consumers to set up to 3 different properties:
 
-+ `class: ClassValue`. Class or list of classes, or dictionary of classes to be applied to the HTML anchor element whenever the route of interest has been matched by the parent router.
-+ `style: string | Record<string, string>`. Use it to directly apply HTML style settings to the HTML anchor element whenever it is considered to be active.
-+ `aria: ActiveStateAriaAttributes`. Defines the `aria-` attributes applied to the HTML anchor element whenever the route specified by the `activeFor` property is active. If this property is left undefined, then `{ current: 'page' }` is applied by default.
+- `class: ClassValue`. Class or list of classes, or dictionary of classes to be applied to the HTML anchor element whenever the route of interest has been matched by the parent router.
+- `style: string | Record<string, string>`. Use it to directly apply HTML style settings to the HTML anchor element whenever it is considered to be active.
+- `aria: ActiveStateAriaAttributes`. Defines the `aria-` attributes applied to the HTML anchor element whenever the route specified by the `activeFor` property is active. If this property is left undefined, then `{ current: 'page' }` is applied by default.
 
 ### `activeFor`
 

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Card from "../Card.svelte";
-	import CardBody from "../CardBody.svelte";
-	import CardHeader from "../CardHeader.svelte";
-	import FeatureItem from "../FeatureItem.svelte";
-	import FeatureList from "../FeatureList.svelte";
+    import Card from '../Card.svelte';
+    import CardBody from '../CardBody.svelte';
+    import CardHeader from '../CardHeader.svelte';
+    import FeatureItem from '../FeatureItem.svelte';
+    import FeatureList from '../FeatureList.svelte';
 </script>
 
 <Card>
@@ -21,5 +21,5 @@
                 Fallback content via the <code>Fallback</code> component
             </FeatureItem>
         </FeatureList>
-</CardBody>
+    </CardBody>
 </Card>

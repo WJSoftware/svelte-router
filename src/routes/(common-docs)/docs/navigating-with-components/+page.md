@@ -15,26 +15,26 @@ It is very simple to use, and more often than not, it should serve as a drop-in 
 
 ```svelte
 <script lang="ts">
-  import { Link } from "@svelte-router/core";
+    import { Link } from '@svelte-router/core';
 
-  const appLinks = [
-    {
-      text: 'home',
-      href: '/',
-    },
-    {
-      text: 'profile',
-      href: '/profile',
-    }
-  ];
+    const appLinks = [
+        {
+            text: 'home',
+            href: '/'
+        },
+        {
+            text: 'profile',
+            href: '/profile'
+        }
+    ];
 </script>
 
 <nav>
-  <ul>
-    {#each appLinks as link (link.text)}
-      <Link href={link.href}>{link.text}</Link>
-    {/each}
-  </ul>
+    <ul>
+        {#each appLinks as link (link.text)}
+            <Link href={link.href}>{link.text}</Link>
+        {/each}
+    </ul>
 </nav>
 ```
 
@@ -42,12 +42,10 @@ This would be the most basic usage for the `Link` component, where we provide th
 
 Of course, if we wanted or needed to, we can also explicitly specify a routing universe by providing the `hash` property, just like we do with the rest of components that accept this property.
 
-`Link` components may also be given a value (any *serializable* value) to be stored in the **History API** when navigating (when the generated anchor element is clicked/activated):
+`Link` components may also be given a value (any _serializable_ value) to be stored in the **History API** when navigating (when the generated anchor element is clicked/activated):
 
 ```svelte
-<Link href="/some/path" state={{ flag: true }}>
-  ...
-</Link>
+<Link href="/some/path" state={{ flag: true }}>...</Link>
 ```
 
 Whatever piece of data is passed to the state property will be available as history state once navigation happens.
@@ -74,7 +72,7 @@ Well, this ability is also available to `Link` components, but only on-demand us
 
 ```svelte
 <Router basePath="/base/path">
-  <Link href="/some/where" prependBasePath>...</Link>
+    <Link href="/some/where" prependBasePath>...</Link>
 </Router>
 ```
 
@@ -125,17 +123,13 @@ Assuming the `"home"` and `"user-profile"` strings are the keys of two existing 
 </script>
 
 <nav>
-  <ul>
-    {#each appLinks as link (link.text)}
-      <Link
-        href={link.href}
-        activeFor={link.activeFor}
-        activeState={link.activeState}
-      >
-        {link.text}
-      </Link>
-    {/each}
-  </ul>
+    <ul>
+        {#each appLinks as link (link.text)}
+            <Link href={link.href} activeFor={link.activeFor} activeState={link.activeState}>
+                {link.text}
+            </Link>
+        {/each}
+    </ul>
 </nav>
 ```
 
@@ -161,9 +155,9 @@ We have now covered all possible properties of the `Link` component. Let’s see
 
 ```svelte
 <Link href="/some/where">
-  {#snippet children({ state, rs })}
-    ...
-  {/snippet}
+    {#snippet children({ state, rs })}
+        ...
+    {/snippet}
 </Link>
 ```
 
@@ -177,20 +171,16 @@ For the cases where we want the same property value on `Link` components for the
 
 ```svelte
 <LinkContext preserveQuery={['debug', 'fullscreen']} prependBasePath>
-  <Link href="...">...</Link>
-  <Link href="...">...</Link>
-  <Link href="...">...</Link>
-  <Link href="...">...</Link>
-  <Link href="...">...</Link>
-  <Link href="...">...</Link>
-  <Link
-    href="/"
-    activeState={{ key: 'home', class: 'active' }}
-    preserveQuery={false}
-  >
-    Back to Homepage
-  </Link>
-  <Link href="...">...</Link>
+    <Link href="...">...</Link>
+    <Link href="...">...</Link>
+    <Link href="...">...</Link>
+    <Link href="...">...</Link>
+    <Link href="...">...</Link>
+    <Link href="...">...</Link>
+    <Link href="/" activeState={{ key: 'home', class: 'active' }} preserveQuery={false}>
+        Back to Homepage
+    </Link>
+    <Link href="...">...</Link>
 </LinkContext>
 ```
 

@@ -1,5 +1,5 @@
 <script>
-    const title = "Svelte Router";
+    const title = 'Svelte Router';
     const subtitle = "The ultimate routing solution for Svelte PWA's and micro-frontends";
 </script>
 
@@ -15,7 +15,7 @@
         h1 {
             margin: 0;
         }
-        
+
         h6 {
             color: #eee;
         }

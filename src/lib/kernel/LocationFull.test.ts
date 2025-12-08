@@ -1,11 +1,11 @@
-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
-import { LocationFull } from "./LocationFull.js";
-import type { State, Location, FullModeHistoryApi } from "../types.js";
-import { setupBrowserMocks, ALL_HASHES } from "$test/test-utils.js";
-import { SvelteURL } from "svelte/reactivity";
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { LocationFull } from './LocationFull.js';
+import type { State, Location, FullModeHistoryApi } from '../types.js';
+import { setupBrowserMocks, ALL_HASHES } from '$test/test-utils.js';
+import { SvelteURL } from 'svelte/reactivity';
 
-describe("LocationFull", () => {
-    const initialUrl = "http://example.com/";
+describe('LocationFull', () => {
+    const initialUrl = 'http://example.com/';
     let location: Location;
     let browserMocks: ReturnType<typeof setupBrowserMocks>;
 
@@ -20,12 +20,12 @@ describe("LocationFull", () => {
     });
 
     describe('constructor', () => {
-        test("Should create a new instance with the expected default values.", () => {
+        test('Should create a new instance with the expected default values.', () => {
             // Assert.
             expect(location.url.href).toBe(initialUrl);
         });
 
-        test("Should use provided FullModeHistoryApi instance.", () => {
+        test('Should use provided FullModeHistoryApi instance.', () => {
             // Arrange.
             const mockHistoryApi: FullModeHistoryApi = {
                 url: new SvelteURL(initialUrl),
@@ -38,7 +38,7 @@ describe("LocationFull", () => {
                 back: vi.fn(),
                 forward: vi.fn(),
                 go: vi.fn(),
-                on: vi.fn().mockReturnValue(() => { }),
+                on: vi.fn().mockReturnValue(() => {})
             };
             const locationWithMock = new LocationFull(mockHistoryApi);
 
@@ -65,7 +65,7 @@ describe("LocationFull", () => {
     });
 
     describe('on', () => {
-        test("Should delegate event registration to FullModeHistoryApi.", () => {
+        test('Should delegate event registration to FullModeHistoryApi.', () => {
             // Arrange.
             const mockHistoryApi: FullModeHistoryApi = {
                 url: new SvelteURL(initialUrl),
@@ -78,7 +78,7 @@ describe("LocationFull", () => {
                 back: vi.fn(),
                 forward: vi.fn(),
                 go: vi.fn(),
-                on: vi.fn().mockReturnValue(() => { }),
+                on: vi.fn().mockReturnValue(() => {})
             };
             const locationWithMock = new LocationFull(mockHistoryApi);
             const callback = vi.fn();
@@ -97,20 +97,23 @@ describe("LocationFull", () => {
     });
 
     describe('getState', () => {
-        test.each([
-            'pushState',
-            'replaceState',
-        ] satisfies (keyof History)[])("Should update whenever an external call to %s is made.", (fn) => {
-            // Arrange.
-            const state: State = { path: { test: 'value' }, hash: { single: '/abc', p1: '/def' } };
+        test.each(['pushState', 'replaceState'] satisfies (keyof History)[])(
+            'Should update whenever an external call to %s is made.',
+            (fn) => {
+                // Arrange.
+                const state: State = {
+                    path: { test: 'value' },
+                    hash: { single: '/abc', p1: '/def' }
+                };
 
-            // Act.
-            globalThis.window.history[fn](state, '', 'http://example.com/new');
+                // Act.
+                globalThis.window.history[fn](state, '', 'http://example.com/new');
 
-            // Assert.
-            expect(location.getState(ALL_HASHES.path)).toEqual(state.path);
-            expect(location.getState(ALL_HASHES.single)).toEqual(state.hash.single);
-            expect(location.getState('tp')).toEqual(state.hash.tp);
-        });
+                // Assert.
+                expect(location.getState(ALL_HASHES.path)).toEqual(state.path);
+                expect(location.getState(ALL_HASHES.single)).toEqual(state.hash.single);
+                expect(location.getState('tp')).toEqual(state.hash.tp);
+            }
+        );
     });
 });

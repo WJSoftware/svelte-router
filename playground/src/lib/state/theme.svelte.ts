@@ -30,7 +30,7 @@ export class ThemeState {
     }
 
     nextTheme() {
-        this.#current = (this.#current + 1) % themeOptions.length as ThemeIndex;
+        this.#current = ((this.#current + 1) % themeOptions.length) as ThemeIndex;
         this.#updateTheme();
     }
 }

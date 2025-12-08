@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { HTMLAttributes } from "svelte/elements";
-	import type { ClassValue } from "svelte/elements";
-	import type { BootstrapBackgroundColor, BootstrapTextColor } from "./types.js";
+    import type { HTMLAttributes } from 'svelte/elements';
+    import type { ClassValue } from 'svelte/elements';
+    import type { BootstrapBackgroundColor, BootstrapTextColor } from './types.js';
 
     type Props = HTMLAttributes<HTMLSpanElement> & {
         class?: ClassValue;
@@ -23,12 +23,12 @@
     }: Props = $props();
 
     const classes: ClassValue = $derived([
-        "badge",
+        'badge',
         background && `bg-${background}`,
         textColor && `text-${textColor}`,
-        pill && "rounded-pill",
-        size === 'sm' && "fs-7 px-2 py-1",
-        size === 'lg' && "fs-5 px-3 py-2",
+        pill && 'rounded-pill',
+        size === 'sm' && 'fs-7 px-2 py-1',
+        size === 'lg' && 'fs-5 px-3 py-2',
         cssClass
     ]);
 </script>

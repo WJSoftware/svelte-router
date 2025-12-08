@@ -1,7 +1,7 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test } from 'vitest';
 
 describe('index', () => {
-    test("Should export exactly the expected objects.", async () => {
+    test('Should export exactly the expected objects.', async () => {
         // Arrange.
         const expectedList = [
             'location',
@@ -27,7 +27,10 @@ describe('index', () => {
             expect(item in lib, `The expected object ${item} is not exported.`).toEqual(true);
         }
         for (let key of Object.keys(lib)) {
-            expect(expectedList.includes(key), `The library exports object ${key}, which is not expected.`).toEqual(true);
+            expect(
+                expectedList.includes(key),
+                `The library exports object ${key}, which is not expected.`
+            ).toEqual(true);
         }
     });
 });

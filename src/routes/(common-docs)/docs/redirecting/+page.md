@@ -9,7 +9,7 @@ Redirecting is the act of moving a user out of a particular URL and into a diffe
 
 Users tend to share URLs in social media and other ways and can even store/save the URLs for future reference, for example, in their browser’s **Favorites** bar.
 
-In order to improve the users’ experience, an application can gracefully detect access to a deprecated URL and automatically route the user to the new URL. Generally speaking, keeping URLs alive is *good business*.
+In order to improve the users’ experience, an application can gracefully detect access to a deprecated URL and automatically route the user to the new URL. Generally speaking, keeping URLs alive is _good business_.
 
 ## Redirecting
 
@@ -64,7 +64,7 @@ This is the first example with the added `and` predicate that ensures the user i
 
 ### Navigation Options
 
-As you may have inferred already, the process of redirecting is a two-step process. We have already covered the first step: *Route matching*. The second step is *Navigation*.
+As you may have inferred already, the process of redirecting is a two-step process. We have already covered the first step: _Route matching_. The second step is _Navigation_.
 
 This library provides `location.navigate()` and `location.goTo()` to navigate, each with their own set of options. Redirection navigates using either of these.
 
@@ -162,7 +162,7 @@ For these more complex cases, we can use some useful helper functions. The three
 
 The routing-universe-aware `calculateHref()` function takes any number of paths, joins them, and then outputs a full HREF that will contain the joined paths set in the appropriate place according to the desired routing universe (`hash` option), plus all other paths for any other routing universes, untouched. Use this function as best practice whenever possible. This function, however and by itself, doesn’t clean up the source routing universe path. If it did, it would not be fulfilling its primary job of creating URL’s that properly preserve other routing universe paths.
 
-This is where `buildHref()` comes into play. This one is *routing-universe unaware* and can piece an HREF together from 2 other HREF’s. Its primary use case is to give it 2 full HREF’s created with `calculateHref()`: One for the path routing universe, and one for the hash (or multi-hash) routing universe.
+This is where `buildHref()` comes into play. This one is _routing-universe unaware_ and can piece an HREF together from 2 other HREF’s. Its primary use case is to give it 2 full HREF’s created with `calculateHref()`: One for the path routing universe, and one for the hash (or multi-hash) routing universe.
 
 To illustrate, we could write the simple example as:
 

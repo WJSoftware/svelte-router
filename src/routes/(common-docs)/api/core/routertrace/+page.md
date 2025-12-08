@@ -11,23 +11,23 @@ This component is not meant for production deployments. It renders a table that 
 
 The columns in the table display the following information about the registered routes in the router:
 
-| Column | Description |
-| - | - |
-| **Route** | Shows the route’s key property. |
-| **Path** | Shows the route’s path. |
-| **RegEx** | Shows the generated regular expression for paths specified as string patterns. |
-| **Matches?** | Shows ✔ or ✘ to signal whether the route is currently matching or not. |
+| Column           | Description                                                                                                                        |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Route**        | Shows the route’s key property.                                                                                                    |
+| **Path**         | Shows the route’s path.                                                                                                            |
+| **RegEx**        | Shows the generated regular expression for paths specified as string patterns.                                                     |
+| **Matches?**     | Shows ✔ or ✘ to signal whether the route is currently matching or not.                                                             |
 | **Route Params** | Lists all of the route parameters and their inferred values. This only happens if the path’s regular expression was able to match. |
 
 Besides the above information, information about the router itself is presented in the table's `<caption>` element:
 
-+ The developer-provided **router's ID**.
-+ The **universe** the router belongs to.
-+ The **parent router**  using the parent router’s ID and base path.
-+ The **children count**, which is the total number of direct child routers the router has.
-+ The **base path**, which includes any base path inherited from its parent router.
-+ The **test path** ultimately used to determine a route’s match.
-+ The **fallback** value used by `Fallback` components to know when to render content.
+- The developer-provided **router's ID**.
+- The **universe** the router belongs to.
+- The **parent router** using the parent router’s ID and base path.
+- The **children count**, which is the total number of direct child routers the router has.
+- The **base path**, which includes any base path inherited from its parent router.
+- The **test path** ultimately used to determine a route’s match.
+- The **fallback** value used by `Fallback` components to know when to render content.
 
 ## Traversing the Router Hierarchy
 
@@ -67,26 +67,26 @@ The component also offers the `themeBtn` property. When set to `true`, a simple 
 
 The following are CSS variables set at the table HTML element level:
 
-| Variable | Description | Value (light) | Value (dark) |
-| - | - | - | - |
-| `--rt-grid-color` | Table’s grid lines color. | `#ddd` | `#353535` |
-| `--rt-header-bg-color` | Table header’s background color. Also used as the children menu’s background color. | `#f2f2f2` | `#202020` |
-| `--rt-bg-color` | Table’s primary background color. | `#fafafa` | `#303030` |
-| `--rt-alternate-bg-color` | Alternate color used to stripe the table. | `#f5f5f5` | `#404040` |
-| `--rt-hover-bg-color` | Color used as background color of the row under the mouse cursor and the child menu item under the mouse cursor. | `#e2e2e2` | `#505050` |
+| Variable                  | Description                                                                                                      | Value (light) | Value (dark) |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------- | ------------ |
+| `--rt-grid-color`         | Table’s grid lines color.                                                                                        | `#ddd`        | `#353535`    |
+| `--rt-header-bg-color`    | Table header’s background color. Also used as the children menu’s background color.                              | `#f2f2f2`     | `#202020`    |
+| `--rt-bg-color`           | Table’s primary background color.                                                                                | `#fafafa`     | `#303030`    |
+| `--rt-alternate-bg-color` | Alternate color used to stripe the table.                                                                        | `#f5f5f5`     | `#404040`    |
+| `--rt-hover-bg-color`     | Color used as background color of the row under the mouse cursor and the child menu item under the mouse cursor. | `#e2e2e2`     | `#505050`    |
 
 The following are CSS variables set at the table’s caption HTML element level:
 
-| Variable | Description | Value (light) | Value (dark) |
-| - | - | - | - |
-| `--rtc-button-bg-color` | Background color of buttons. | `firebrick` | `darkred` |
-| `--rtc-button-hover-bg-color` | Background color of buttons when hovered with the mouse cursor. | `rgb(201, 38, 38)` | `rgb(113, 2, 2)` |
-| `--rtc-button-disabled-bg-color` | Background color of disabled buttons. | `#ffb8b8` | `rgb(66, 37, 37)` |
-| `--rtc-button-text-color` | Buttons’ foreground color. | `#fafafa` | `#fafafa` |
-| `--rtc-prop-bg-color` | Background color for router property values. | `0, 0, 0` | `255, 255, 255` |
-| `--rtc-prop-bg-opacity` | Background color’s opacity for router property values. | `0.15` | `0.15` |
-| `--rtc-prop-border-color` | Border color for router property values. | `0, 0, 0` | `255, 255, 255` |
-| `--rtc-prop-border-opacity` | Border opacity for router property values. | `0.5` | `0.5` |
+| Variable                         | Description                                                     | Value (light)      | Value (dark)      |
+| -------------------------------- | --------------------------------------------------------------- | ------------------ | ----------------- |
+| `--rtc-button-bg-color`          | Background color of buttons.                                    | `firebrick`        | `darkred`         |
+| `--rtc-button-hover-bg-color`    | Background color of buttons when hovered with the mouse cursor. | `rgb(201, 38, 38)` | `rgb(113, 2, 2)`  |
+| `--rtc-button-disabled-bg-color` | Background color of disabled buttons.                           | `#ffb8b8`          | `rgb(66, 37, 37)` |
+| `--rtc-button-text-color`        | Buttons’ foreground color.                                      | `#fafafa`          | `#fafafa`         |
+| `--rtc-prop-bg-color`            | Background color for router property values.                    | `0, 0, 0`          | `255, 255, 255`   |
+| `--rtc-prop-bg-opacity`          | Background color’s opacity for router property values.          | `0.15`             | `0.15`            |
+| `--rtc-prop-border-color`        | Border color for router property values.                        | `0, 0, 0`          | `255, 255, 255`   |
+| `--rtc-prop-border-opacity`      | Border opacity for router property values.                      | `0.5`              | `0.5`             |
 
 Redefine any of these properties to further customize the look of the `RouterTrace` component.
 
@@ -105,6 +105,7 @@ If you need reactive hash values, destroy and re-create the component whenever t
 :::
 
 ### `router`
+
 Type: `RouterEngine`; Default: `undefined`; Bindable: **Yes**
 
 Sets the router engine to trace. It has a higher priority than the component’s context, so use it to explicitly trace a router of interest.

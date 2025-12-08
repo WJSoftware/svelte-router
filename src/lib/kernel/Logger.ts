@@ -1,8 +1,8 @@
-import type { ILogger } from "../types.js";
+import type { ILogger } from '../types.js';
 
 const stockLogger: ILogger = globalThis.console;
 
-const noop = () => { };
+const noop = () => {};
 
 const offLogger: ILogger = {
     debug: noop,
@@ -14,7 +14,7 @@ const offLogger: ILogger = {
 export let logger: ILogger = offLogger;
 
 export function setLogger(newLogger: boolean | ILogger) {
-    logger = newLogger === true ? stockLogger : (newLogger === false ? offLogger : newLogger);
+    logger = newLogger === true ? stockLogger : newLogger === false ? offLogger : newLogger;
 }
 
 /**

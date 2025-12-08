@@ -1,18 +1,26 @@
-import { init } from "$lib/init.js";
-import { location } from "$lib/kernel/Location.js";
-import { describe, test, expect, beforeAll, afterAll, beforeEach, vi, afterEach } from "vitest";
-import { render, fireEvent } from "@testing-library/svelte";
-import { createRawSnippet } from "svelte";
-import Link from "./Link.svelte";
-import { createRouterTestSetup, createTestSnippet, ROUTING_UNIVERSES, ALL_HASHES, setupBrowserMocks, type RoutingUniverse, addMatchingRoute } from "$test/test-utils.js";
-import { flushSync } from "svelte";
-import { resetRoutingOptions, setRoutingOptions } from "$lib/kernel/options.js";
-import type { ExtendedRoutingOptions, LinkChildrenContext } from "$lib/types.js";
-import { linkCtxKey, type ILinkContext } from "$lib/LinkContext/LinkContext.svelte";
-import { calculateHref } from "$lib/kernel/calculateHref.js";
+import { init } from '$lib/init.js';
+import { location } from '$lib/kernel/Location.js';
+import { describe, test, expect, beforeAll, afterAll, beforeEach, vi, afterEach } from 'vitest';
+import { render, fireEvent } from '@testing-library/svelte';
+import { createRawSnippet } from 'svelte';
+import Link from './Link.svelte';
+import {
+    createRouterTestSetup,
+    createTestSnippet,
+    ROUTING_UNIVERSES,
+    ALL_HASHES,
+    setupBrowserMocks,
+    type RoutingUniverse,
+    addMatchingRoute
+} from '$test/test-utils.js';
+import { flushSync } from 'svelte';
+import { resetRoutingOptions, setRoutingOptions } from '$lib/kernel/options.js';
+import type { ExtendedRoutingOptions, LinkChildrenContext } from '$lib/types.js';
+import { linkCtxKey, type ILinkContext } from '$lib/LinkContext/LinkContext.svelte';
+import { calculateHref } from '$lib/kernel/calculateHref.js';
 
 function basicLinkTests(setup: ReturnType<typeof createRouterTestSetup>) {
-    const linkText = "Test Link";
+    const linkText = 'Test Link';
     const content = createTestSnippet(linkText);
 
     beforeEach(() => {
@@ -25,10 +33,10 @@ function basicLinkTests(setup: ReturnType<typeof createRouterTestSetup>) {
         setup.dispose();
     });
 
-    test("Should render an anchor tag with correct href.", async () => {
+    test('Should render an anchor tag with correct href.', async () => {
         // Arrange.
         const { hash, context } = setup;
-        const href = "/test/path";
+        const href = '/test/path';
 
         // Act.
         const { container } = render(Link, {
@@ -42,10 +50,10 @@ function basicLinkTests(setup: ReturnType<typeof createRouterTestSetup>) {
         expect(anchor?.getAttribute('href')).toBeTruthy();
     });
 
-    test("Should render link text content.", async () => {
+    test('Should render link text content.', async () => {
         // Arrange.
         const { hash, context } = setup;
-        const href = "/test/path";
+        const href = '/test/path';
 
         // Act.
         const { findByText } = render(Link, {
@@ -57,10 +65,10 @@ function basicLinkTests(setup: ReturnType<typeof createRouterTestSetup>) {
         await expect(findByText(linkText)).resolves.toBeDefined();
     });
 
-    test("Should prevent default navigation on click.", async () => {
+    test('Should prevent default navigation on click.', async () => {
         // Arrange.
         const { hash, context } = setup;
-        const href = "/test/path";
+        const href = '/test/path';
         const { container } = render(Link, {
             props: { hash, href, children: content },
             context
@@ -76,10 +84,10 @@ function basicLinkTests(setup: ReturnType<typeof createRouterTestSetup>) {
         expect(preventDefaultSpy).toHaveBeenCalled();
     });
 
-    test("Should handle navigation through location.goTo on click.", async () => {
+    test('Should handle navigation through location.goTo on click.', async () => {
         // Arrange.
         const { hash, context } = setup;
-        const href = "/test/path";
+        const href = '/test/path';
         const goToSpy = vi.spyOn(location, 'goTo');
         const { container } = render(Link, {
             props: { hash, href, children: content },
@@ -96,7 +104,7 @@ function basicLinkTests(setup: ReturnType<typeof createRouterTestSetup>) {
 }
 
 function hrefCalculationTests(setup: ReturnType<typeof createRouterTestSetup>) {
-    const linkText = "Test Link";
+    const linkText = 'Test Link';
     const content = createTestSnippet(linkText);
 
     beforeEach(() => {
@@ -107,10 +115,10 @@ function hrefCalculationTests(setup: ReturnType<typeof createRouterTestSetup>) {
         setup.dispose();
     });
 
-    test("Should calculate href correctly for simple path.", async () => {
+    test('Should calculate href correctly for simple path.', async () => {
         // Arrange.
         const { hash, context } = setup;
-        const href = "/test/path";
+        const href = '/test/path';
 
         // Act.
         const { container } = render(Link, {
@@ -123,10 +131,10 @@ function hrefCalculationTests(setup: ReturnType<typeof createRouterTestSetup>) {
         expect(anchor?.getAttribute('href')).toContain('test/path');
     });
 
-    test("Should preserve query parameters when preserveQuery is true.", async () => {
+    test('Should preserve query parameters when preserveQuery is true.', async () => {
         // Arrange.
         const { hash, context } = setup;
-        const href = "/test/path?new=value";
+        const href = '/test/path?new=value';
 
         // Act.
         const { container } = render(Link, {
@@ -139,10 +147,10 @@ function hrefCalculationTests(setup: ReturnType<typeof createRouterTestSetup>) {
         expect(anchor?.getAttribute('href')).toContain('new=value');
     });
 
-    test("Should prepend base path when prependBasePath is true.", async () => {
+    test('Should prepend base path when prependBasePath is true.', async () => {
         // Arrange.
         const { hash, router, context } = setup;
-        const href = "/test/path";
+        const href = '/test/path';
 
         // Set base path on router
         if (router) {
@@ -165,7 +173,7 @@ function hrefCalculationTests(setup: ReturnType<typeof createRouterTestSetup>) {
 }
 
 function activeStateTests(setup: ReturnType<typeof createRouterTestSetup>) {
-    const linkText = "Test Link";
+    const linkText = 'Test Link';
     const content = createTestSnippet(linkText);
 
     beforeEach(() => {
@@ -176,11 +184,11 @@ function activeStateTests(setup: ReturnType<typeof createRouterTestSetup>) {
         setup.dispose();
     });
 
-    test("Should apply active class when route is active.", async () => {
+    test('Should apply active class when route is active.', async () => {
         // Arrange.
         const { hash, router, context } = setup;
-        const href = "/test/path";
-        const activeKey = "test-route";
+        const href = '/test/path';
+        const activeKey = 'test-route';
 
         // Mock active route status
         if (router) {
@@ -196,7 +204,7 @@ function activeStateTests(setup: ReturnType<typeof createRouterTestSetup>) {
                 hash,
                 href,
                 activeFor: activeKey,
-                activeState: { class: "active-link" },
+                activeState: { class: 'active-link' },
                 children: content
             },
             context
@@ -207,11 +215,11 @@ function activeStateTests(setup: ReturnType<typeof createRouterTestSetup>) {
         expect(anchor?.className).toContain('active-link');
     });
 
-    test("Should apply active style when route is active.", async () => {
+    test('Should apply active style when route is active.', async () => {
         // Arrange.
         const { hash, router, context } = setup;
-        const href = "/test/path";
-        const activeKey = "test-route";
+        const href = '/test/path';
+        const activeKey = 'test-route';
 
         // Mock active route status
         if (router) {
@@ -227,7 +235,7 @@ function activeStateTests(setup: ReturnType<typeof createRouterTestSetup>) {
                 hash,
                 href,
                 activeFor: activeKey,
-                activeState: { style: "color: red;" },
+                activeState: { style: 'color: red;' },
                 children: content
             },
             context
@@ -238,11 +246,11 @@ function activeStateTests(setup: ReturnType<typeof createRouterTestSetup>) {
         expect(anchor?.getAttribute('style')).toContain('color: red');
     });
 
-    test("Should set any aria- attributes from activeState when route is active.", () => {
+    test('Should set any aria- attributes from activeState when route is active.', () => {
         // Arrange.
         const { hash, router, context } = setup;
-        const href = "/test/path";
-        const activeKey = "test-route";
+        const href = '/test/path';
+        const activeKey = 'test-route';
 
         // Mock active route status
         if (router) {
@@ -275,11 +283,11 @@ function activeStateTests(setup: ReturnType<typeof createRouterTestSetup>) {
         expect(anchor?.getAttribute('aria-current')).toBeNull();
     });
 
-    test("Should not set any aria- attributes when route is not active.", async () => {
+    test('Should not set any aria- attributes when route is not active.', async () => {
         // Arrange.
         const { hash, router, context } = setup;
-        const href = "/test/path";
-        const activeKey = "test-route";
+        const href = '/test/path';
+        const activeKey = 'test-route';
 
         // Mock active route status
         if (router) {
@@ -315,8 +323,8 @@ function activeStateTests(setup: ReturnType<typeof createRouterTestSetup>) {
     test("Should apply aria-current with value 'page' when route is active and no aria object is provided.", () => {
         // Arrange.
         const { hash, router, context } = setup;
-        const href = "/test/path";
-        const activeKey = "test-route";
+        const href = '/test/path';
+        const activeKey = 'test-route';
         // Mock active route status
         if (router) {
             Object.defineProperty(router, 'routeStatus', {
@@ -341,11 +349,11 @@ function activeStateTests(setup: ReturnType<typeof createRouterTestSetup>) {
         expect(anchor?.getAttribute('aria-current')).toBe('page');
     });
 
-    test("Should not apply aria-current when route is active and activeState.aria is set to an empty object.", () => {
+    test('Should not apply aria-current when route is active and activeState.aria is set to an empty object.', () => {
         // Arrange.
         const { hash, router, context } = setup;
-        const href = "/test/path";
-        const activeKey = "test-route";
+        const href = '/test/path';
+        const activeKey = 'test-route';
         // Mock active route status
         if (router) {
             Object.defineProperty(router, 'routeStatus', {
@@ -371,11 +379,11 @@ function activeStateTests(setup: ReturnType<typeof createRouterTestSetup>) {
         expect(anchor?.getAttribute('aria-current')).toBeNull();
     });
 
-    test("Should not apply active styles when route is not active.", async () => {
+    test('Should not apply active styles when route is not active.', async () => {
         // Arrange.
         const { hash, router, context } = setup;
-        const href = "/test/path";
-        const activeKey = "test-route";
+        const href = '/test/path';
+        const activeKey = 'test-route';
 
         // Mock inactive route status
         if (router) {
@@ -391,7 +399,7 @@ function activeStateTests(setup: ReturnType<typeof createRouterTestSetup>) {
                 hash,
                 href,
                 activeFor: activeKey,
-                activeState: { class: "active-link" },
+                activeState: { class: 'active-link' },
                 children: content
             },
             context
@@ -405,7 +413,7 @@ function activeStateTests(setup: ReturnType<typeof createRouterTestSetup>) {
 }
 
 function stateHandlingTests(setup: ReturnType<typeof createRouterTestSetup>) {
-    const linkText = "Test Link";
+    const linkText = 'Test Link';
     const content = createTestSnippet(linkText);
 
     beforeEach(() => {
@@ -416,11 +424,11 @@ function stateHandlingTests(setup: ReturnType<typeof createRouterTestSetup>) {
         setup.dispose();
     });
 
-    test("Should pass static state object to navigation.", async () => {
+    test('Should pass static state object to navigation.', async () => {
         // Arrange.
         const { hash, context } = setup;
-        const href = "/test/path";
-        const stateObj = { data: "test-state" };
+        const href = '/test/path';
+        const stateObj = { data: 'test-state' };
         const goToSpy = vi.spyOn(location, 'goTo');
 
         const { container } = render(Link, {
@@ -438,19 +446,18 @@ function stateHandlingTests(setup: ReturnType<typeof createRouterTestSetup>) {
             expect.objectContaining({
                 state: expect.objectContaining({
                     // State structure varies by routing universe
-                    [hash === false ? 'path' : 'hash']: hash === false
-                        ? expect.objectContaining(stateObj)
-                        : expect.any(Object)
+                    [hash === false ? 'path' : 'hash']:
+                        hash === false ? expect.objectContaining(stateObj) : expect.any(Object)
                 })
             })
         );
     });
 
-    test("Should call state function and pass result to navigation.", async () => {
+    test('Should call state function and pass result to navigation.', async () => {
         // Arrange.
         const { hash, context } = setup;
-        const href = "/test/path";
-        const stateObj = { data: "function-state" };
+        const href = '/test/path';
+        const stateObj = { data: 'function-state' };
         const stateFn = vi.fn(() => stateObj);
         const goToSpy = vi.spyOn(location, 'goTo');
 
@@ -470,18 +477,17 @@ function stateHandlingTests(setup: ReturnType<typeof createRouterTestSetup>) {
             expect.objectContaining({
                 state: expect.objectContaining({
                     // State structure varies by routing universe
-                    [hash === false ? 'path' : 'hash']: hash === false
-                        ? expect.objectContaining(stateObj)
-                        : expect.any(Object)
+                    [hash === false ? 'path' : 'hash']:
+                        hash === false ? expect.objectContaining(stateObj) : expect.any(Object)
                 })
             })
         );
     });
 
-    test("Should handle replace navigation when replace is true.", async () => {
+    test('Should handle replace navigation when replace is true.', async () => {
         // Arrange.
         const { hash, context } = setup;
-        const href = "/test/path";
+        const href = '/test/path';
         const goToSpy = vi.spyOn(location, 'goTo');
 
         const { container } = render(Link, {
@@ -502,7 +508,7 @@ function stateHandlingTests(setup: ReturnType<typeof createRouterTestSetup>) {
 }
 
 function reactivityTests(setup: ReturnType<typeof createRouterTestSetup>) {
-    const linkText = "Test Link";
+    const linkText = 'Test Link';
     const content = createTestSnippet(linkText);
 
     beforeEach(() => {
@@ -514,11 +520,11 @@ function reactivityTests(setup: ReturnType<typeof createRouterTestSetup>) {
     });
 
     // Prop Value Changes (Component prop reactivity)
-    test("Should update href when href prop changes (rerender).", async () => {
+    test('Should update href when href prop changes (rerender).', async () => {
         // Arrange.
         const { hash, context } = setup;
-        const initialHref = "/initial/path";
-        const updatedHref = "/updated/path";
+        const initialHref = '/initial/path';
+        const updatedHref = '/updated/path';
 
         const { container, rerender } = render(Link, {
             props: { hash, href: initialHref, children: content },
@@ -537,20 +543,26 @@ function reactivityTests(setup: ReturnType<typeof createRouterTestSetup>) {
     });
 
     // Reactive State Changes (Svelte rune reactivity)
-    test("Should update href when reactive state changes (signals).", async () => {
+    test('Should update href when reactive state changes (signals).', async () => {
         // Arrange.
         const { hash, context } = setup;
-        let href = $state("/initial/path");
+        let href = $state('/initial/path');
 
         const { container } = render(Link, {
-            props: { hash, get href() { return href; }, children: content },
+            props: {
+                hash,
+                get href() {
+                    return href;
+                },
+                children: content
+            },
             context
         });
         const anchor = container.querySelector('a');
         const initialHrefValue = anchor?.getAttribute('href');
 
         // Act.
-        href = "/updated/path";
+        href = '/updated/path';
         flushSync();
 
         // Assert.
@@ -559,11 +571,11 @@ function reactivityTests(setup: ReturnType<typeof createRouterTestSetup>) {
         expect(updatedHrefValue).toContain('updated/path');
     });
 
-    test("Should update classes when activeState prop changes (rerender).", async () => {
+    test('Should update classes when activeState prop changes (rerender).', async () => {
         // Arrange.
         const { hash, router, context } = setup;
-        const href = "/test/path";
-        const activeKey = "test-route";
+        const href = '/test/path';
+        const activeKey = 'test-route';
 
         // Mock active route status
         if (router) {
@@ -573,8 +585,8 @@ function reactivityTests(setup: ReturnType<typeof createRouterTestSetup>) {
             });
         }
 
-        const initialActiveState = { class: "initial-active" };
-        const updatedActiveState = { class: "updated-active" };
+        const initialActiveState = { class: 'initial-active' };
+        const updatedActiveState = { class: 'updated-active' };
 
         const { container, rerender } = render(Link, {
             props: {
@@ -597,11 +609,11 @@ function reactivityTests(setup: ReturnType<typeof createRouterTestSetup>) {
         expect(anchor?.className).not.toContain('initial-active');
     });
 
-    test("Should update classes when reactive activeState changes (signals).", async () => {
+    test('Should update classes when reactive activeState changes (signals).', async () => {
         // Arrange.
         const { hash, router, context } = setup;
-        const href = "/test/path";
-        const activeKey = "test-route";
+        const href = '/test/path';
+        const activeKey = 'test-route';
 
         // Mock active route status
         if (router) {
@@ -611,14 +623,16 @@ function reactivityTests(setup: ReturnType<typeof createRouterTestSetup>) {
             });
         }
 
-        let activeClass = $state("initial-active");
+        let activeClass = $state('initial-active');
 
         const { container } = render(Link, {
             props: {
                 hash,
                 href,
                 activeFor: activeKey,
-                get activeState() { return { class: activeClass }; },
+                get activeState() {
+                    return { class: activeClass };
+                },
                 children: content
             },
             context
@@ -627,7 +641,7 @@ function reactivityTests(setup: ReturnType<typeof createRouterTestSetup>) {
         expect(anchor?.className).toContain('initial-active');
 
         // Act.
-        activeClass = "updated-active";
+        activeClass = 'updated-active';
         flushSync();
 
         // Assert.
@@ -635,12 +649,12 @@ function reactivityTests(setup: ReturnType<typeof createRouterTestSetup>) {
         expect(anchor?.className).not.toContain('initial-active');
     });
 
-    test("Should update state when state prop changes (rerender).", async () => {
+    test('Should update state when state prop changes (rerender).', async () => {
         // Arrange.
         const { hash, context } = setup;
-        const href = "/test/path";
-        const initialState = { data: "initial" };
-        const updatedState = { data: "updated" };
+        const href = '/test/path';
+        const initialState = { data: 'initial' };
+        const updatedState = { data: 'updated' };
         const goToSpy = vi.spyOn(location, 'goTo');
 
         const { container, rerender } = render(Link, {
@@ -658,26 +672,27 @@ function reactivityTests(setup: ReturnType<typeof createRouterTestSetup>) {
             expect.any(String),
             expect.objectContaining({
                 state: expect.objectContaining({
-                    [hash === false ? 'path' : 'hash']: hash === false
-                        ? expect.objectContaining(updatedState)
-                        : expect.any(Object)
+                    [hash === false ? 'path' : 'hash']:
+                        hash === false ? expect.objectContaining(updatedState) : expect.any(Object)
                 })
             })
         );
     });
 
-    test("Should update state when reactive state changes (signals).", async () => {
+    test('Should update state when reactive state changes (signals).', async () => {
         // Arrange.
         const { hash, context } = setup;
-        const href = "/test/path";
-        let stateData = $state({ data: "initial" });
+        const href = '/test/path';
+        let stateData = $state({ data: 'initial' });
         const goToSpy = vi.spyOn(location, 'goTo');
 
         const { container } = render(Link, {
             props: {
                 hash,
                 href,
-                get state() { return stateData; },
+                get state() {
+                    return stateData;
+                },
                 children: content
             },
             context
@@ -685,7 +700,7 @@ function reactivityTests(setup: ReturnType<typeof createRouterTestSetup>) {
         const anchor = container.querySelector('a');
 
         // Act.
-        stateData = { data: "updated" };
+        stateData = { data: 'updated' };
         flushSync();
         await fireEvent.click(anchor!);
 
@@ -694,18 +709,19 @@ function reactivityTests(setup: ReturnType<typeof createRouterTestSetup>) {
             expect.any(String),
             expect.objectContaining({
                 state: expect.objectContaining({
-                    [hash === false ? 'path' : 'hash']: hash === false
-                        ? expect.objectContaining({ data: "updated" })
-                        : expect.any(Object)
+                    [hash === false ? 'path' : 'hash']:
+                        hash === false
+                            ? expect.objectContaining({ data: 'updated' })
+                            : expect.any(Object)
                 })
             })
         );
     });
 
-    test("Should update preserveQuery behavior when prop changes (rerender).", async () => {
+    test('Should update preserveQuery behavior when prop changes (rerender).', async () => {
         // Arrange.
         const { hash, context } = setup;
-        const href = "/test/path";
+        const href = '/test/path';
 
         const { container, rerender } = render(Link, {
             props: { hash, href, preserveQuery: false, children: content },
@@ -715,7 +731,12 @@ function reactivityTests(setup: ReturnType<typeof createRouterTestSetup>) {
         const initialHref = anchor?.getAttribute('href');
 
         // Act.
-        await rerender({ hash, href: href + "?added=param", preserveQuery: true, children: content });
+        await rerender({
+            hash,
+            href: href + '?added=param',
+            preserveQuery: true,
+            children: content
+        });
 
         // Assert.
         const updatedHref = anchor?.getAttribute('href');
@@ -723,18 +744,22 @@ function reactivityTests(setup: ReturnType<typeof createRouterTestSetup>) {
         expect(updatedHref).toContain('added=param');
     });
 
-    test("Should update preserveQuery behavior when reactive state changes (signals).", async () => {
+    test('Should update preserveQuery behavior when reactive state changes (signals).', async () => {
         // Arrange.
         const { hash, context } = setup;
-        const baseHref = "/test/path";
+        const baseHref = '/test/path';
         let preserveQuery = $state(false);
         let href = $state(baseHref);
 
         const { container } = render(Link, {
             props: {
                 hash,
-                get href() { return href; },
-                get preserveQuery() { return preserveQuery; },
+                get href() {
+                    return href;
+                },
+                get preserveQuery() {
+                    return preserveQuery;
+                },
                 children: content
             },
             context
@@ -743,7 +768,7 @@ function reactivityTests(setup: ReturnType<typeof createRouterTestSetup>) {
         const initialHref = anchor?.getAttribute('href');
 
         // Act.
-        href = baseHref + "?added=param";
+        href = baseHref + '?added=param';
         preserveQuery = true;
         flushSync();
 
@@ -773,7 +798,7 @@ function linkContextTests(ru: RoutingUniverse) {
         const { router, context } = setup;
         router.basePath = '/base';
         const linkCtx: ILinkContext = {
-            prependBasePath: true,
+            prependBasePath: true
         };
         context.set(linkCtxKey, linkCtx);
 
@@ -781,23 +806,25 @@ function linkContextTests(ru: RoutingUniverse) {
         const { container } = render(Link, {
             props: {
                 hash: ru.hash,
-                href: "/test",
+                href: '/test'
             },
-            context,
+            context
         });
 
         // Assert.
         const anchor = container.querySelector('a');
-        expect(anchor?.getAttribute('href')).toEqual(calculateHref({ hash: ru.hash }, '/base/test'));
+        expect(anchor?.getAttribute('href')).toEqual(
+            calculateHref({ hash: ru.hash }, '/base/test')
+        );
     });
 
-    test("Should preserve the query string when link context demands it.", () => {
+    test('Should preserve the query string when link context demands it.', () => {
         // Arrange.
         const { router, context } = setup;
         const queryString = '?a=1&b=2';
         browserMocks.setUrl(`http://example.com/${queryString}`);
         const linkCtx: ILinkContext = {
-            preserveQuery: true,
+            preserveQuery: true
         };
         context.set(linkCtxKey, linkCtx);
 
@@ -805,9 +832,9 @@ function linkContextTests(ru: RoutingUniverse) {
         const { container } = render(Link, {
             props: {
                 hash: ru.hash,
-                href: "/test",
+                href: '/test'
             },
-            context,
+            context
         });
 
         // Assert.
@@ -815,7 +842,7 @@ function linkContextTests(ru: RoutingUniverse) {
         expect(anchor?.getAttribute('href')).toContain(queryString);
     });
 
-    test("Should apply activeState from link context when link context demands it.", () => {
+    test('Should apply activeState from link context when link context demands it.', () => {
         // Arrange.
         const { router, context } = setup;
         const linkCtx: ILinkContext = {
@@ -832,10 +859,10 @@ function linkContextTests(ru: RoutingUniverse) {
         const { container } = render(Link, {
             props: {
                 hash: ru.hash,
-                href: "/test",
-                activeFor,
+                href: '/test',
+                activeFor
             },
-            context,
+            context
         });
 
         // Assert.
@@ -850,19 +877,19 @@ function linkContextTests(ru: RoutingUniverse) {
     }>([
         { replace: false, fnName: 'pushState' },
         { replace: true, fnName: 'replaceState' }
-    ])("Should call $fnName when link context demands it.", async ({ replace, fnName }) => {
+    ])('Should call $fnName when link context demands it.', async ({ replace, fnName }) => {
         // Arrange.
         const { router, context } = setup;
         const linkCtx: ILinkContext = {
-            replace,
+            replace
         };
         context.set(linkCtxKey, linkCtx);
         const { container } = render(Link, {
             props: {
                 hash: ru.hash,
-                href: "/test",
+                href: '/test'
             },
-            context,
+            context
         });
         const anchor = container.querySelector('a');
 
@@ -873,8 +900,8 @@ function linkContextTests(ru: RoutingUniverse) {
     });
 }
 
-describe("Routing Mode Assertions", () => {
-    const linkText = "Test Link";
+describe('Routing Mode Assertions', () => {
+    const linkText = 'Test Link';
     const content = createTestSnippet(linkText);
     let cleanup: () => void;
 
@@ -892,7 +919,7 @@ describe("Routing Mode Assertions", () => {
 
     test.each<{
         options: Partial<ExtendedRoutingOptions>;
-        hash: typeof ALL_HASHES[keyof typeof ALL_HASHES];
+        hash: (typeof ALL_HASHES)[keyof typeof ALL_HASHES];
         description: string;
     }>([
         {
@@ -910,7 +937,7 @@ describe("Routing Mode Assertions", () => {
             hash: ALL_HASHES.path,
             description: 'path routing is disallowed'
         }
-    ])("Should throw error when $description and hash=$hash .", ({ options, hash }) => {
+    ])('Should throw error when $description and hash=$hash .', ({ options, hash }) => {
         // Arrange
         setRoutingOptions(options);
 
@@ -918,10 +945,10 @@ describe("Routing Mode Assertions", () => {
         expect(() => {
             render(Link, {
                 props: {
-                    href: "/test",
+                    href: '/test',
                     hash,
                     children: content
-                },
+                }
             });
         }).toThrow();
     });
@@ -938,7 +965,7 @@ function linkChildrenSnippetContextTests(setup: ReturnType<typeof createRouterTe
         setup.dispose();
     });
 
-    test("Should pass LinkChildrenContext with correct structure to children snippet.", async () => {
+    test('Should pass LinkChildrenContext with correct structure to children snippet.', async () => {
         // Arrange.
         const { hash, context } = setup;
         let capturedContext: LinkChildrenContext;
@@ -949,7 +976,7 @@ function linkChildrenSnippetContextTests(setup: ReturnType<typeof createRouterTe
 
         // Act.
         render(Link, {
-            props: { hash, href: "/test", children: content },
+            props: { hash, href: '/test', children: content },
             context
         });
 
@@ -959,10 +986,12 @@ function linkChildrenSnippetContextTests(setup: ReturnType<typeof createRouterTe
         expect(capturedContext!).toHaveProperty('rs');
         expect(typeof capturedContext!.state).toBe('object');
         // rs can be undefined if no parent router
-        expect(capturedContext!.rs === undefined || typeof capturedContext!.rs === 'object').toBe(true);
+        expect(capturedContext!.rs === undefined || typeof capturedContext!.rs === 'object').toBe(
+            true
+        );
     });
 
-    test("Should provide current location state in children snippet context.", async () => {
+    test('Should provide current location state in children snippet context.', async () => {
         // Arrange.
         const { hash, context } = setup;
         let capturedContext: LinkChildrenContext;
@@ -973,7 +1002,7 @@ function linkChildrenSnippetContextTests(setup: ReturnType<typeof createRouterTe
 
         // Act.
         render(Link, {
-            props: { hash, href: "/test", children: content },
+            props: { hash, href: '/test', children: content },
             context
         });
 
@@ -982,7 +1011,7 @@ function linkChildrenSnippetContextTests(setup: ReturnType<typeof createRouterTe
         expect(capturedContext!.state).toEqual(expect.any(Object));
     });
 
-    test("Should provide route status when parent router exists.", async () => {
+    test('Should provide route status when parent router exists.', async () => {
         // Arrange.
         const { hash, router, context } = setup;
         let capturedContext: LinkChildrenContext;
@@ -996,7 +1025,7 @@ function linkChildrenSnippetContextTests(setup: ReturnType<typeof createRouterTe
 
         // Act.
         render(Link, {
-            props: { hash, href: "/test", children: content },
+            props: { hash, href: '/test', children: content },
             context
         });
 
@@ -1009,13 +1038,13 @@ function linkChildrenSnippetContextTests(setup: ReturnType<typeof createRouterTe
         expect(routeKeys.length).toBeGreaterThan(0);
 
         // Verify route status structure
-        routeKeys.forEach(key => {
+        routeKeys.forEach((key) => {
             expect(capturedContext?.rs![key]).toHaveProperty('match');
             expect(typeof capturedContext?.rs![key].match).toBe('boolean');
         });
     });
 
-    test("Should handle undefined route status when no parent router exists.", async () => {
+    test('Should handle undefined route status when no parent router exists.', async () => {
         // Arrange.
         const hash = undefined; // No parent router context
         let capturedContext: LinkChildrenContext;
@@ -1026,7 +1055,7 @@ function linkChildrenSnippetContextTests(setup: ReturnType<typeof createRouterTe
 
         // Act.
         render(Link, {
-            props: { hash, href: "/test", children: content }
+            props: { hash, href: '/test', children: content }
             // No context - Link should work without parent router
         });
 
@@ -1038,7 +1067,7 @@ function linkChildrenSnippetContextTests(setup: ReturnType<typeof createRouterTe
         expect(capturedContext!.rs).toBeUndefined(); // No parent router means no route status
     });
 
-    test("Should maintain consistent context structure across different link states.", async () => {
+    test('Should maintain consistent context structure across different link states.', async () => {
         // Arrange.
         const { hash, router, context } = setup;
         const callHistory: LinkChildrenContext[] = [];
@@ -1047,23 +1076,23 @@ function linkChildrenSnippetContextTests(setup: ReturnType<typeof createRouterTe
             return { render: () => '<div>Link Consistency Test</div>' };
         }) as any; // Cast to handle union type requirement
 
-        // Add some routes to have a more complex router state  
+        // Add some routes to have a more complex router state
         const routeName = addMatchingRoute(router);
 
         // Act.
         const { rerender } = render(Link, {
-            props: { hash, href: "/test", children: content },
+            props: { hash, href: '/test', children: content },
             context
         });
 
         // Change link properties to trigger re-render
-        await rerender({ hash, href: "/different", activeFor: routeName, children: content });
+        await rerender({ hash, href: '/different', activeFor: routeName, children: content });
 
         // Assert.
         expect(callHistory.length).toBeGreaterThan(0);
 
         // All calls should have consistent structure
-        callHistory.forEach(call => {
+        callHistory.forEach((call) => {
             expect(call).toHaveProperty('state');
             expect(call).toHaveProperty('rs');
             expect(typeof call.state).toBe('object');
@@ -1072,7 +1101,7 @@ function linkChildrenSnippetContextTests(setup: ReturnType<typeof createRouterTe
     });
 }
 
-ROUTING_UNIVERSES.forEach(ru => {
+ROUTING_UNIVERSES.forEach((ru) => {
     describe(`Link - ${ru.text}`, () => {
         const setup = createRouterTestSetup(ru.hash);
         let cleanup: () => void;
@@ -1080,7 +1109,7 @@ ROUTING_UNIVERSES.forEach(ru => {
         beforeAll(() => {
             cleanup = init({
                 defaultHash: ru.defaultHash,
-                hashMode: ru.hashMode,
+                hashMode: ru.hashMode
             });
         });
 
@@ -1088,39 +1117,39 @@ ROUTING_UNIVERSES.forEach(ru => {
             cleanup?.();
         });
 
-        describe("Basic Link Functionality", () => {
+        describe('Basic Link Functionality', () => {
             basicLinkTests(setup);
         });
 
-        describe("HREF Calculation", () => {
+        describe('HREF Calculation', () => {
             hrefCalculationTests(setup);
         });
 
-        describe("Active State Handling", () => {
+        describe('Active State Handling', () => {
             activeStateTests(setup);
         });
 
-        describe("State Handling", () => {
+        describe('State Handling', () => {
             stateHandlingTests(setup);
         });
 
-        describe("Reactivity", () => {
+        describe('Reactivity', () => {
             reactivityTests(setup);
         });
 
-        describe("Children Snippet Context", () => {
+        describe('Children Snippet Context', () => {
             linkChildrenSnippetContextTests(setup);
         });
     });
 });
 
-ROUTING_UNIVERSES.forEach(ru => {
+ROUTING_UNIVERSES.forEach((ru) => {
     describe(`Link Context - ${ru.text}`, () => {
         let cleanup: () => void;
         beforeAll(() => {
             cleanup = init({
                 defaultHash: ru.defaultHash,
-                hashMode: ru.hashMode,
+                hashMode: ru.hashMode
             });
         });
         afterAll(() => {

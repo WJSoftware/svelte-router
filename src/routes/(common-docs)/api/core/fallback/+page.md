@@ -26,6 +26,7 @@ If you need reactive hash values, destroy and re-create the component whenever t
 :::
 
 ### `when`
+
 Type: `WhenPredicate`; Default: `undefined`; Bindable: **No**
 
 This property overrides the default activation logic for the component instance it is applied to. For the record, `Fallback` components render their children whenever the parent router engine’s `fallback` property is `true`. This is the default activation logic.
@@ -35,9 +36,7 @@ However, because this library is a multi-route-matching routing library, this co
 For cases like this, provide your own fallback condition(s) in the form of a predicate function. This is an (incomplete) example:
 
 ```svelte
-<Fallback when={(rs, fallback) => onlyLayoutRoutesRemain(rs)}>
-  ...
-</Fallback>
+<Fallback when={(rs, fallback) => onlyLayoutRoutesRemain(rs)}>...</Fallback>
 ```
 
 In this example, complex route-matching testing is deferred to the `onlyLayoutRoutesRemain()` function. If the function returns `true`, then fallback content is shown.
@@ -47,6 +46,7 @@ The predicate function receives 2 arguments: The router’s route status informa
 Unlike the `Route` component’s `path` and `and` properties, this property only applies to the instance of the `Fallback` component that got it defined. There’s no “propagation” of the property to other `Fallback` component instances.
 
 ### `children`
+
 Type: `Snippet<[RouterChildrenContext]>`; Default: `undefined`; Bindable: **No**
 
 The component’s default snippet. Children rendering is conditioned to the value of the parent router engine’s `fallback` property, or the ruling of the predicate function specified in the `when` property.

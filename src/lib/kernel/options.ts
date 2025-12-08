@@ -1,4 +1,4 @@
-import type { ExtendedRoutingOptions } from "../types.js";
+import type { ExtendedRoutingOptions } from '../types.js';
 
 /**
  * Default routing options used for rollback.
@@ -8,31 +8,38 @@ export const defaultRoutingOptions: Required<ExtendedRoutingOptions> = {
     defaultHash: false,
     disallowPathRouting: false,
     disallowHashRouting: false,
-    disallowMultiHashRouting: false,
+    disallowMultiHashRouting: false
 };
 
 /**
  * Global routing options.
  */
-export const routingOptions: Required<ExtendedRoutingOptions> = structuredClone(defaultRoutingOptions);
+export const routingOptions: Required<ExtendedRoutingOptions> =
+    structuredClone(defaultRoutingOptions);
 
 /**
  * Sets routing options, merging with current values.
  * This function is useful for extension packages that need to configure routing options.
- * 
+ *
  * @param options Partial routing options to set
  */
 export function setRoutingOptions(options?: Partial<ExtendedRoutingOptions>): void {
     routingOptions.hashMode = options?.hashMode ?? routingOptions.hashMode;
     routingOptions.defaultHash = options?.defaultHash ?? routingOptions.defaultHash;
-    routingOptions.disallowPathRouting = options?.disallowPathRouting ?? routingOptions.disallowPathRouting;
-    routingOptions.disallowHashRouting = options?.disallowHashRouting ?? routingOptions.disallowHashRouting;
-    routingOptions.disallowMultiHashRouting = options?.disallowMultiHashRouting ?? routingOptions.disallowMultiHashRouting;
+    routingOptions.disallowPathRouting =
+        options?.disallowPathRouting ?? routingOptions.disallowPathRouting;
+    routingOptions.disallowHashRouting =
+        options?.disallowHashRouting ?? routingOptions.disallowHashRouting;
+    routingOptions.disallowMultiHashRouting =
+        options?.disallowMultiHashRouting ?? routingOptions.disallowMultiHashRouting;
     if (routingOptions.hashMode === 'single' && typeof routingOptions.defaultHash === 'string') {
-        throw new Error("Using a named hash path as the default path can only be done when 'hashMode' is set to 'multi'.");
-    }
-    else if (routingOptions.hashMode === 'multi' && routingOptions.defaultHash === true) {
-        throw new Error("Using classic hash routing as default can only be done when 'hashMode' is set to 'single'.");
+        throw new Error(
+            "Using a named hash path as the default path can only be done when 'hashMode' is set to 'multi'."
+        );
+    } else if (routingOptions.hashMode === 'multi' && routingOptions.defaultHash === true) {
+        throw new Error(
+            "Using classic hash routing as default can only be done when 'hashMode' is set to 'single'."
+        );
     }
 }
 

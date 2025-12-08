@@ -1,6 +1,6 @@
-import { on } from "svelte/events";
-import type { HistoryApi, State } from "../types.js";
-import { LocationState } from "./LocationState.svelte.js";
+import { on } from 'svelte/events';
+import type { HistoryApi, State } from '../types.js';
+import { LocationState } from './LocationState.svelte.js';
 
 /**
  * Standard implementation of HistoryApi that uses the browser's native History API
@@ -22,7 +22,7 @@ export class StockHistoryApi extends LocationState implements HistoryApi {
     #handlePopstateEvent = (event: PopStateEvent): void => {
         this.url.href = globalThis.window.location.href;
         this.state = this.normalizeState(event.state, this.state);
-    }
+    };
 
     #handleHashChangeEvent = (event: HashChangeEvent): void => {
         this.url.href = globalThis.window.location.href;
@@ -32,7 +32,7 @@ export class StockHistoryApi extends LocationState implements HistoryApi {
         };
         // Synchronize the environment's history state with a replace call.
         globalThis.window.history.replaceState($state.snapshot(this.state), '', this.url.href);
-    }
+    };
 
     // History API implementation
     get length(): number {
@@ -82,7 +82,7 @@ export class StockHistoryApi extends LocationState implements HistoryApi {
     }
 
     dispose(): void {
-        this.#cleanupFunctions.forEach(cleanup => cleanup());
+        this.#cleanupFunctions.forEach((cleanup) => cleanup());
         this.#cleanupFunctions = [];
     }
 }

@@ -17,19 +17,19 @@ The `location.hashPaths` property is a derivation computed from the URL’s hash
 This class can be imported and used to create, in code, the core engine that drives all `Router` components.
 
 ```typescript
-import { RouterEngine } from "@svelte-router/core/kernel";
+import { RouterEngine } from '@svelte-router/core/kernel';
 
 const myRouter = new RouterEngine(/* parent router or options */);
 myRouter.routes['dynamic-route'] = {
     path: '/dynamic-route/with/:aParameter',
-    and: rp => !Number.isNaN(rp.aParameter),
-    caseSensitive: true, // Definitely NOT recommended, but do as you wish
+    and: (rp) => !Number.isNaN(rp.aParameter),
+    caseSensitive: true // Definitely NOT recommended, but do as you wish
 };
 // Or a RegExp instead of a pattern:
 myRouter.routes.admin = {
     path: /^\/admin\/(?<level>[^\/])\/(?<rest>.*)$/i,
-    and: rp => userCanAccessLevel(rp.level),
-}
+    and: (rp) => userCanAccessLevel(rp.level)
+};
 ```
 
 The example creates a `RouterEngine` instance and then adds two routes to it keyed (or named) `"dynamic-route"` and `"admin"`. The routes are immediately matched by virtue of Svelte’s reactive system, and the results of `myRouter.routeStatus` and `myRouter.fallback` are immediately available:
@@ -77,9 +77,7 @@ As seen, you might want to add routes programmatically. You can either create a 
     });
 </script>
 
-<Router bind:router>
-    ...
-</Router>
+<Router bind:router>...</Router>
 ```
 
 You can also add routes by creating a reactive array of type `ComponentProps<typeof Route>[]`, and then use an `{#each}` block to create `Route` components for each element in the array:
@@ -103,15 +101,15 @@ You can also add routes by creating a reactive array of type `ComponentProps<typ
 </Router>
 ```
 
-Another use case could be to separate route data from the markup positions they need to be in using *DPUI* (see the [Routing with Components](/docs/routing-with-components) page for details):
+Another use case could be to separate route data from the markup positions they need to be in using _DPUI_ (see the [Routing with Components](/docs/routing-with-components) page for details):
 
 ```typescript
 // master-routes.ts
-import { RouterEngine } from "@svelte-router/core/kernel";
-import routeData from "./route-data.json";
+import { RouterEngine } from '@svelte-router/core/kernel';
+import routeData from './route-data.json';
 
 const router = new RouterEngine();
-routeData.forEach(route => router.routes[route.name] = route);
+routeData.forEach((route) => (router.routes[route.name] = route));
 export default router;
 ```
 
@@ -119,24 +117,22 @@ We create the master router as an exported module object, and then we consume in
 
 ```svelte
 <script lang="ts">
-  import { Route, Router } from "@svelte-router/core";
-  import masterRouter from "./master-router.js";
+    import { Route, Router } from '@svelte-router/core';
+    import masterRouter from './master-router.js';
 </script>
 
 <Router router={masterRouter}>
-  <!-- Because routes have already been defined, we just add pieces of UI -->
-  <Route key="home">
-    ...
-  </Route>
-  <main>
+    <!-- Because routes have already been defined, we just add pieces of UI -->
     <Route key="home">...</Route>
-    <Route key="user-profile">...</Route>
-    ...
-  </main>
+    <main>
+        <Route key="home">...</Route>
+        <Route key="user-profile">...</Route>
+        ...
+    </main>
 </Router>
 ```
 
-This would be a hybrid way of achieving things, which is a form of *DPUI*: Routes are defined in code, while the corresponding pieces of UI are defined using `Route` components in HTML markup.
+This would be a hybrid way of achieving things, which is a form of _DPUI_: Routes are defined in code, while the corresponding pieces of UI are defined using `Route` components in HTML markup.
 
 ### Reacting to Route Status Data and Location Changes
 

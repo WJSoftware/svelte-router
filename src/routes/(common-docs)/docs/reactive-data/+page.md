@@ -5,7 +5,7 @@ description: Leverage Svelte's reactivity and react naturally to changes in the 
 
 All generated data is reactive, which simplifies the library considerably. For example, other routing solutions take the route of providing events for many things, like `beforeRouteMatch` and things like that.
 
-By contrast, this library provides no events (well, none in **lite** mode anyway). So how does one satisfy the need to react to events like a navigation event? Well, Svelte has made that very simple: *Signals*.
+By contrast, this library provides no events (well, none in **lite** mode anyway). So how does one satisfy the need to react to events like a navigation event? Well, Svelte has made that very simple: _Signals_.
 
 ## Reacting to Navigation
 
@@ -15,7 +15,7 @@ In the following example, it is assumed that path navigation (`false` as hash va
 
 ```svelte
 <script lang="ts">
-    import { location } from "@svelte-router/core";
+    import { location } from '@svelte-router/core';
 </script>
 
 <svelte:head>
@@ -27,7 +27,7 @@ This one keeps track of how many times navigation has occurred:
 
 ```svelte
 <script lang="ts">
-    import { location } from "@svelte-router/core";
+    import { location } from '@svelte-router/core';
 
     let navCount = $state(0); // Or -1 if you don't want to count the initial load.
 
@@ -80,17 +80,14 @@ The following example shows how to react to routes becoming active:
         }, 0));
 </script>
 
-<Router bind:router>
-    ...
-</Router>
+<Router bind:router>...</Router>
 ```
 
 Related to route matching, router engines also provide the `fallback` reactive property. This property is the one that drives the rendering of fallback content:
 
-
 ```typescript
 $inspect(router.fallback).with((t, v) => {
-  console.log('(%s) Fallback content is %s.', t, v ? 'visible' : 'not visible');
+    console.log('(%s) Fallback content is %s.', t, v ? 'visible' : 'not visible');
 });
 ```
 

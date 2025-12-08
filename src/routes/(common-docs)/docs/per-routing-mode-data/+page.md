@@ -21,12 +21,12 @@ export type State = {
     path: any;
     /**
      * Holds the state data associated to hash routing.
-     * 
-     * For single (or traditional) hash routing, the value is stored using the `single` key.  For multi-hash routing, 
+     *
+     * For single (or traditional) hash routing, the value is stored using the `single` key.  For multi-hash routing,
      * the value is stored using the hash identifier as the key.
      */
     hash: Record<string, any>;
-}
+};
 ```
 
 This is the actual type definition exported by the library. If you must meddle with state data outside the confines of this library, always make sure you respect this data structure.

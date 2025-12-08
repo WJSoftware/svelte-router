@@ -33,7 +33,10 @@ export interface Location {
     go(delta: number): void;
     dispose(): void;
     on(event: 'beforeNavigate', callback: (event: BeforeNavigateEvent) => void): () => void;
-    on(event: 'navigationCancelled', callback: (event: NavigationCancelledEvent) => void): () => void;
+    on(
+        event: 'navigationCancelled',
+        callback: (event: NavigationCancelledEvent) => void
+    ): () => void;
 }
 ```
 
@@ -55,7 +58,10 @@ export interface HistoryApi extends History {
 
 export interface FullModeHistoryApi extends HistoryApi {
     on(event: 'beforeNavigate', callback: (event: BeforeNavigateEvent) => void): () => void;
-    on(event: 'navigationCancelled', callback: (event: NavigationCancelledEvent) => void): () => void;
+    on(
+        event: 'navigationCancelled',
+        callback: (event: NavigationCancelledEvent) => void
+    ): () => void;
 }
 ```
 
@@ -111,7 +117,7 @@ Once the developer has completed writing and testing all `Location`, `HistoryApi
 
 The steps, in list form:
 
-1. Start a new project (*Sveltekit library project recommended*).
+1. Start a new project (_Sveltekit library project recommended_).
 2. Add `@svelte-router/core` as a peer dependency.
 3. Create the implementations you need.
 4. Create the initialization functions you want users to use, which in turn use the implementations from the previous step.
