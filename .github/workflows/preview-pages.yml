@@ -53,6 +53,7 @@ jobs:
             const prNumber = context.issue.number;
             const branchName = `preview-${prNumber}`;
             const previewUrl = `https://${branchName}.svelte-router.pages.dev`;
+            const commentTitle = '🚀 **Preview deployment ready!**';
             
             // Look for existing preview comment
             const comments = await github.rest.issues.listComments({
@@ -63,18 +64,18 @@ jobs:
             
             const botComment = comments.data.find(comment => 
               comment.user.type === 'Bot' && 
-              comment.body.includes('🚀 **Preview deployment ready!**')
+              comment.body.includes(commentTitle)
             );
             
             // Extract deployment count from existing comment or start at 1
             let deploymentCount = 1;
             if (botComment) {
-              const match = botComment.body.match(/Deployment #(\d+)/);
+              const match = botComment.body.match(/(\d+) deployment/);
               deploymentCount = match ? parseInt(match[1]) + 1 : 2;
             }
             
             const commentBody = [
-              `🚀 **Preview deployment ready!** (${deploymentCount} ${deploymentCount === 1 ? 'deployment' : 'deployments'})`,
+              `${commentTitle} (${deploymentCount} ${deploymentCount === 1 ? 'deployment' : 'deployments'})`,
               '',
               `📍 **Preview URL:** ${previewUrl}`,
               '',
