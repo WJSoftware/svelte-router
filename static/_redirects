@@ -1,0 +1,3 @@
+# All Sveltekit routes, when deployed with adapter-static, need redirection.
+/docs/* / 200
+/api/* / 200
