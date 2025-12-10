@@ -5,19 +5,21 @@ on:
     branches:
       - main
     paths-ignore:
+      - '.github/**'
       - 'docs/**'
       - 'playground/**'
-      - '.github/**'
-      - 'README.md'
-      - 'LICENSE'
+      - 'src/lib/**'
       - '.gitignore'
-      - 'eslint.config.js'
+      - '.npmrc'
+      - '.prettierignore'
+      - '.prettierrc'
       - 'add-component-help.ps1'
       - 'AGENTS.md'
-      - '.prettierrc'
-      - '.prettierignore'
-      - 'src/lib/**'
-      - '.npmrc'
+      - 'eslint.config.js'
+      - 'LICENSE'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'README.md'
       - 'tsconfig.json'
   workflow_dispatch:
 
