@@ -7,17 +7,18 @@ import type { State, RouteInfo, ExtendedRoutingOptions } from '../types.js';
 import { setupBrowserMocks, addRoutes, ROUTING_UNIVERSES, ALL_HASHES } from '$test/test-utils.js';
 import { resetRoutingOptions, setRoutingOptions } from './options.js';
 
+const { registerRouterMock } = vi.hoisted(() => {
+    return { registerRouterMock: vi.fn() };
+});
+vi.mock('./trace.svelte.js', async (originalImport) => {
+    return {
+        ...(await originalImport()),
+        registerRouter: registerRouterMock
+    };
+});
+
 describe('RouterEngine', () => {
     describe('constructor', () => {
-        const { registerRouterMock } = vi.hoisted(() => {
-            return { registerRouterMock: vi.fn() };
-        });
-        vi.mock('./trace.svelte.js', async (originalImport) => {
-            return {
-                ...(await originalImport()),
-                registerRouter: registerRouterMock
-            };
-        });
         test("Should throw an error if the library hasn't been initialized.", () => {
             // Act.
             const act = () => new RouterEngine();

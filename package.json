@@ -86,7 +86,7 @@
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-svelte": "^3.11.0",
     "globals": "^17.8.0",
-    "jsdom": "^29.1.1",
+    "jsdom": "^31.0.1",
     "patch-package": "^8.0.1",
     "prettier": "^3.4.2",
     "prettier-plugin-svelte": "^4.1.1",
@@ -97,6 +97,6 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.20.0",
     "vite": "^8.1.5",
-    "vitest": "^4.0.14"
+    "vitest": "^5.1.1"
   }
 }
